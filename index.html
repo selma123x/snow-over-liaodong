@@ -167,14 +167,9 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 <canvas id="gl"></canvas>
 
 <div id="hud">
-  <div class="hudbox" id="stats">
-    <div class="stat" id="st-mu"><b>2</b><span>武 MIGHT</span></div>
-    <div class="stat" id="st-ji"><b>2</b><span>智 WIT</span></div>
-    <div class="stat" id="st-hon"><b>2</b><span>魂 SPIRIT</span></div>
-  </div>
+  <div class="hudbox" id="weapon"><div class="lbl" style="font-size:9.5px;letter-spacing:.24em;color:#c19a3f">ARMED</div><div class="txt" id="weptxt" style="font-size:14px;color:#ece1c8">Father’s Bow</div></div>
   <div class="hudbox" id="objective"><div class="lbl">Seek</div><div class="txt" id="objtxt">…</div></div>
 </div>
-<div id="satchel"></div>
 <div id="chapname">Prologue</div>
 <div id="padBadge">🎮 CONTROLLER</div>
 <div id="prompt"></div>
@@ -581,13 +576,10 @@ bindTap($('codeGo'), ()=>{
 const S = {mu:2, ji:2, hon:2, items:[], flags:{}, scene:'p1'};
 function addItem(name){ if(!S.items.includes(name)){ S.items.push(name); renderSatchel(); } }
 function hasItem(n){ return S.items.includes(n); }
-function bump(stat,n){
-  S[stat]=Math.max(0,S[stat]+n);
-  const el=$('st-'+stat); el.querySelector('b').textContent=S[stat];
-  el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
-}
-function renderStats(){ ['mu','ji','hon'].forEach(k=>$('st-'+k).querySelector('b').textContent=S[k]); }
-function renderSatchel(){ $('satchel').innerHTML = S.items.map(i=>`<span class="item">${i}</span>`).join(''); }
+function bump(){}          /* stats removed — Halo-style story progression */
+function renderStats(){}
+function renderSatchel(){}
+function setWeapon(name){ const el=$('weptxt'); if(el) el.textContent=name; }
 function meets(req){
   if(!req) return true;
   if(req.item) return hasItem(req.item);
@@ -1099,7 +1091,7 @@ const LEVELS = {
   },
   gates:[
     {entry:'a3_go',   title:'Year One \u00b7 Lady Mingzhu', pos:[0,17.5], avail:()=>true},
-    {entry:'a3_y2',   title:'Year Two \u00b7 The Yard', pos:[-14,-4], avail(){return this._p.done}, fx(){ bump('mu',2); S.flags.trained=true; subtitle('Steel, at last. The strike and the throw are yours now.'); }},
+    {entry:'a3_y2',   title:'Year Two \u00b7 The Yard', pos:[-14,-4], avail(){return this._p.done}, fx(){ bump('mu',2); S.flags.trained=true; setWeapon('Zhao Steel'); subtitle('Steel, at last. The strike and the throw are yours now.'); }},
     {entry:'a3_y3',   title:'Year Three \u00b7 The Son Who Dances', pos:[0,4], avail(){return this._p.done}, fx(){ bump('ji',1); }},
     {entry:'a3_y4',   title:'Year Four \u00b7 What You Know', pos:[14,-13.5], avail(){return this._p.done}, fx(){ bump('ji',1); }},
     {entry:'a3_dance',title:'Year Five \u00b7 The Pond, Evenings', pos:[0,8.5], avail(){return this._p.done}, fx(){ bump('hon',2); }},
@@ -1235,6 +1227,7 @@ function loadLevel(n){
   world.L.spawnWave = L.wave ? L.wave.bind(L) : null;
   P.pos.set(L.spawn[0], groundAt(L.spawn[0],L.spawn[1],50)+.02, L.spawn[1]);
   P.vy=0; P.safe.copy(P.pos); P.hp=P.maxhp; P.dead=0; if(typeof hpUI==='function')hpUI();
+  setWeapon(S.flags.trained?'Zhao Steel':'Father\u2019s Bow');
   $('chapname').textContent = L.name;
   updateObjective();
 }
@@ -1450,7 +1443,7 @@ function tickEnemies(dt){
   }
 }
 function bowShot(){
-  const mult=1+(S.mu-2)*.08;
+  const mult=1;
   let best=null,bd=13;
   for(const en of world.enemies){
     if(en.hp<=0||en.state==='passive')continue;
@@ -1490,7 +1483,7 @@ function playerCombat(dt, atk, heavy, dodge, mv){
     if(!blocked(P.pos.x+dx,P.pos.z,P.pos.y))P.pos.x+=dx;
     if(!blocked(P.pos.x,P.pos.z+dz,P.pos.y))P.pos.z+=dz;
   }
-  const mult=1+(S.mu-2)*.08;
+  const mult=1;
   if(!S.flags.trained){
     if(atk && P.atkCd<=0){ P.atkCd=.55;
       ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false;
@@ -1647,11 +1640,11 @@ requestAnimationFrame(frame);
 
 /* ---------------- codes / boot ---------------- */
 const CODES={
-  'MARKET':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(2);},
-  'ESTATE':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(3);},
-  'MASKED':()=>{Object.assign(S,{mu:6,ji:5,hon:5,items:[],flags:{trained:true}}); startAt(4);},
-  'LAKE':()=>{Object.assign(S,{mu:6,ji:5,hon:6,items:[],flags:{trained:true}}); startAt(5);},
-  'RIVER':()=>{Object.assign(S,{mu:7,ji:6,hon:6,items:[],flags:{trained:true}}); startAt(6);},
+  'MARKET':()=>{S.flags={}; startAt(2);},
+  'ESTATE':()=>{S.flags={}; startAt(3);},
+  'MASKED':()=>{S.flags={trained:true}; startAt(4);},
+  'LAKE':()=>{S.flags={trained:true}; startAt(5);},
+  'RIVER':()=>{S.flags={trained:true}; startAt(6);},
 };
 function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
