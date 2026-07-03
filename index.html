@@ -139,6 +139,12 @@ body.cine #cineskip{display:block}
 #dmgflash{position:fixed;inset:0;pointer-events:none;z-index:6;opacity:0;background:radial-gradient(ellipse at center, transparent 40%, rgba(180,40,30,.55) 100%)}
 #dmgflash.hit{animation:dmg .35s ease}
 @keyframes dmg{20%{opacity:1}100%{opacity:0}}
+#skills{position:fixed;right:14px;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 230px);display:flex;gap:8px;z-index:4}
+.cd{width:46px;height:46px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);
+  font-size:17px;font-weight:700;border:1.5px solid #39415f;background:rgba(19,22,34,.75);color:#8b92ab}
+.cd.ready{border-color:var(--gold);color:var(--gold);box-shadow:0 0 10px rgba(193,154,63,.35)}
+.cd.cool{color:#6e7590}
+.cd.locked{opacity:.35}
 #atkBtn,#dodgeBtn{position:fixed;border-radius:50%;z-index:4;display:none;font-family:var(--serif);
   color:#f6e9d6;letter-spacing:.08em;border:2px solid rgba(193,154,63,.7)}
 #atkBtn{right:118px;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 30px);width:74px;height:74px;
@@ -175,6 +181,7 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 <div id="prompt"></div>
 <div id="subtitle"></div>
 <div id="hpwrap"><div class="lbl">氣 VITALITY</div><div id="hpbar"><div id="hpfill"></div></div></div>
+<div id="skills"><button class="cd locked" id="cd1" type="button">1</button><button class="cd locked" id="cd2" type="button">2</button><button class="cd locked" id="cd3" type="button">3</button><button class="cd locked" id="cd4" type="button">4</button></div>
 <div id="dmgflash"></div>
 <button id="atkBtn" type="button">STRIKE</button>
 <button id="dodgeBtn" type="button">ROLL</button>
@@ -410,7 +417,7 @@ a4_recognize:{
   <p>Blade-edge to blade-edge, never touching. Two people cutting a circle out of a crowd of enemies, and neither of you is watching the enemies at all anymore. You are watching each other. You know this dance. You know this <em>dancer</em>.</p>
   <p>It ends. Everyone else is down. Two masks in the torch smoke, breathing hard.</p>
   <p>"...<b>Jin?</b>"</p>`,
-  choices:[{t:'He pulls the mask down. Taller. Older. Him.', to:'a4_leftme'}]
+  choices:[{t:'He pulls the mask down. Taller. Older. Him.', fx:()=>{ S.flags.dance=true; }, to:'a4_leftme'}]
 },
 a4_leftme:{
   eyebrow:'The Mission · Rooftops', crumb:'Years Later',
@@ -1314,7 +1321,17 @@ function openGate(g){
    COMBAT — Jade-Empire-style real-time melee
    ================================================================== */
 P.hp=100; P.maxhp=100; P.iframes=0; P.atkCd=0; P.dodgeCd=0; P.lastHurt=-99; P.dead=0;
+const SK={cd:[0,0,0,0], max:[3,2.5,6,20], ult:0};   // dash, bow, throw, dance
 function hpUI(){ $('hpfill').style.width=Math.max(0,P.hp/P.maxhp*100)+'%'; }
+function updateCds(){
+  for(let i=0;i<4;i++){
+    const el=$('cd'+(i+1)); if(!el)continue;
+    if(i===3 && !S.flags.dance){ el.textContent='4'; el.className='cd locked'; continue; }
+    if(!S.flags.trained){ el.textContent=(i+1); el.className='cd locked'; continue; }
+    if(SK.cd[i]>0){ el.textContent=Math.ceil(SK.cd[i]); el.className='cd cool'; }
+    else { el.textContent=(i+1); el.className='cd ready'; }
+  }
+}
 function hurtPlayer(dmg,fromX,fromZ){
   if(P.iframes>0||P.dead)return;
   P.hp-=dmg; P.lastHurt=clock.elapsedTime; hpUI();
@@ -1470,7 +1487,7 @@ function bowShot(){
     if(best.hp<=0){best.state='dead';best.t=1.2;if(!best.dummy&&!best.boss){P.hp=Math.min(P.maxhp,P.hp+12);hpUI();}}
   }
 }
-function playerCombat(dt, atk, heavy, dodge, mv){
+function playerCombat(dt, k, dodge, mv){
   P.atkCd-=dt; P.dodgeCd-=dt;
   if(dodge && P.dodgeCd<=0 && P.grounded){
     P.dodgeCd=.9; P.iframes=.45; ANIM.roll=.45;
@@ -1483,22 +1500,44 @@ function playerCombat(dt, atk, heavy, dodge, mv){
     if(!blocked(P.pos.x+dx,P.pos.z,P.pos.y))P.pos.x+=dx;
     if(!blocked(P.pos.x,P.pos.z+dz,P.pos.y))P.pos.z+=dz;
   }
-  const mult=1;
-  if(!S.flags.trained){
-    if(atk && P.atkCd<=0){ P.atkCd=.55;
-      ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false;
-      bowShot(); }
-    if(heavy && P.atkCd<=0){ P.atkCd=.7;
-      ANIM.atk=.45; ANIM.atkDur=.45; ANIM.heavy=true;
-      hitEnemies(1.6,1.2,Math.round(9*mult),1.0,.5); }
-    return;
+  for(let i=0;i<4;i++) if(SK.cd[i]>0) SK.cd[i]-=dt;
+  // ULT active: aerial dance — spin, rise, multi-hit
+  if(SK.ult>0){
+    SK.ult-=dt; P.iframes=.1;
+    player.rotation.y+=dt*14;
+    if(SK.ult>.6) P.pos.y+=dt*2.2;
+    SK.tick=(SK.tick||0)-dt;
+    if(SK.tick<=0){ SK.tick=.3; hitEnemies(3.4,Math.PI,14,1.2,.6); }
+    if(SK.ult<=0){ player.rotation.y=P.yaw; }
+    updateCds(); return;
   }
-  if(atk && P.atkCd<=0){ P.atkCd=.38;
+  if(!S.flags.trained){
+    if(k.basic && P.atkCd<=0){ P.atkCd=.55;
+      ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false; bowShot(); }
+    if(k.s3 && P.atkCd<=0){ P.atkCd=.7;
+      ANIM.atk=.45; ANIM.atkDur=.45; ANIM.heavy=true;
+      hitEnemies(1.6,1.2,9,1.0,.5); }
+    updateCds(); return;
+  }
+  if(k.basic && P.atkCd<=0){ P.atkCd=.38;
     ANIM.atk=.3; ANIM.atkDur=.3; ANIM.heavy=false;
-    hitEnemies(1.9,1.1,Math.round(12*mult),.5,.35); }
-  if(heavy && P.atkCd<=0){ P.atkCd=.85;
+    hitEnemies(1.9,1.1,12,.5,.35); }
+  if(k.s1 && SK.cd[0]<=0){ SK.cd[0]=SK.max[0];                     // 1 · Swallow Step: dash strike
+    ANIM.atk=.25; ANIM.atkDur=.25; ANIM.heavy=false;
+    hitEnemies(4.0,0.9,10,.8,.4);                                  // strike the lane first
+    const dx=Math.sin(P.yaw)*3.6, dz=Math.cos(P.yaw)*3.6;
+    if(!blocked(P.pos.x+dx,P.pos.z,P.pos.y))P.pos.x+=dx;
+    if(!blocked(P.pos.x,P.pos.z+dz,P.pos.y))P.pos.z+=dz;
+    P.iframes=Math.max(P.iframes,.2); }
+  if(k.s2 && SK.cd[1]<=0){ SK.cd[1]=SK.max[1];                     // 2 · Father's Bow
+    ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false; bowShot(); }
+  if(k.s3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];                     // 3 · Ssireum Throw
     ANIM.atk=.55; ANIM.atkDur=.55; ANIM.heavy=true;
-    hitEnemies(1.7,1.3,Math.round(26*mult),1.6,1.0); }
+    hitEnemies(1.8,1.3,28,1.8,1.1); }
+  if(k.s4 && S.flags.dance && SK.cd[3]<=0){ SK.cd[3]=SK.max[3];    // 4 · ULT: The Dance
+    SK.ult=1.4; P.vy=5; P.grounded=false;
+    subtitle('The pond. The lanterns. Move with it.',1400); }
+  updateCds();
 }
 
 /* boss duel: choosing to fight Batu triggers a REAL fight before the ending plays */
@@ -1531,7 +1570,7 @@ addEventListener('keydown',e=>{KEY[e.code]=true; if(overlayOpen){
 }});
 addEventListener('keyup',e=>KEY[e.code]=false);
 
-const TOUCH={ move:{x:0,y:0}, look:{x:0,y:0}, jump:false, atk:false, dodge:false, lId:null, cId:null, lStart:null, cLast:null };
+const TOUCH={ move:{x:0,y:0}, look:{x:0,y:0}, jump:false, atk:false, dodge:false, s1:false,s2:false,s3:false,s4:false, lId:null, cId:null, lStart:null, cLast:null };
 function setupTouch(){
   const stick=$('stickL'), nub=stick.querySelector('.nub');
   addEventListener('touchstart',e=>{
@@ -1570,11 +1609,14 @@ function setupTouch(){
   $('jumpBtn').addEventListener('touchend',e=>{ TOUCH.jump=false; },{passive:true});
   $('atkBtn').addEventListener('touchstart',e=>{ TOUCH.atk=true; },{passive:true});
   $('dodgeBtn').addEventListener('touchstart',e=>{ TOUCH.dodge=true; },{passive:true});
+  for(let i=1;i<=4;i++){ const b=$('cd'+i); if(b) b.addEventListener('touchstart',e=>{ TOUCH['s'+i]=true; },{passive:true}); }
 }
 setupTouch();
 
 /* gamepad — Xbox standard mapping (8BitDo Xbox mode) */
 const PAD={prev:{},lastMove:0};
+const _an={};
+function edgeAnalog(i,gp){ const now=gp.buttons[i].value>.6, was=!!_an[i]; _an[i]=now; return now&&!was; }
 function edge(gp,i){ const now=!!(gp.buttons[i]&&gp.buttons[i].pressed), was=!!PAD.prev[i]; PAD.prev[i]=now; return now&&!was; }
 function pollPad(t){
   const gp=(navigator.getGamepads?[...navigator.getGamepads()]:[]).find(g=>g&&g.connected);
@@ -1594,8 +1636,11 @@ function pollPad(t){
   out.mv.x=dead(gp.axes[0]||0); out.mv.y=dead(gp.axes[1]||0);
   out.look.x=dead(gp.axes[2]||0); out.look.y=dead(gp.axes[3]||0);
   if(edge(gp,0)){ out.jump=true; out.enter=true; }
-  if(edge(gp,2)) out.atk=true;
-  if(edge(gp,3)) out.heavy=true;
+  if(edge(gp,2)) out.basic=true;
+  if(edge(gp,5)) out.s1=true;
+  if(edge(gp,4)) out.s2=true;
+  if(edge(gp,7)||(gp.buttons[7]&&gp.buttons[7].value>.6&&edgeAnalog(7,gp))) out.s3=true;
+  if(edge(gp,3)) out.s4=true;
   if(edge(gp,1)) out.dodge=true;
   return out;
 }
@@ -1625,11 +1670,14 @@ function frameBody(t){
     TOUCH.look.x*=.5; TOUCH.look.y*=.5;
     const jump=pad.jump||TOUCH.jump||KEY.Space;
     tickPlayer(dt,mv,jump&&P.grounded);
-    playerCombat(dt, pad.atk||TOUCH.atk||KEY.KeyJ, pad.heavy||TOUCH.heavy||KEY.KeyK, pad.dodge||TOUCH.dodge||KEY.KeyL, mv);
+    const k={ basic:pad.basic||TOUCH.atk||KEY.KeyJ,
+              s1:pad.s1||TOUCH.s1||KEY.Digit1, s2:pad.s2||TOUCH.s2||KEY.Digit2,
+              s3:pad.s3||TOUCH.s3||KEY.Digit3, s4:pad.s4||TOUCH.s4||KEY.Digit4 };
+    playerCombat(dt, k, pad.dodge||TOUCH.dodge||KEY.KeyL, mv);
     tickEnemies(dt); tickBoss();
     tickGates(dt, pad.enter||TOUCH.jump);
-    if(KEY.Space)KEY.Space=false; if(KEY.KeyJ)KEY.KeyJ=false; if(KEY.KeyK)KEY.KeyK=false; if(KEY.KeyL)KEY.KeyL=false;
-    TOUCH.jump=false; TOUCH.atk=false; TOUCH.dodge=false;
+    ['Space','KeyJ','KeyL','Digit1','Digit2','Digit3','Digit4'].forEach(c=>{ if(KEY[c])KEY[c]=false; });
+    TOUCH.jump=false; TOUCH.atk=false; TOUCH.dodge=false; TOUCH.s1=TOUCH.s2=TOUCH.s3=TOUCH.s4=false;
   }
   tickCamera(dt, look);
   world.dynamic.forEach(f=>f(dt));
@@ -1643,8 +1691,8 @@ const CODES={
   'MARKET':()=>{S.flags={}; startAt(2);},
   'ESTATE':()=>{S.flags={}; startAt(3);},
   'MASKED':()=>{S.flags={trained:true}; startAt(4);},
-  'LAKE':()=>{S.flags={trained:true}; startAt(5);},
-  'RIVER':()=>{S.flags={trained:true}; startAt(6);},
+  'LAKE':()=>{S.flags={trained:true,dance:true}; startAt(5);},
+  'RIVER':()=>{S.flags={trained:true,dance:true}; startAt(6);},
 };
 function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
