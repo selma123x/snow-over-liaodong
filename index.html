@@ -154,6 +154,12 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 #overlay.dialog .card{padding:16px 18px 12px}
 #overlay.dialog .scene-title{font-size:19px;margin-bottom:8px}
 #overlay.dialog .prose{font-size:15px;line-height:1.6}
+/* ---------- floating subtitles: quick narration, no tap needed ---------- */
+#subtitle{position:fixed;left:50%;bottom:26vh;transform:translateX(-50%);z-index:4;
+  max-width:82vw;text-align:center;font-size:16px;color:var(--paper);line-height:1.4;
+  text-shadow:0 2px 10px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.8);opacity:0;pointer-events:none;
+  transition:opacity .4s ease}
+#subtitle.on{opacity:1}
 @media (prefers-reduced-motion: reduce){.fade,.stat.bump b{animation:none}}
 </style>
 </head>
@@ -172,6 +178,7 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 <div id="chapname">Prologue</div>
 <div id="padBadge">🎮 CONTROLLER</div>
 <div id="prompt"></div>
+<div id="subtitle"></div>
 <div id="hpwrap"><div class="lbl">氣 VITALITY</div><div id="hpbar"><div id="hpfill"></div></div></div>
 <div id="dmgflash"></div>
 <button id="atkBtn" type="button">STRIKE</button>
@@ -231,17 +238,14 @@ p1:{
   chapter:true, mark:'序', crumb:'Prologue',
   eyebrow:'Prologue · Winter, the 20th year of Wanli',
   title:'Snow over Liaodong',
-  text:`<p>Your name is <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em> — and you were not born a slave.</p>
-  <p>You were born in a village above the Yalu River, in Joseon, where your father served as an archer of the border garrison. He had no sons, so he taught his daughter instead: the bow at dawn, the short knife at dusk, and ssireum wrestling in the threshing yard until the boys refused to face you.</p>
-  <p>Then came the raid. Jurchen horsemen out of the north, torches in the millet, your mother's voice cut short. A slaver named <b>Batu</b> roped you to his saddle, walked you across the frozen river, and sold you in the Ming city of Guangning — to the house of Shen, merchants of silk.</p>
-  <p>Two winters you have swept their courtyards. Two winters you have watched, and waited, and kept your hands strong.</p>
-  <p class="whisper">Tonight it begins with a question: when everything burned, what did you carry out of the fire?</p>`,
+  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Two winters ago, Jurchen raiders took you from the Yalu and sold you into slavery in the Ming city of Guangning.</p>
+  <p class="whisper">Tonight, one question: what did you carry out of the fire?</p>`,
   choices:[
-    {t:'My father\u2019s lessons. My body remembers the bow, the knife, the throw. <i>(Begin strong of arm)</i>',
+    {t:'My father\u2019s lessons — the bow, the knife, the throw. <i>(Might)</i>',
       fx:()=>{ bump('mu',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
-    {t:'My eyes and my patience. I learned their language by listening, their locks by watching. <i>(Begin sharp of mind)</i>',
+    {t:'My patience — I learned their language, their locks. <i>(Wit)</i>',
       fx:()=>{ bump('ji',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
-    {t:'My grandmother\u2019s songs — the mudang\u2019s songs, that call spirits down the mountain. <i>(Begin deep of soul)</i>',
+    {t:'My grandmother\u2019s songs, that call spirits down the mountain. <i>(Spirit)</i>',
       fx:()=>{ bump('hon',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
   ]
 },
@@ -251,8 +255,7 @@ ch1:{
   chapter:true, mark:'一', crumb:'Chapter One',
   eyebrow:'Chapter One',
   title:'The House of Shen',
-  text:`<p>Whatever you chose, one thing came with you regardless: your mother's <b>binyeo</b> — the long silver hairpin of a married Joseon woman, its head shaped like a plum blossom. You ground its point sharp on a roof tile the first month. It sleeps in your collar, always.</p>
-  <p>The house of Shen is a world with walls: moon gates and koi ponds, the smell of camphor and raw silk, rules for how low each person bows. You are the lowest. You are also the only one who watches the gates the way a soldier watches them.</p>`,
+  text:`<p>Your mother's silver <b>binyeo</b>, sharpened, sleeps in your collar. The house of Shen is walls and moon gates — and you are the lowest in it, watching every gate like a soldier.</p>`,
   choices:[{t:'Begin the day.', to:'c1a'}]
 },
 
@@ -886,6 +889,35 @@ window.addEventListener('error', ev=>{ showErr('window', ev.error||ev.message||'
 window.addEventListener('unhandledrejection', ev=>{ showErr('promise', ev.reason||'unknown'); });
 
 
+
+/* ---- bind Begin button + title-code UI IMMEDIATELY, before any risky init ----
+   This guarantees taps always do SOMETHING even if later setup throws. ---- */
+function bindTap(el, fn){
+  if(!el) return;
+  let fired=false;
+  const wrap=(ev)=>{ if(fired) return; fired=true; setTimeout(()=>fired=false,400);
+    try{ fn(ev); }catch(e){ showErr('tap:'+el.id, e); } };
+  el.addEventListener('click', wrap);
+  el.addEventListener('touchend', e=>{ e.preventDefault&&e.preventDefault(); wrap(e); }, {passive:false});
+}
+let __started=false;
+function beginGame(){
+  if(__started) return; __started=true;
+  const t=$('title'); if(t) t.style.display='none';
+  started=true;
+  if(typeof renderStats==='function') renderStats();
+  if(typeof renderSatchel==='function') renderSatchel();
+  loadLevel(1); startCine(()=>go('p1'));
+}
+bindTap($('startBtn'), beginGame);
+bindTap($('titleCode'), ()=>{ $('codeBox').classList.add('open'); });
+bindTap($('codeCancel'), ()=>{ $('codeBox').classList.remove('open'); });
+bindTap($('codeGo'), ()=>{
+  const v=$('codeInput').value.trim().toUpperCase();
+  $('codeBox').classList.remove('open');
+  if(CODES[v]) CODES[v]();
+});
+
 /* ---------------- narrative state (referenced by SCENES fx) ---------------- */
 const S = {mu:2, ji:2, hon:2, items:[], flags:{}, scene:'p1'};
 function addItem(name){ if(!S.items.includes(name)){ S.items.push(name); renderSatchel(); } }
@@ -943,6 +975,15 @@ function tickCine(dt){
   camera.position.set(tgt.x+Math.sin(ang)*dist, tgt.y+h, tgt.z+Math.cos(ang)*dist);
   camera.lookAt(tgt);
   if(k>=1) endCine();
+}
+
+/* ---------- floating subtitle: quick narration beat, no tap, no panel ---------- */
+let __subT=null;
+function subtitle(text, ms){
+  const el=$('subtitle'); if(!el) return;
+  clearTimeout(__subT);
+  el.textContent=text; el.classList.add('on');
+  __subT=setTimeout(()=>el.classList.remove('on'), ms||2600);
 }
 
 function go(id){
@@ -1582,7 +1623,10 @@ function tickGates(dt, wantEnter){
     else P.gateTimer=0;
   } else { pr.classList.remove('on'); P.gateTimer=0; }
 }
-function openGate(g){ openedGate=g; if(g.fx)g.fx(); if(g.tag==='route') world.L.route=true; go(g.entry); }
+function openGate(g){
+  if(g.quick){ subtitle(g.quick); if(g.fx)g.fx(); g.done=true; if(g.onDone)g.onDone(); updateObjective(); return; }
+  openedGate=g; if(g.fx)g.fx(); if(g.tag==='route') world.L.route=true; go(g.entry);
+}
 
 /* ==================================================================
    COMBAT — Jade-Empire-style real-time melee
@@ -1876,18 +1920,10 @@ const CODES={
   'RIVER':()=>{Object.assign(S,{mu:6,ji:6,hon:6,items:['Mother\u2019s binyeo','Travel papers','Tiger amulet'],flags:{}}); startAt(5);},
 };
 function startAt(n){
-  $('title').style.display='none'; started=true;
+  const t=$('title'); if(t) t.style.display='none'; started=true;
   renderStats(); renderSatchel();
   loadLevel(n); startCine(()=>go('ch'+n));
 }
-$('startBtn').onclick=()=>{
-  try{
-    $('title').style.display='none'; started=true;
-    renderStats(); renderSatchel();
-    loadLevel(1); startCine(()=>go('p1'));
-  }catch(e){ showErr('start', e); $('title').style.display='grid'; }
-};
-$('titleCode').onclick=()=>$('codeBox').classList.add('open');
 /* title backdrop: painted rooftop scene when online, ink gradient offline */
 try{
   const im=new Image();
@@ -1896,12 +1932,6 @@ try{
   im.onerror=()=>{};
   im.src=ART.p1;
 }catch(e){}
-$('codeCancel').onclick=()=>$('codeBox').classList.remove('open');
-$('codeGo').onclick=()=>{
-  const v=$('codeInput').value.trim().toUpperCase();
-  $('codeBox').classList.remove('open');
-  if(CODES[v]) CODES[v]();
-};
 
 </script>
 </body>
