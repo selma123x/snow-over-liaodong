@@ -230,641 +230,300 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 
 </script>
 <script>
+/* ============ SNOW OVER LIAODONG — linear story, v2 ============
+   Act 1: Uiju, Joseon — the raid, her father.
+   Act 2: Guangning market — Kang, General Zhao.
+   Act 3: Five years in the House of Zhao — Mingzhu, training, Jin,
+          the dance, the kiss, the fall, the vow.
+   Act 4: Years later — the masked mission, the recognition.
+   Act 5: The lake.
+   Act 6: The frozen Yalu — Kang, Batu, and the way home.
+   All scenes short. No branches. The game is in the world.        */
 
 const SCENES = {
 
-/* ================= PROLOGUE ================= */
-p1:{
-  chapter:true, mark:'序', crumb:'Prologue',
-  eyebrow:'Prologue · Winter, the 20th year of Wanli',
-  title:'Snow over Liaodong',
-  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Two winters ago, Jurchen raiders took you from the Yalu and sold you into slavery in the Ming city of Guangning.</p>
-  <p class="whisper">Tonight, one question: what did you carry out of the fire?</p>`,
-  choices:[
-    {t:'My father\u2019s lessons — the bow, the knife, the throw. <i>(Might)</i>',
-      fx:()=>{ bump('mu',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
-    {t:'My patience — I learned their language, their locks. <i>(Wit)</i>',
-      fx:()=>{ bump('ji',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
-    {t:'My grandmother\u2019s songs, that call spirits down the mountain. <i>(Spirit)</i>',
-      fx:()=>{ bump('hon',2); addItem('Mother\u2019s binyeo'); }, to:'ch1'},
-  ]
-},
-
-/* ================= CHAPTER 1 ================= */
+/* ================= ACT 1 · KOREA ================= */
 ch1:{
-  chapter:true, mark:'一', crumb:'Chapter One',
-  eyebrow:'Chapter One',
-  title:'The House of Shen',
-  text:`<p>Your mother's silver <b>binyeo</b>, sharpened, sleeps in your collar. The house of Shen is walls and moon gates — and you are the lowest in it, watching every gate like a soldier.</p>`,
-  choices:[{t:'Begin the day.', to:'c1a'}]
+  chapter:true, mark:'一', crumb:'Uiju · Joseon', code:null,
+  eyebrow:'Uiju, Joseon · Winter · Age 11',
+  title:'The Archer\u2019s Daughter',
+  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you everything.</p>`,
+  choices:[{t:'Morning drill.', to:'a1_drill'}]
+},
+a1_drill:{
+  eyebrow:'Uiju · The Last Morning', crumb:'Uiju',
+  title:'His Lessons',
+  text:`<p>"Again," he says, and you draw the bow again. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
+  choices:[{t:'Again.', to:'a1_raidgo'}]
+},
+a1_raidgo:{
+  eyebrow:'Uiju · The Last Morning', crumb:'Uiju',
+  title:'Horns',
+  text:`<p>Smoke on the north wind. Horns. Riders in the millet — <b>raiders</b>, crossing the frozen river. Your father is already running toward you.</p>
+  <p class="whisper">He does not reach you in time. Rope. A saddle. The village burning behind.</p>`,
+  choices:[{t:'They carry you toward the river.', to:'WAVE:a1_rescue'}]
+},
+a1_rescue:{
+  eyebrow:'Uiju · The River Road', crumb:'Uiju',
+  title:'He Comes For You',
+  text:`<p>He catches them at the ford. One man, on foot, against seven. You watch your father take them apart — the first with an arrow, the last with his hands. Six men down in the snow.</p>
+  <p>Then his arms are around you, and he is saying your name into your hair, and for one breath the world is safe —</p>
+  <p>— and his arms go slack. You feel it before you understand it. The seventh man. From behind.</p>
+  <p class="whisper">A blade behind you is a funeral. He taught you that. He was holding you when he stopped listening.</p>`,
+  choices:[{t:'They pull you off him. The river crosses under you.', to:'ch2'}]
 },
 
-c1a:{
-  eyebrow:'Chapter One · The House of Shen', crumb:'Chapter One',
-  title:'The Young Miss',
-  text:`<p>Dawn, and frost on the laundry stones. You are beating quilts when <b>Shen Lian</b> finds you — the master's youngest daughter, ten years old, forever escaping her tutor.</p>
-  <p>"Seol-jie," she whispers, using the pet name she invented, "sing me the song from your country. The one about the moon and the rabbit. Mother says foreign songs are vulgar, so sing it <em>quietly</em>."</p>
-  <p>Her nurse is calling for her, three courtyards away. The first wife, Madam Yu, punishes anything she calls <em>vulgar</em>.</p>`,
-  choices:[
-    {t:'Sing it — softly, in Korean, the way your mother sang it. A child\u2019s loyalty is worth the risk.',
-      fx:()=>{ bump('hon',1); S.flags.ally_lian = true; }, to:'c1b'},
-    {t:'Teach her instead to hear the song in her head — and note which corridors the nurse never checks.',
-      fx:()=>{ bump('ji',1); S.flags.ally_lian = true; }, to:'c1b'},
-    {t:'Shake your head and keep beating quilts. Attachments are weight, and you intend to travel light.',
-      fx:()=>{ bump('mu',1); }, to:'c1b'},
-  ]
-},
-
-c1b:{
-  eyebrow:'Chapter One · The House of Shen', crumb:'Chapter One',
-  title:'The Old Scholar',
-  text:`<p>Midday you carry tea to the study of <b>Old Wen</b>, the household tutor — a failed examination candidate with ink-stained cuffs and kind, tired eyes.</p>
-  <p>He is copying the <em>Analects</em>. You set down the tray and your eyes move, without permission, along the columns of characters. You have taught yourself perhaps two hundred of them, from shop signs and shipping manifests.</p>
-  <p>Old Wen does not look up. "The tea girl reads," he says mildly. "Upside down, no less. In Joseon, I hear, even farmers' daughters learn letters now. King Sejong's alphabet." He turns a page. "Well? Does she read, or does she only steal glances?"</p>`,
-  choices:[
-    {t:'"She reads, honoured teacher. Badly. She would read better if someone taught her." Meet his eyes.',
-      fx:()=>{ bump('ji',1); S.flags.ally_wen = true; }, to:'c1c'},
-    {t:'Recite, from memory, the one passage you know: <em>"Is it not a joy to have friends come from afar?"</em> — and let the irony hang.',
-      fx:()=>{ bump('hon',1); S.flags.ally_wen = true; }, to:'c1c'},
-    {t:'Say nothing. Bow, lift his heavy book chests onto the new shelves unasked, and leave him wondering.',
-      fx:()=>{ bump('mu',1); }, to:'c1c'},
-  ]
-},
-
-c1c:{
-  eyebrow:'Chapter One · The House of Shen', crumb:'Chapter One',
-  title:'The Silver Comb',
-  text:`<p>Trouble finds you at dusk. <b>Madam Yu</b>, the first wife, stands in the servants' court with her maids arranged behind her like a magistrate's guard. Her silver comb is missing.</p>
-  <p>"The Korean took it," she announces. "Barbarians steal. It is their nature." Her eyes are bright with something that has nothing to do with combs — you have seen the master watching you, and so has she.</p>
-  <p>The steward reaches for the bamboo rod. The maid <b>Peony</b>, who dressed Madam Yu's hair this morning, studies the ground very carefully.</p>`,
-  choices:[
-    {t:'Kneel. Endure it. A back heals; a slave who argues is sold south, far from the river home. <i>Every stripe is a step you will walk back across the Yalu.</i>',
-      fx:()=>{ bump('hon',1); }, to:'c1d'},
-    {t:'Speak, eyes down: "Madam wore the comb at breakfast — the whole kitchen saw. It has not left the inner court. Perhaps it fell behind the dressing table?" It did. Peony goes pale.',
-      req:{stat:'ji', val:3},
-      fx:()=>{ bump('ji',1); }, to:'c1d'},
-    {t:'Catch the rod mid-swing. Just once. Just so the steward feels what is in your arm — then release it and kneel.',
-      fx:()=>{ bump('mu',1); S.flags.marked = true; }, to:'c1d'},
-  ]
-},
-
-c1d:{
-  eyebrow:'Chapter One · The House of Shen', crumb:'Chapter One',
-  title:'What the Night Carries',
-  text:()=>`<p>That night you cannot sleep. You are crossing the rear court with washing water when you hear voices from the master's window — Master Shen, and the steward, and the clink of wine cups.</p>
-  <p>"…the Jurchen returns at the Ghost Festival," the steward is saying. "Batu. He offers double her price. Says the Jianzhou chiefs are gathering men and want women for the camps — cooks, seamstresses. He remembers this one. Says she has <em>good teeth and bad eyes</em>. Says she looked at him like she was measuring his neck."</p>
-  <p>Master Shen laughs, low. "She was. Take his silver. She is trouble in a house; let her be trouble in a tent."</p>
-  <p>The water in your basin has gone still as a mirror. In it, your own face — and behind it, the moon.</p>
-  <p class="whisper">${S.flags.marked ? 'They are already wary of you; the steward locks the rear gate now. It will have to be cunning, or the roofs.' : 'They still think you tame. Good. Tame things are not watched.'}</p>
-  <p><b>The Ghost Festival is in nine days.</b> You have nine days to become impossible to sell.</p>`,
-  choices:[{t:'Nine days. Begin.', to:'ch2'}]
-},
-};
-
-
-Object.assign(SCENES, {
-
-/* ================= CHAPTER 2 ================= */
+/* ================= ACT 2 · THE MARKET ================= */
 ch2:{
-  chapter:true, mark:'二', crumb:'Chapter Two', code:'LANTERN',
-  eyebrow:'Chapter Two',
-  title:'The Ghost Festival',
-  text:`<p>On the fifteenth night of the seventh month, the Ming open their gates to the dead. <b>Zhongyuan</b> — the Ghost Festival. Paper money burns in every doorway; the river fills with lotus lanterns carrying lights home to drowned ancestors; opera drums shake the market square where mulian plays tell of a monk who walked into hell to free his mother.</p>
-  <p>Even slaves are loosed for the rites. For one night, the streets belong to ghosts and to those who move among them.</p>
-  <p>Batu arrives with the festival. So this night is not for celebration. It is for <em>preparation</em>.</p>`,
-  choices:[{t:'Step into the lantern-light.', to:'c2hub'}]
+  chapter:true, mark:'二', crumb:'Guangning', code:'MARKET',
+  eyebrow:'Guangning, Liaodong · Weeks Later',
+  title:'The Market of Old Kang',
+  text:`<p>They sell people here between the silk and the salt fish. The fat merchant who owns the chains is called <b>Kang</b>. He smiles at buyers and counts everything.</p>
+  <p class="whisper">Your wrists have learned his ropes. Today the knot is careless.</p>`,
+  choices:[{t:'The knot is careless.', to:'a2_break'}]
+},
+a2_break:{
+  eyebrow:'Guangning · The Market', crumb:'Guangning',
+  title:'Loose',
+  text:`<p>You slip the rope, drop the nearest handler with his own club, and run — not for the gate. For the <b>cages</b>.</p>
+  <p class="whisper">Fight through the handlers. Open every cage you can reach.</p>`,
+  choices:[{t:'Move.', to:'a2_close1'}]
+},
+a2_kang:{
+  eyebrow:'Guangning · The Market', crumb:'Guangning',
+  title:'Old Kang',
+  text:`<p>The crowd parts and the fat merchant is there, breathing hard, rings on every finger. He looks at his emptied cages, then at you, almost with wonder.</p>
+  <p>"Do you know," he says pleasantly, "what you have <em>cost</em> me?" — and the back of his hand puts you on the stones.</p>`,
+  choices:[{t:'The stones are cold. The sky turns.', to:'a2_zhao'}]
+},
+a2_zhao:{
+  eyebrow:'Guangning · The Market', crumb:'Guangning',
+  title:'The General',
+  text:`<p>A shadow between you and the second blow. An officer's boots. A voice used to being obeyed.</p>
+  <p>"<b>General Zhao</b>," Kang says, suddenly all silk. "This is merchandise, general. Damaged merchandise."</p>
+  <p>"Then you won't mind selling it cheap." He does not look at Kang. He is looking at you the way a man looks at a blade he has found in a scrap heap. "I watched her fight," he says. "You had six men. She was winning."</p>`,
+  choices:[{t:'Sold. Again. But differently.', to:'ch3'}]
 },
 
-c2hub:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'One Night, Three Errands',
-  text:()=>`<p>The crowds surge under strings of red lanterns. Smoke from burning joss money stings your eyes; somewhere a Beijing opera singer holds a note like a drawn wire. You have until the drums stop.</p>
-  <p class="whisper">Choose where to spend the night — each errand shapes what you become.</p>`,
-  choices:()=>[
-    {t:'Fold a lotus lantern for your mother, and set it on the water with her name in Korean letters no one here can read.',
-      hideIf:()=>S.flags.did_lantern,
-      fx:()=>{ S.flags.did_lantern = true; bump('hon',1); }, to:'c2hub_r1'},
-    {t:'Walk the city wall like a bored servant, and memorise it like a soldier: gates, watch-changes, the drain under the water gate.',
-      hideIf:()=>S.flags.did_gates,
-      fx:()=>{ S.flags.did_gates = true; bump('ji',1); }, to:'c2hub_r2'},
-    {t:'The porters are betting on sack-lifting by the grain barges. Their coin sits in a bowl. Roll up your sleeves.',
-      hideIf:()=>S.flags.did_porters, req:{stat:'mu', val:3},
-      fx:()=>{ S.flags.did_porters = true; bump('mu',1); addItem('Silver taels'); }, to:'c2hub_r3'},
-    {t:'The night grows old — follow the smell of incense toward the temple lane.',
-      hideIf:()=>!(S.flags.did_lantern||S.flags.did_gates||S.flags.did_porters), to:'c2b'},
-  ]
-},
-c2hub_r1:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'A Light Going Home',
-  text:`<p>You fold the paper the way your mother folded jesa offerings, and write <span class="kr">어머니</span> — <em>mother</em> — inside the petal where the flame will sit.</p>
-  <p>The lantern turns twice in the current, steadies, and sails — not downstream with the hundreds of others, but across, stubbornly, toward the north bank. Toward home. A woman beside you gasps and mutters about wind. You know better.</p>
-  <p class="whisper">Something warm settles behind your ribs and stays.</p>`,
-  choices:[{t:'Return to the crowds.', to:'c2hub'}]
-},
-c2hub_r2:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Shape of the Cage',
-  text:`<p>You buy a skewer of candied hawthorn and eat it slowly, gazing at acrobats — and counting. Twelve breaths between sentry calls on the north wall. The west gate closes at the second drum, but the water gate's grate is rusted at the hinge, and the drain beneath it breathes cold air: it goes <em>through</em>.</p>
-  <p>By the time the skewer is finished, the city is no longer a wall around you. It is a puzzle box, and you have found the seam.</p>`,
-  choices:[{t:'Return to the crowds.', to:'c2hub'}]
-},
-c2hub_r3:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Girl and the Grain Sacks',
-  text:`<p>The porters laugh so hard they nearly forget to take your wager. A Korean slave girl, against dock men with shoulders like oxen?</p>
-  <p>But sacks are not lifted with shoulders. They are lifted with legs and ssireum hips, the way your father taught you to lift a grown man off his feet. You shoulder the hundred-jin sack, hold it through their counting, and set it down soft as laying a child to bed.</p>
-  <p>Silence. Then roaring, delighted laughter — the losers pay double for the story they've gained. The silver is small, cold, and heavy with possibility.</p>`,
-  choices:[{t:'Return to the crowds.', to:'c2hub'}]
-},
-
-c2b:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Charm Seller',
-  text:`<p>In the temple lane, away from the drums, an old woman sits behind a tray of paper charms. Her eyes are the colour of weak tea, and there is something wrong with her shadow — it flickers like a candle although the lanterns above her hang still.</p>
-  <p>"Zhusun charms, protection charms," she croons in Chinese. Then, as you pass, in perfect border-Korean: <span class="kr">"호랑이 딸이 지나가네."</span> <em>There goes the tiger's daughter.</em></p>
-  <p>You stop. No one in this city speaks your tongue.</p>`,
-  choices:()=> S.hon >= 5 ? [
-    {t:'Kneel by her tray. Answer in Korean: "Grandmother, whose daughter are you?"', to:'c2b_fox'}
-  ] : [
-    {t:'Buy a paper charm with a bow, and hurry on — some doors are better left half-open.',
-      fx:()=>{ bump('hon',1); addItem('Paper charm'); }, to:'c2c'}
-  ]
-},
-c2b_fox:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'Nine Tails in the Lantern Smoke',
-  text:`<p>The old woman smiles, and for one heartbeat her shadow on the temple wall has too many tails to count.</p>
-  <p>"Your grandmother fed me rice cakes on a mountain that is now on the wrong side of a border," she says. "Debts travel. Even ours." She presses something into your palm: a small amulet of yellowed bone, carved as a tiger with its head turned back over its shoulder. It is warm as a living thing.</p>
-  <p>"Hear the terms, snow-child. <em>You will cross water three times. Twice by your own strength. The third time, everything you are will be weighed against everything you were taken from.</em> When the scale hangs even — call the mountain."</p>
-  <p>You blink, and the lane holds only a tray of paper charms, abandoned, and the smell of fox-fur and incense.</p>`,
-  choices:[{t:'Close your hand around the amulet.',
-    fx:()=>{ addItem('Tiger amulet'); bump('hon',1); }, to:'c2c'}]
-},
-
-c2c:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'Papers',
-  text:`<p>One thing remains, and it is the hardest. No one travels the Liaodong roads without <b>travel papers</b> — a route pass with official seals. Checkpoints stand at every river crossing between here and the Yalu. A woman alone, Korean-faced, without papers, is escorted straight back into chains.</p>
-  <p>The festival ends in hours. How does a slave get seals?</p>`,
-  choices:[
-    {t:'Go to Old Wen. A failed examination candidate spends thirty years practising official script — and he owes you nothing, which is exactly why he might help.',
-      req:{flag:'ally_wen', flagLabel:'Needs: Old Wen\u2019s trust (Chapter One)'},
-      fx:()=>{ addItem('Travel papers'); S.flags.wen_blessing = true; }, to:'c2c_wen'},
-    {t:'The steward keeps blank passes in his office for the silk caravans. The lock is old. Your fingers are patient.',
-      req:{stat:'ji', val:5},
-      fx:()=>{ addItem('Travel papers'); }, to:'c2c_steal'},
-    {t:'Find the gate clerk who drinks at the Osmanthus House and slide the porters\u2019 silver across his table.',
-      req:{item:'Silver taels'},
-      fx:()=>{ S.items = S.items.filter(i=>i!=='Silver taels'); addItem('Travel papers'); }, to:'c2c_bribe'},
-    {t:'Go without papers. The roads have ditches, the checkpoints have blind hours, and you have patience.',
-      to:'c2d'},
-  ]
-},
-c2c_wen:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Scholar\u2019s Hand',
-  text:`<p>Old Wen listens without expression. Then he grinds ink for a long time, and while he grinds it he talks — about the Analects, about a man he failed to speak for forty years ago, about how a superior man is not a vessel to be filled but a will to act.</p>
-  <p>The pass he writes is beautiful. The seals he cuts from a raw potato are, frankly, better than the originals.</p>
-  <p>"You were never my student," he says, handing it over. "Which is a pity. You'd have passed the examinations these fools failed upward through." He turns back to his copying. "Go home, Seol. Write to me when there's a river between us. I'll pretend the characters aren't yours."</p>`,
-  choices:[{t:'Bow to him as a student bows to a teacher — fully, and without hurry.', to:'c2d'}]
-},
-c2c_steal:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Patient Lock',
-  text:`<p>The steward's office smells of abacus wood and grease. You work the old lock with a filed hairgrip while the festival drums cover every click, lift two blank passes from beneath the ledgers — and pause.</p>
-  <p>The ledger itself lies open. Names, prices, provenances. <em>Purchased of the Jurchen Batu: one Korean female, sound teeth</em>… Your own sale, in neat columns, between bolts of silk and a shipment of dried abalone.</p>
-  <p>You memorise the page — every name on it, every soul in this house bought as you were bought — and leave the lock exactly as you found it.</p>`,
-  choices:[{t:'Slip out beneath the drums.', fx:()=>{ S.flags.ledger = true; }, to:'c2d'}]
-},
-c2c_bribe:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Osmanthus House',
-  text:`<p>The clerk counts your silver twice, sighs like a man doing you an enormous favour, and produces a route pass with real seals — for a "widow returning to her husband's family near the border." He even blots it against his sleeve to age the ink.</p>
-  <p>"Festival of ghosts," he shrugs, pocketing the taels. "Everyone's travelling home tonight. One more won't be noticed."</p>`,
-  choices:[{t:'Fold the pass into your collar beside the binyeo.', to:'c2d'}]
-},
-
-c2d:{
-  eyebrow:'Chapter Two · The Ghost Festival', crumb:'Chapter Two',
-  title:'The Buyer Comes Early',
-  text:`<p>You return over the rear wall an hour before dawn — and freeze on the tiles.</p>
-  <p>Torches in the front court. Horses. And a voice you have heard every night for two years, in the part of sleep where you fall and fall: <b>Batu</b>, laughing with Master Shen, four days early, his sabre hung on his saddle like a promise.</p>
-  <p>Beside the horses stands a lean man in wolf-fur with a hooded hunting eagle on his arm and two hounds lying flat as spilled ink: <b>Torgon</b>, Batu's tracker. Batu turns his head slowly and looks at the exact stretch of roofline where you crouch in the dark. He cannot see you. He smiles anyway.</p>
-  <p>"Fetch her at first light," he tells the steward. "She runs. It's the only thing I like about her."</p>`,
-  choices:[{t:'Then it is tonight. Now. Before first light.', to:'ch3'}]
-},
-
-/* ================= CHAPTER 3 ================= */
+/* ================= ACT 3 · FIVE YEARS ================= */
 ch3:{
-  chapter:true, mark:'三', crumb:'Chapter Three', code:'ROOFTOP',
-  eyebrow:'Chapter Three',
-  title:'The Night of Knives and Lanterns',
-  text:`<p>There is a stillness that comes to you before violence — your father called it <em>the archer's breath</em>. The world slows. The heart counts. Everything unnecessary falls away.</p>
-  <p>You have your mother's binyeo, whatever the festival gave you, and perhaps two hours of darkness. The house sleeps. The Jurchens drink Master Shen's wine in the guest hall.</p>
-  <p>The archer's breath settles over you like snow.</p>`,
-  choices:[{t:'Move.', to:'c3a0'}]
+  chapter:true, mark:'三', crumb:'House of Zhao', code:'ESTATE',
+  eyebrow:'The House of Zhao · Five Years',
+  title:'Five Winters',
+  text:`<p>A garrison house with courtyards and koi. You arrive at eleven, feral and silent. You leave at sixteen changed. These are the five winters, one by one.</p>`,
+  choices:[{t:'The first winter.', to:'a3_go'}]
+},
+a3_go:{
+  eyebrow:'House of Zhao · Year One', crumb:'House of Zhao',
+  title:'Lady Mingzhu',
+  text:`<p>The general's wife does not coo at you. She puts a brush in your hand. "Characters first. Then manners. Then everything else."</p>
+  <p>When a visiting magistrate's wife calls you <em>that Korean thing</em> at dinner, Mingzhu sets down her cup very quietly. "In this house," she says, "we name people or we starve. Which will you choose?"</p>
+  <p class="whisper">That night, unprompted, you thank her — in Chinese. Her whole face changes.</p>`,
+  choices:[{t:'Year two.', to:'a3_y2'}]
+},
+a3_y2:{
+  eyebrow:'House of Zhao · Year Two', crumb:'House of Zhao',
+  title:'The General\u2019s Yard',
+  text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat.</p>
+  <p class="whisper">He drills you like a soldier, not a ward. Praise is a nod. You would kill for the nod. Train in the yard — the standing men of straw are yours.</p>`,
+  choices:[{t:'Year three.', to:'a3_y3'}]
+},
+a3_y3:{
+  eyebrow:'House of Zhao · Year Three', crumb:'House of Zhao',
+  title:'The Son Who Dances',
+  text:`<p><b>Jin</b>. The general's son, your age, ink on his fingers, forever humming. When Zhao drills him with the sword he turns every form into a turning, flowing <em>thing</em> — and Zhao walks away in disgust. "My son dances."</p>
+  <p>You spar him once, to put the slacker in his place. You lose. You cannot even say how. He was never where your blade was; it was like fencing with smoke that smiles.</p>
+  <p>"It's not a dance," he says, helping you up, infuriatingly kind. "It's just listening — with your whole body."</p>`,
+  choices:[{t:'Year four.', to:'a3_y4'}]
+},
+a3_y4:{
+  eyebrow:'House of Zhao · Year Four', crumb:'House of Zhao',
+  title:'What You Know About Kang',
+  text:`<p>One evening Zhao asks about your family — in Korean. Rough, careful Korean, learned from a border officer. So you tell him: the raid, the river, and the thing he does not know — <em>the raiders reported to Kang.</em> The fat merchant does not just sell what others catch. He sends the catchers. And some of what he sells is <b>information — north, to the Jurchen.</b></p>
+  <p>Zhao is very still for a long time. "I thought he traded slaves," he says at last. "He trades in my country's throat." After that, the general starts keeping a second ledger, in his own hand, of everything Kang moves.</p>`,
+  choices:[{t:'Year five.', to:'a3_dance'}]
+},
+a3_dance:{
+  eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
+  title:'The Dance',
+  text:`<p>Sixteen. Jin finally teaches you properly, by the pond, evenings. "Stop trying to beat me. Move <em>with</em> me." And one evening you stop fighting it — and the two of you are one turning shape in the lantern light, blade-edge to blade-edge, never touching, reading each other like a language.</p>
+  <p>The form ends. Neither of you steps back. The distance closes by itself.</p>
+  <p class="whisper">The kiss tastes like the beginning of something. It is actually the end of everything.</p>`,
+  choices:[{t:'That same month —', to:'a3_fall'}]
+},
+a3_fall:{
+  eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
+  title:'The North Falls',
+  text:`<p>Fushun falls to the Jurchen. Then the news comes like ice cracking: city after city, generals surrendering, the border folding inward. The war stops being weather on the horizon.</p>
+  <p>It reaches the house on a market morning. A strike on the eastern estate — fast riders, guided by someone who knew the roads. <b>Lady Mingzhu</b> was overseeing the granary there.</p>
+  <p>They bring her home in the cart she left in. The house does not recover. China is falling, and it has begun with her.</p>`,
+  choices:[{t:'Jin does not speak for days.', to:'a3_window'}]
+},
+a3_window:{
+  eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
+  title:'The Window',
+  text:`<p>Jin grieves the way he does everything — in motion arrested. Days of stillness, the dancer gone stone. Then one grey dawn there is a pack on his shoulder and his father's hands on his arms in the outer court, and you understand from a window what no one told you: <em>he is leaving. To find peace, or something like it.</em></p>
+  <p>At the gate he looks up. Finds your window without searching, as if he always knew which one it was. Holds your eyes for three heartbeats.</p>
+  <p class="whisper">Then he is gone. He never said goodbye to you. Perhaps that was the goodbye.</p>`,
+  choices:[{t:'The general summons you.', to:'a3_vow'}]
+},
+a3_vow:{
+  eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
+  title:'The Question',
+  text:`<p>Zhao stands in the ruined quiet of his house — wife buried, son gone, country folding. He asks it formally, like an officer, because it is the only way he can ask anything now:</p>
+  <p>"When this war comes for us — and it is coming — will you serve China? Or will you go home, to your people?"</p>
+  <p>You look at him a long moment. "<b>You are my people too.</b> I'll fight with you. But when we find Koreans in chains on this road — and we will — we free them. Every one. That is my price."</p>
+  <p>The general — who nods instead of praising, who has not touched anyone since the funeral — crosses the room and holds you like a daughter. And in his arms you feel other arms, at a river ford, five years gone, and the tears come without asking.</p>`,
+  choices:[{t:'Years pass. The war grinds on. You become good at it.', to:'ch4'}]
 },
 
-c3a0:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Bar on the Door',
-  text:()=>`<p>You pass the servants' quarters — the long low building where the bought people sleep, barred from outside every night like a stable. Peony is in there. The kitchen boys. The old groom whose name appears in the steward's ledger three lines above yours.</p>
-  ${S.flags.ledger ? '<p class="whisper">You know every name on that page now. You know exactly what each of them cost.</p>' : ''}
-  <p>Lifting the bar costs seconds. Chaos of a dozen runaways could hide you — or wake the whole compound before you reach the wall.</p>`,
-  choices:[
-    {t:'Lift the bar. Quietly. Leave the door ajar and let each of them choose, as you are choosing.',
-      fx:()=>{ S.flags.freed = true; bump('hon',1); }, to:'c3a'},
-    {t:'Walk past. Mercy is a luxury of the free; be free first, be merciful later.',
-      to:'c3a'},
-  ]
-},
-
-c3a:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'Three Ways Out',
-  text:`<p>The compound has one gate, many roofs, and a kitchen court where the night-soil cart stands ready for its dawn round. Torgon's hounds are tied by the stable — awake, ears turning like millstones.</p>`,
-  choices:[
-    {t:'The roofs. Tile to tile, past the watchman\u2019s platform, drop from the corner eave to the alley. The soldier\u2019s road.',
-      req:{stat:'mu', val:5}, fx:()=>{ bump('mu',1); }, to:'c3a_roof'},
-    {t:'The kitchen. Lian showed you where cook hides the sorghum wine; hounds that find wine-soaked pork sleep like magistrates.',
-      req:{stat:'ji', val:5}, fx:()=>{ bump('ji',1); }, to:'c3a_kitchen'},
-    {t:'The gate itself — veiled, carrying a ghost lantern, walking slow. On this one night, no Ming watchman stops what might be a returning ancestor.',
-      req:{stat:'hon', val:5}, fx:()=>{ bump('hon',1); }, to:'c3a_ghost'},
-    {t:'The night-soil cart. Undignified, slow, reeking — and utterly beneath anyone\u2019s suspicion.',
-      fx:()=>{ S.flags.slow = true; }, to:'c3a_cart'},
-  ]
-},
-c3a_roof:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'Tile to Tile',
-  text:`<p>The roofs of Guangning are a frozen sea and you are a low black wave moving across it. Heel-toe along the ridgelines, weight spread like walking on river ice. The watchman on his platform is warming his hands over a brazier; you pass close enough to hear the charcoal tick.</p>
-  <p>At the corner eave a tile shifts — you catch it, one-handed, muscles screaming, and set it back in its bed of frost without a sound. Then the drop: knees soft, roll, up, walking. A shadow among shadows, already gone.</p>`,
-  choices:[{t:'To the city wall.', to:'c3b'}]
-},
-c3a_kitchen:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'A Gift for the Hounds',
-  text:`<p>Cook's sorghum wine is where Lian said, behind the pickle jars. You soak two strips of dried pork until they could stagger on their own, and lob them gently to the hounds.</p>
-  <p>The dogs look at the pork. The dogs look at you. Some negotiations are very short. By the time you ghost through the kitchen gate, the fiercest trackers in Liaodong are dreaming, paws twitching, of rabbits made of wine.</p>`,
-  choices:[{t:'To the city wall.', to:'c3b'}]
-},
-c3a_ghost:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Returning Ancestor',
-  text:`<p>You take a mourning veil from the laundry and a guttering lotus lantern from the pond's edge, and you walk out through the main gate at the pace of the dead — unhurried, unswerving, the lantern held before you like a small captive moon.</p>
-  <p>The gate guard sees you. His mouth opens. On any other night — but this is Zhongyuan, the gates of hell stand wide, and here is a veiled woman glowing at the darkest hour, walking <em>out</em>. He makes the sign against evil and looks very hard at his own feet.</p>
-  <p>You even nod to him, regally, the way you imagine a queen's ghost might. Curiosity, your old vice. He will light incense over this for a year.</p>`,
-  choices:[{t:'To the city wall.', to:'c3b'}]
-},
-c3a_cart:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Humble Road',
-  text:`<p>You will not describe this part of the journey to your grandchildren. The cart sways; the smell writes itself into your hair; the night-soil man sings tunelessly about a girl in Suzhou. But no guard on earth inspects this cart closely, and by the hour of the ox you are through the kitchen lanes and near the wall — slower than you wished, dawn closer than you'd like.</p>`,
-  choices:[{t:'To the city wall.', to:'c3b'}]
-},
-
-c3b:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Wall',
-  text:`<p>Guangning's wall stands grey-blue in the starlight, dotted with brazier-glow. The gates are shut till dawn — but dawn is when the steward comes for you, so dawn is a door that must already be behind you.</p>`,
-  choices:()=>[
-    {t:'The water gate drain — the rusted grate you found on festival night breathes cold air clean through the wall.',
-      req:{flag:'did_gates', flagLabel:'Needs: you scouted the walls (Chapter Two)'}, to:'c3b_drain'},
-    {t:'Climb. The wall\u2019s northeast corner is patched brick, pocked with finger-holds, and the sentries\u2019 braziers blind them to the dark.',
-      req:{stat:'mu', val:5}, to:'c3b_climb'},
-    {t:'Wait in a doorway for the dawn gate-opening and walk out with the market carts, papers in hand, eyes down, one widow among many.',
-      req:{item:'Travel papers'}, to:'c3b_papers'},
-    {t:'Wait for dawn and slip through the gate crowd without papers, trusting to crush and confusion.', to:'c3b_risky'},
-  ]
-},
-c3b_drain:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'Through the Stone',
-  text:`<p>The grate's rusted hinge gives to steady pressure and a rag to muffle the shriek. The drain is black, knee-deep in dead water, and eighty heartbeats long; you count them the way your father counted a held breath at full draw.</p>
-  <p>Then cold air, reeds, open sky. Behind you the city sits on the plain like a sleeping animal. You are outside the walls of Guangning for the first time in two years.</p>`,
-  choices:[{t:'North. Toward the millet fields.', to:'c3c'}]
-},
-c3b_climb:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Northeast Corner',
-  text:`<p>Fingertips, toe-edges, the patched brick cold as a blade. Halfway up, a sentry's footsteps ring above and you hang flat against the stone, cheek to frost, until his brazier-blind eyes pass over the darkness that is you.</p>
-  <p>Then the parapet, the rope you braided from stolen laundry line, and the long soft-kneed slide to the outer ditch. Your palms are bleeding. You notice it distantly, the way one notices weather in another province.</p>`,
-  choices:[{t:'North. Toward the millet fields.', to:'c3c'}]
-},
-c3b_papers:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'One Widow Among Many',
-  text:`<p>Dawn. The gates groan open and the market flood pours through — carts, geese, monks, grief-hired mourners still in festival white. The gate sergeant reads your pass upside down, which tells you a great deal, stamps his chop beside the forged seals, and waves you on into the world.</p>
-  <p>Walking pace. Eyes down. Heart going like a war drum inside a widow's shuffle. Behind you, faint over the walls, you hear it begin: a bell, shouts, a household waking to find something missing.</p>`,
-  choices:[{t:'North. Toward the millet fields.', to:'c3c'}]
-},
-c3b_risky:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Crush at the Gate',
-  text:`<p>You wedge between a duck-seller's baskets and a coffin cart, and you are nearly through when a guard's hand closes on your shoulder — "You. Pass." You twist, the crowd surges, the ducks erupt in a screaming white cloud, and you <em>run</em>, an arrow-shout going up behind you, a thrown truncheon clipping your ribs hard enough to see sparks.</p>
-  <p>You lose them in the grave-mounds beyond the moat, breathing around something that grinds in your side. Free — but marked, hunted, and hurt.</p>`,
-  choices:[{t:'North. Toward the millet fields. Ignore the pain.', fx:()=>{ S.flags.wounded = true; }, to:'c3c'}]
-},
-
-c3c:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Tracker',
-  text:()=>`<p>Noon finds you deep in the standing millet, moving north by the sun. Then — a bell-note in the sky. A hunting eagle, circling. You go still, but stillness is no answer to a bird that reads fields the way Old Wen reads pages.</p>
-  <p><b>Torgon</b> comes out of the green rows on foot, unhurried, ${S.flags.slow ? 'having ridden hard on your slow start' : 'having ridden through the morning'}, his hound${S.flags.did_gates||S.flags.ally_lian ? '' : 's'} ranging ahead. Twenty paces. He sees you and stops, and does something worse than shouting: he smiles, and takes the coiled rope from his belt.</p>
-  <p>"Batu wants the teeth unbroken," he says in trade-Chinese. "Everything else, he leaves to my judgement."</p>`,
-  choices:()=>[
-    {t:'The binyeo is already in your hand. Close the distance yourself — the last thing a rope-man expects is the rabbit attacking the wolf.',
-      req:{stat:'mu', val:6}, fx:()=>{ bump('mu',1); }, to:'c3c_fight'},
-    {t:'Throw your outer jacket one way through the millet and go the other — then double back a third way, walking in the irrigation ditch where scent drowns.',
-      req:{stat:'ji', val:6}, fx:()=>{ bump('ji',1); }, to:'c3c_trick'},
-    {t:'Hold up the bone tiger and let it catch the sun. Some things, hounds and hunters both remember from older forests.',
-      req:{item:'Tiger amulet'}, fx:()=>{ bump('hon',1); }, to:'c3c_amulet'},
-    {t:'Run. Just run, north, into the green, and let the millet decide.', to:'c3c_run'},
-  ]
-},
-c3c_fight:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Rabbit and the Wolf',
-  text:`<p>You cover the twenty paces in the time it takes his smile to die. The rope, half-coiled, is a weapon for a fleeing back, not an oncoming storm; he drops it and draws his knife a half-breath too late.</p>
-  <p>Ssireum is a conversation of balance, and your father raised you fluent. Hip beneath hip, his own lunging weight borrowed and returned with interest — Torgon meets the earth of Liaodong flat on his back, and the point of your mother's silver hairpin comes to rest in the notch of his throat.</p>
-  <p>"Tell Batu," you say, in the Jurchen you learned in his slave-rope, "the teeth are fine." You take his water skin and his knife, and leave him his life — a message needs a messenger.</p>`,
-  choices:[{t:'North, at a soldier\u2019s pace.', to:'ch4'}]
-},
-c3c_trick:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'Three Trails from One Girl',
-  text:`<p>Your jacket sails east and lands running, as far as any hound's nose can testify. Your footprints go west, deep-toed, into mud that will hold them like a signed confession. And you — you are already in the irrigation ditch going north, cold to the knees, leaving nothing on the moving water but ripples.</p>
-  <p>Behind you Torgon's whistle splits, hesitates, splits again — a tracker suddenly holding three threads and no needle. By the time he chooses wrong the first time, you are half a li gone. By the second wrong choice, you are no one, nowhere, north.</p>`,
-  choices:[{t:'North, wet and grinning.', to:'ch4'}]
-},
-c3c_amulet:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'Older Forests',
-  text:`<p>The bone tiger catches the noon sun and, for a moment, the light comes off it wrong — heavy, striped, amber. The hound stops as if it has hit the end of a chain no one can see. Its hackles rise. It backs up, whining, and will not be cursed forward.</p>
-  <p>Torgon is Jurchen; his grandmothers prayed to the tiger before his grandfathers ever prayed to anything else. He looks at the amulet, and at you, for a long time. Then he spits — carefully, to the side, the way one does at a shrine, not at an enemy — and turns back the way he came.</p>
-  <p>"Tell your mountain," he says over his shoulder, "this was Batu's hunt. Not mine."</p>`,
-  choices:[{t:'North, under something\u2019s protection.', to:'ch4'}]
-},
-c3c_run:{
-  eyebrow:'Chapter Three · The Escape', crumb:'Chapter Three',
-  title:'The Green Gauntlet',
-  text:`<p>You run. The millet whips your face; the hound's belling swings closer on the left; the eagle's shadow strokes over you twice. A rope-end hisses past your ear — you swerve, fall down a ditch bank, and the fall saves you: the hound overshoots, and you are through the hedge of thorn at the field's north edge, leaving skin and a fistful of hair and a torn sleeve in it like a toll.</p>
-  <p>Torgon reins up at the thorn — his horse refuses it — and by his furious whistling you are given the gift of distance. It costs you: your ribs burn, your ankle screams. But north is still north.</p>`,
-  choices:[{t:'Limp north. Do not stop.', fx:()=>{ S.flags.wounded = true; }, to:'ch4'}]
-},
-});
-
-
-Object.assign(SCENES, {
-
-/* ================= CHAPTER 4 ================= */
+/* ================= ACT 4 · THE MASKED MISSION ================= */
 ch4:{
-  chapter:true, mark:'四', crumb:'Chapter Four', code:'MOUNTAIN',
-  eyebrow:'Chapter Four',
-  title:'The Road of a Thousand Li',
-  text:`<p>Between you and the Yalu lie four hundred li of Liaodong: garrison roads and willow palisades, post-stations where couriers change horses and gossip changes hands, and at last the mountains — old, forested, holy, and full of things the garrisons do not patrol.</p>
-  <p>Batu will not chase a runaway slave for her price alone. He will chase because you are the one that got away, and men like Batu are owned by their stories about themselves.</p>
-  <p>You need to become someone else for the road.</p>`,
-  choices:[{t:'Choose your travelling face.', to:'c4a'}]
+  chapter:true, mark:'四', crumb:'Years Later', code:'MASKED',
+  eyebrow:'Liaodong · Years Later · Night',
+  title:'Two Masks',
+  text:`<p>You run missions for Zhao's network now — a quiet war of ledgers, safehouses, and opened cages. Tonight: a holding compound on the roofs of a fallen town. Captives inside. Guards on the walls.</p>
+  <p class="whisper">You work alone. You prefer it.</p>`,
+  choices:[{t:'Go in.', to:'a4_go'}]
 },
-c4a:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'A Travelling Face',
-  text:`<p>From a roadside shrine's charity chest, a burial-goods stall, and a careless washing line, you can assemble one disguise well.</p>`,
-  choices:[
-    {t:'A hired mourner, veiled in hemp-white, walking behind coffins going north for burial. The dead travel with fewer questions than the living.',
-      fx:()=>{ bump('hon',1); }, to:'c4b'},
-    {t:'A merchant\u2019s errand-boy — hair bound up, face dirtied, ledger under one arm. You know silk-trade cant from two years of eavesdropping, down to the prices.',
-      fx:()=>{ bump('ji',1); }, to:'c4b'},
-    {t:'A drover with a carrying-pole. No one questions a back bent under a hundred jin of dried fish; they only pity it.',
-      fx:()=>{ bump('mu',1); }, to:'c4b'},
-  ]
+a4_clash:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'The Other Crew',
+  text:`<p>You are not alone. Figures on the far roofline — masked, silent, moving like a troupe of acrobats. Ribbons and hooks. They're going for <em>your</em> captives.</p>
+  <p>Their leader lands opposite you — tall, masked, unhurried. "This compound is spoken for," he says. A stranger's voice, low and even.</p>
+  <p>"Funny," you say. "I was about to say that."</p>`,
+  choices:[{t:'Argue. Loudly. On a rooftop. Professionals, both of you.', to:'a4_team'}]
 },
-
-c4b:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'The Shrine on Medicine Mountain',
-  text:`<p>The road climbs at last into the mountains, and on the fourth evening you find it: a mountain shrine, half-swallowed by pines — a <em>sansindang</em>, a shrine to the Mountain Lord, built by Korean hands. Settlers, or captives, or ghosts; this far east, all three amount to the same people.</p>
-  <p>The painting inside is faded but unmistakable: an old man beneath a pine, and at his knee, patient as a minister, a tiger with amber eyes. Your grandmother kept a picture like this behind the rice jar, and fed it a spoonful on the first day of every month.</p>
-  <p>The offering shelf is bare. The eyes of the tiger are not.</p>`,
-  choices:()=>[
-    {t:'Offer the binyeo. Your mother\u2019s hairpin, your only silver, your knife, your keepsake — laid whole on the shelf. Give the mountain the dearest thing you carry.',
-      req:{item:'Mother\u2019s binyeo'},
-      fx:()=>{ S.items = S.items.filter(i=>i!=='Mother\u2019s binyeo'); S.flags.tigersFavor = true; bump('hon',2); }, to:'c4b_offer'},
-    {t:'Offer the taels, if silver you have, and keep the blade — spirits understand a soldier\u2019s arithmetic.',
-      req:{item:'Silver taels'},
-      fx:()=>{ S.items = S.items.filter(i=>i!=='Silver taels'); bump('hon',1); }, to:'c4b_coins'},
-    {t:'Bow three times, forehead to the cold boards, and offer the only thing left: the truth of your name, spoken aloud in Korean for the first time in two years.',
-      fx:()=>{ bump('hon',1); }, to:'c4b_bow'},
-  ]
+a4_team:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'Same Target, Wrong Methods',
+  text:`<p>His plan is all misdirection — smoke, wires, no one touched. Yours is a knife through the dark, fast and final. You call his way slow. He calls yours loud. You split the compound down the middle out of pure spite.</p>
+  <p class="whisper">It works irritatingly well. Clear the guards. Free the cages.</p>`,
+  choices:[{t:'Work.', to:'a4_close'}]
 },
-c4b_offer:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'The Dearest Thing',
-  text:`<p>Your hand does not want to open. You make it open. The binyeo lies on the offering shelf, plum-blossom head toward the painting, and the losing of it hurts like losing her again — which is, you understand suddenly, the point. An offering that costs nothing carries nothing.</p>
-  <p>Wind moves through the shrine, though the pines outside stand still. The painted tiger's eyes are wet amber in the last light, and somewhere up the slope — unmistakable, unforgettable, felt in the soles of the feet before the ears — something vast exhales.</p>
-  <p class="whisper">You will cross water three times, the fox said. When the scale hangs even — call the mountain.</p>
-  <p>You sleep that night below the shrine, unarmed, and nothing in the forest troubles you. Nothing would dare.</p>`,
-  choices:[{t:'Descend at dawn toward the river country.', to:'c4c'}]
+a4_ambushcut:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'It Was Never a Holding Compound',
+  text:`<p>The last cage opens on empty straw. The gates you came through are now closed behind soldiers. Torches on every wall. It was bait — for people exactly like the two of you.</p>
+  <p>The masked stranger draws his blade with a dancer's roll of the wrist. "Do try to keep up," he says.</p>`,
+  choices:[{t:'Back to back. Fight.', to:'WAVE:a4_recognize'}]
 },
-c4b_coins:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'A Soldier\u2019s Arithmetic',
-  text:`<p>The taels ring softly on the shelf. "For safe passage, Mountain Lord," you say in Korean, "and for the ones who built you this house so far from home." The pines take the words and keep them.</p>
-  <p>It is a fair bargain, fairly offered. You sleep below the shrine with the binyeo's point toward the door, and the night passes clean.</p>`,
-  choices:[{t:'Descend at dawn toward the river country.', to:'c4c'}]
+a4_recognize:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'The Shape of You',
+  text:`<p>There are too many. Thinking stops. Your body chooses for you — and it chooses <em>the pond, the lanterns, the turning form</em> — and the stranger flows into it with you like he has been waiting years for the invitation.</p>
+  <p>Blade-edge to blade-edge, never touching. Two people cutting a circle out of a crowd of enemies, and neither of you is watching the enemies at all anymore. You are watching each other. You know this dance. You know this <em>dancer</em>.</p>
+  <p>It ends. Everyone else is down. Two masks in the torch smoke, breathing hard.</p>
+  <p>"...<b>Jin?</b>"</p>`,
+  choices:[{t:'He pulls the mask down. Taller. Older. Him.', to:'a4_leftme'}]
 },
-c4b_bow:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'A Name, Spoken',
-  text:`<p><span class="kr">"백설입니다."</span> <em>I am Baek Seol.</em> Your voice cracks on your own name like ice on the spring river. Two years of <em>ya</em> and <em>girl</em> and <em>the Korean</em>, and here, at last, to a faded tiger in the dark, you introduce yourself.</p>
-  <p>Three bows, forehead to the boards. The shrine holds its silence around you like cupped hands.</p>`,
-  choices:[{t:'Descend at dawn toward the river country.', to:'c4c'}]
+a4_leftme:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'You Left',
+  text:`<p>All the years arrive at once and what comes out is small and hard:</p>
+  <p>"You left us." A breath. "You left <em>me</em>."</p>
+  <p>He doesn't defend himself. His eyes do something complicated and sorrowful — and then move past your shoulder and go flat, and he <em>dashes</em> — hand at your waist, pulling you hard against him, his blade going out over your shoulder in the same motion —</p>
+  <p>— into the throat of a soldier who had risen behind you.</p>
+  <p class="whisper">For half a heartbeat you are sixteen, by a pond, in lantern light.</p>`,
+  choices:[{t:'Shove him off. Hard.', to:'a4_hadit'}]
+},
+a4_hadit:{
+  eyebrow:'The Mission · Rooftops', crumb:'Years Later',
+  title:'I Had It',
+  text:`<p>"<b>I had it.</b>" Your voice is level and dangerous. Then, a half-second later, entirely unlevel: "And <em>don't touch me</em>. I'm mad at you."</p>
+  <p>He raises both hands, steps back — and doesn't argue. "I know you don't need me to save you," he says quietly. "You never did."</p>
+  <p>"I need to think. Don't follow me."</p>
+  <p>He bows his head — respect, not surrender. Then, at the roof's edge, he says something that stops your breath. In Korean. Clumsy, careful, learned-word-by-word Korean:</p>
+  <p class="kr">"물이 거울처럼 조용한 곳… 산이 자기를 보는 곳. 해가 제일 높을 때. 내일."</p>
+  <p><em>Where the water is quiet like a mirror… where the mountain sees itself. When the sun is highest. Tomorrow.</em></p>
+  <p class="whisper">He speaks Korean. When did he — he's gone.</p>`,
+  choices:[{t:'The next morning.', to:'ch5'}]
 },
 
-c4c:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'The Second Water',
-  text:`<p>The first water was the drain, the ditch, the moat of Guangning — behind you. The second bars the road now: a broad tributary running grey with mountain melt, one ferry, one checkpoint of bored Ming soldiers.</p>
-  <p>And at the ferry landing: banners. A <b>Joseon envoy caravan</b>, homeward bound from Beijing — officials in familiar black hats, porters, tribute carts, the drawl of Seoul-accented Korean drifting across the water like the smell of home cooking. Your heart climbs into your throat and stands there.</p>
-  <p>They are countrymen. They are also officials, and a runaway slave with forged papers is a diplomatic incident wearing a widow's veil.</p>`,
-  choices:()=>[
-    {t:'Approach the envoy\u2019s secretary openly. Kneel, speak Korean, name your father\u2019s garrison — throw yourself on Joseon\u2019s mercy in front of everyone.',
-      req:{stat:'hon', val:6}, fx:()=>{ S.flags.envoys = true; }, to:'c4c_envoy'},
-    {t:'Slip a message to a young Korean porter instead — quiet help, deniable help, the kind officials can pretend not to see.',
-      req:{stat:'ji', val:6}, fx:()=>{ S.flags.envoys = true; bump('ji',1); }, to:'c4c_porter'},
-    {t:'Cross on your own papers with the common passengers and shadow the caravan north at a distance. Trust no one\u2019s mercy but the road\u2019s.',
-      req:{item:'Travel papers'}, to:'c4c_papers'},
-    {t:'Avoid the ferry altogether. Swim the grey water upstream at dusk, above the checkpoint, where the current is worst and the eyes are none.',
-      req:{stat:'mu', val:6}, fx:()=>{ bump('mu',1); }, to:'c4c_swim'},
-  ]
-},
-c4c_envoy:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'Countrymen',
-  text:`<p>You kneel in the mud of the landing and speak — your father's name, his garrison at Uiju, the raid, the rope, the two winters. Your Korean comes out rusted and then, all at once, flowing, and you hear women among the porters begin to weep before you are half done.</p>
-  <p>The secretary is a careful man with ink-stained fingers like Old Wen's. He looks at you for a long moment over the top of a diplomatic crisis. Then: "The caravan requires," he announces to no one in particular, "an additional laundress. Hired at Guangning. Her papers are in order because I am the one who says what is in order."</p>
-  <p>He does not smile. His eyes do.</p>`,
-  choices:[{t:'Cross the second water under Joseon\u2019s banner.', to:'c4d'}]
-},
-c4c_porter:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'The Quiet Kind of Help',
-  text:`<p>The note — Korean letters, a garrison name, three words: <em>daughter, taken, going home</em> — travels from your hand to the porter's in the pressing of a coin, as if you were tipping him. He reads it with his back to the soldiers. His shoulders change.</p>
-  <p>Within the hour, mysteriously, the caravan needs firewood gathered by someone, rice pots scrubbed by someone; a spare porter's coat finds its way onto a fence; a place at the cook-fire is left unclaimed. No official knows anything. Everyone knows everything. It is the most Korean arrangement imaginable, and you could weep with the familiarity of it.</p>`,
-  choices:[{t:'Cross the second water among your own.', to:'c4d'}]
-},
-c4c_papers:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'A Widow at the Rail',
-  text:`<p>The ferry soldier holds your pass at arm's length, mouthing the characters. Old Wen's potato seals — or the clerk's real ones — hold their nerve better than your pulse does. Stamped. Passed. Aboard.</p>
-  <p>You stand at the rail a veiled arm's-length from home-accented chatter, close enough to touch, silent as snow, while the second water slides beneath the hull. Patience. The river home is not this river. Not yet.</p>`,
-  choices:[{t:'Follow the north road in the caravan\u2019s dust.', to:'c4d'}]
-},
-c4c_swim:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'The Grey Water',
-  text:`<p>Dusk, upstream, where the river runs loud and no sentry bothers to look because no one could be fool enough. You strip to smallclothes, bind your bundle high on your shoulders, and give yourself to water so cold it closes over you like a fist.</p>
-  <p>Stroke, breathe, stroke — the current hauls you a full li downstream and you fight it for every armspan of width, and drag yourself out on the north bank shaking too hard to stand, and stand anyway, because your father's daughter does not lie down within sight of a checkpoint.</p>
-  <p class="whisper">The second water. Crossed by your own strength, as promised.</p>`,
-  choices:[{t:'Wring out, dress, walk warm. North.', to:'c4d'}]
-},
-
-c4d:{
-  eyebrow:'Chapter Four · The Road North', crumb:'Chapter Four',
-  title:'Word Travels Faster Than Horses',
-  text:()=>`<p>Six days north. The mountains lean closer to the road; the villages turn half-Korean, kimchi jars in Ming courtyards; and at every post-station the same story travels ahead of you like weather — a Jurchen with silver and a grudge, buying descriptions. A young woman. Korean. <em>Runs.</em></p>
-  ${S.flags.envoys ? '<p>The caravan folk have heard him asking too. "Stay in the middle of the column," the porters tell you, closing around you like a fist closing. "Rivers make men bold. He\u2019ll try at the Yalu."</p>' : '<p>You travel the ditches and the tree-lines now, sleeping cold, stealing turnips. He will not catch you on the road — you are too careful. So he will do the simpler thing. He will be waiting at the river.</p>'}
-  <p>On the ninth day you smell it before you see it: cold, vast, mineral — the breath of the great border river. <b>The Yalu.</b> Home is one water away.</p>`,
-  choices:[{t:'The third water.', to:'ch5'}]
-},
-
-/* ================= CHAPTER 5 ================= */
+/* ================= ACT 5 · THE LAKE ================= */
 ch5:{
-  chapter:true, mark:'五', crumb:'Chapter Five', code:'RIVER',
-  eyebrow:'Chapter Five',
+  chapter:true, mark:'五', crumb:'The Lake', code:'LAKE',
+  eyebrow:'The Next Day',
+  title:'Very Busy, Actually',
+  text:`<p>You wake up annoyed at yourself. So today you are <em>busy</em>. Extremely busy. With errands.</p>
+  <p class="whisper">Sharpen the blade. Repack the bag. Sharpen the blade again. Do not think about lakes.</p>`,
+  choices:[{t:'Be busy.', to:'a5_go'}]
+},
+a5_msg:{
+  eyebrow:'The Next Day', crumb:'The Lake',
+  title:'Stand By',
+  text:`<p>A runner brings the day's orders in the sister-network's cipher. You unfold it, already rehearsing how you'll be far too occupied to go anywhere near any body of water.</p>
+  <p>It says: <b>No mission. Stand by.</b></p>
+  <p>"...Aaaargh."</p>`,
+  choices:[{t:'Fine. FINE.', to:'a5_lake'}]
+},
+a5_lake:{
+  eyebrow:'The Lake · Noon', crumb:'The Lake',
+  title:'Where the Mountain Sees Itself',
+  text:`<p>The water is glass. The mountain stands upside down in it. He is there at the shore, unmasked, and for once not moving at all — as if stillness were the gift he prepared.</p>
+  <p>"You came," he says, in Korean. Still clumsy. Still learned for you.</p>
+  <p>"I had nothing better to do," you say, in Chinese, and sit down beside him anyway.</p>
+  <p>You talk until the mirror turns gold. About Mingzhu. About the window. About the years. He tells you why he left; you tell him what it cost. Neither of you apologizes exactly. Both of you forgive approximately.</p>`,
+  choices:[{t:'Then he tells you why he\u2019s really in the region.', to:'a5_intel'}]
+},
+a5_intel:{
+  eyebrow:'The Lake · Dusk', crumb:'The Lake',
+  title:'Kang',
+  text:`<p>"The man we were both hunting last night," Jin says, "works for an old name. <b>Kang.</b> Fatter now, richer now — he sells captives north across the Yalu, and he sells the border's secrets with them. Tonight he moves a whole column of Koreans across the ice. His Jurchen partner rides escort. A raider captain called <b>Batu</b>."</p>
+  <p>The name goes through you like river cold. <em>Batu.</em> A ford, five years old, a blade from behind.</p>
+  <p>"My people are already moving," Jin says. He looks at you — beside him, this time, not in front. "Fight with us. With <em>me</em>. As equals, or not at all."</p>
+  <p>"As equals," you say. "Try to keep up."</p>`,
+  choices:[{t:'Tonight. The river.', to:'ch6'}]
+},
+
+/* ================= ACT 6 · THE YALU ================= */
+ch6:{
+  chapter:true, mark:'六', crumb:'The Yalu', code:'RIVER',
+  eyebrow:'The Frozen Yalu · Night',
   title:'The Third Water',
-  text:`<p>Winter has come north with you, and the Yalu is freezing from its banks inward — a floor of white ice reaching for the middle of the river, where a black channel of open water still runs like a wound that will not close. On the far bank, low hills under snow: <b>Joseon</b>. You can see smoke from the watchtowers of Uiju. You can see <em>home</em>.</p>
-  <p>And on the ice between you and the black channel, dismounted, sabre drawn, standing exactly where he knew you must cross because it is the only fording point for thirty li — <b>Batu</b>.</p>
-  <p>"Snow-girl," he calls across the ice, in the Jurchen you both remember. "You cost me a horse, a tracker's pride, and two years of being laughed at. Come. Let us settle the account."</p>`,
-  choices:[{t:'Walk out onto the ice.', to:'c5a'}]
+  text:`<p>The border river, frozen bank to bank, a black channel of open water down its spine. Torches on the ice: Kang's column — chained captives, sledges of ledgers and silver, and riders in wolf-fur. On the far shore: <b>home</b>, for the first time in years, close enough to smell the woodsmoke.</p>
+  <p class="whisper">Jin's dancers are shadows on the west bank. The captives are the mission. Batu is yours.</p>`,
+  choices:[{t:'Onto the ice.', to:'a6_go'}]
 },
-
-c5a:{
-  eyebrow:'Chapter Five · The Yalu', crumb:'Chapter Five',
-  title:'The Reckoning',
-  text:()=>`<p>The ice booms softly under your feet, a drum skin over black water. Batu comes on at a walk, unhurried, sabre low. He is bigger than your memory made him, and your memory did not stint.</p>
-  <p>Behind him the far bank waits. ${S.flags.envoys ? 'Upstream, the envoy caravan is crossing at the official ford — too far to help, close enough to witness.' : 'The wind carries snow off the ridges of home.'} ${S.flags.wounded ? '<span class="whisper">Your old hurt drags at your side like a hand pulling you down.</span>' : ''}</p>
-  <p>Everything you are, the fox said, weighed against everything you were taken from.</p>`,
-  choices:()=>[
-    {t:'Meet him. Sabre against binyeo and ssireum, on ice he does not know how to read and you do — you grew up on this river. End it with your own hands.',
-      req:{stat:'mu', val:7}, hideIf:()=>!hasItem('Mother\u2019s binyeo'), to:'e_duel'},
-    {t:'Meet him bare-handed on the ice you grew up reading — you gave your blade to the mountain, and the mountain gave you back your balance.',
-      req:{stat:'mu', val:7}, hideIf:()=>hasItem('Mother\u2019s binyeo'), to:'e_duel'},
-    {t:'Shout across the ice — in Chinese, for the Ming border post to hear — that a Jurchen raider is seizing a documented traveller in Ming waters. Make the empire itself your weapon.',
-      req:{stat:'ji', val:7}, hideIf:()=>!hasItem('Travel papers'), to:'e_patrol'},
-    {t:'Stop. Plant your feet on the third water. And call the mountain.',
-      req:{flag:'tigersFavor', flagLabel:'Needs: the mountain\u2019s favor (Chapter Four)'}, to:'e_tigercall'},
-    {t:'Hold the bone amulet to the winter sun and speak the fox\u2019s debt aloud.',
-      req:{stat:'hon', val:9}, hideIf:()=>!hasItem('Tiger amulet'), to:'e_fox'},
-    {t:'Run for the black channel — leap the widening water at the ice\u2019s edge where a heavy man in armor cannot follow.', to:()=> S.flags.wounded ? 'e_snow' : 'e_leap'},
-  ]
+a6_batu:{
+  eyebrow:'The Yalu · The Column', crumb:'The Yalu',
+  title:'The Seventh Man',
+  text:`<p>He is older, broader, grey in the wolf-fur. He watches you come across the ice and something like memory moves behind his eyes.</p>
+  <p>"The archer's girl," Batu says at last, and smiles. "He was good, your father. Six of mine. I still count it."</p>
+  <p>"Count this," you say, and draw.</p>`,
+  choices:[{t:'Finish it.', to:'WAVE:a6_win'}]
 },
-
-/* ================= ENDINGS ================= */
-e_duel:{
-  eyebrow:'Ending · 武', crumb:'Ending',
-  title:'The Account, Settled',
-  text:()=>`<p>He expects you to run — everyone always has. So when you come <em>at</em> him across the booming ice, his first cut is a half-beat behind you and his footing is a townsman's footing, flat and proud. Yours is a river child's: weight low, steps short, reading the grey rot in the ice the way you read his shoulders.</p>
-  <p>He is strong. You are correct. It is not the same thing.</p>
-  <p>The third exchange, you give him your fear as bait — a stumble that is not one — and when his weight commits, the ssireum turn your father taught you in a threshing yard on the far side of this very river takes his balance, his sabre, and the ice beneath him. The river receives him with a single black swallow. Where Batu was, water laps quietly at broken white.</p>
-  <p>${hasItem('Mother\u2019s binyeo') ? 'You put your mother\u2019s binyeo back in your hair, where it was always meant to be worn — not hidden in a collar. A free woman\u2019s silver, shining.' : 'You stand empty-handed and unbeaten, and somewhere on a mountain to the south, something amber closes its eyes, satisfied.'}</p>`,
-  choices:()=>endingChoices()
+a6_win:{
+  eyebrow:'The Yalu · The Ice', crumb:'The Yalu',
+  title:'Settled',
+  text:`<p>He is strong. You are <em>trained</em> — by an archer of Joseon, by a general of Ming, by a dancer who taught you to listen with your whole body. Batu commits to a line, the way linear men do. You are never on it.</p>
+  <p>The ice takes him with a single black swallow, and the river — your river — closes over the seventh man.</p>
+  <p>Across the ice, Kang is on his knees in the snow with a dancer's blade at his collar and his ledgers burning beside him. Jin's people are already striking chains. The column of captives stands loose on the ice, not yet believing it.</p>`,
+  choices:[{t:'Speak to them. In Korean.', to:'a6_free'}]
 },
-e_patrol:{
-  eyebrow:'Ending · 智', crumb:'Ending',
-  title:'The Empire as a Blade',
-  text:`<p>Your Chinese carries across the ice, market-clear, official-shaped: <em>"Ming soldiers! A Jurchen raider draws steel on a documented traveller inside the emperor's border!"</em> — every word chosen from two years of listening to how power talks.</p>
-  <p>Batu laughs — and then stops laughing, because the border post's signal gong is sounding, and Ming horsemen are coming down the bank with the particular enthusiasm of bored garrison troops offered a legitimate Jurchen. He looks at you across the ice with something that is almost respect, curses in three languages, and runs for his horse.</p>
-  <p>You show the sergeant your papers. He barely reads them; he is watching the chase. "Cross, widow," he says, waving you on. "The ford is safe today. We've seen to it."</p>
-  <p>You walk the last water of the prophecy at a woman's own pace, unhurried, papers in your sleeve, while the empire that bought you escorts you home without ever knowing it.</p>`,
-  choices:()=>endingChoices()
+a6_free:{
+  eyebrow:'The Yalu · The Crossing', crumb:'The Yalu',
+  title:'Go Home. Walk Tall.',
+  text:`<p>"The far bank is Joseon," you tell them, in the language of your mother's songs. "Walk. Don't run — the ice holds if you walk."</p>
+  <p>A girl your old age hesitates. "My family — what they'll say, about where I've been—"</p>
+  <p>"Then say it first, and say it loud," you tell her. "You survived. That is the whole story. Anyone ashamed of you should try surviving it themselves." You say it like an order, because she needs it to be one. She squares her shoulders. She walks.</p>
+  <p class="whisper">One by one, they cross. You count every head that reaches the far bank.</p>`,
+  choices:[{t:'And then it is your turn to decide.', to:'a6_end'}]
 },
-e_tigercall:{
-  eyebrow:'Ending · 魂', crumb:'Ending',
-  title:'Calling the Mountain',
-  text:`<p>You stop. You plant your feet on the third water, everything you are weighed against everything you were taken from, and the scale hangs even — and you call the mountain. Not loudly. In Korean. The way your grandmother sang spirits down: an invitation, not a plea.</p>
-  <p>The snow off the Joseon hills thickens, and inside it something takes shape the way a mountain takes shape at dawn — a striped vastness walking on the ice without weight, amber-eyed, patient as winter. Batu's horse screams from the bank. Batu himself goes grey as the ice, because he is Jurchen, and his grandmothers told him exactly what this is, and exactly what it means that it has come <em>for someone else's sake</em>.</p>
-  <p>The Mountain Lord's tiger walks past you — close enough that its breath warms your frozen cheek like a hearth — and sits down between you and Batu, and looks at him.</p>
-  <p>That is all. It is enough. Some accounts are not settled in silver or blood, but in who the mountains answer for. Batu backs away, and away, and is gone north into the snow, and no post-station from here to Jianzhou will ever again hear him tell the story of the girl who got away.</p>
-  <p>When you look back from the Joseon bank, the ice is empty — except, laid on the snow at the water's edge, a long silver hairpin with a plum-blossom head. The mountain returns what was borrowed. Debts travel. Even theirs.</p>`,
-  choices:()=>endingChoices()
-},
-e_fox:{
-  eyebrow:'Hidden Ending · 九尾', crumb:'Ending',
-  title:'The Ninth Tail',
-  text:`<p>The bone tiger catches the low sun, and you speak the debt: <em>"My grandmother fed you rice cakes on a mountain now on the wrong side of a border. I am calling the debt home."</em></p>
-  <p>Between one snowflake and the next, the old charm-seller is standing on the ice in her rags — and then she is not old, and they are not rags, and the nine tails behind her are white fire against the grey afternoon. Batu has time to raise his sabre. She looks at the sabre the way an empress looks at a beggar's bowl.</p>
-  <p>"This one," the gumiho says to him conversationally, "is under the protection of every fox from Baekdusan to the sea, in memory of rice cakes. Do you know how long we remember, Jurchen? Ask your grandmothers. Oh — you cannot. <em>We knew them.</em>"</p>
-  <p>What happens next you honestly could not say, because she flicks one tail across your eyes like a mother covering a child's face at a funeral, and when the white fire clears, the ice holds only you, a sabre without an owner, and a fox's smile hanging in the air like the memory of a lantern.</p>
-  <p>"Third water, snow-child," her voice says from everywhere and nowhere. "Walk home. Marry someone amusing. Feed foxes."</p>`,
-  choices:()=>endingChoices()
-},
-e_leap:{
-  eyebrow:'Ending · The Narrow Way', crumb:'Ending',
-  title:'The Black Channel',
-  text:`<p>You run — not from him, past him, a swerve he reads too late — for the ragged edge where white ice fails into black water. The channel here is a body-length wide, maybe more, and the far ice is grey and doubtful, and you do not slow down, because doubt is drowning's doorway.</p>
-  <p>Your father's voice, from a riverbank twenty years gone: <em>jump before the edge, not at it.</em> You jump before the edge.</p>
-  <p>Black water passes beneath you like the underside of sleep. The grey ice takes you, cracks, holds — you roll, spreading your weight, laughing or sobbing, there is no difference at this temperature — and behind you Batu pulls up hard at the channel, armored, heavy, earthbound, watching two years of his pride skid across the ice of Joseon on her back like an otter.</p>
-  <p>He does not even curse. What he shouts across the black water, in Jurchen, is: <em>"Girl! Tell them a fair price was offered!"</em> — because men like Batu need the story to end with dignity, and you are generous, on this one day, and lift a hand: not a wave. A receipt.</p>`,
-  choices:()=>endingChoices()
-},
-e_snow:{
-  eyebrow:'Ending · 雪', crumb:'Ending',
-  title:'Snow on the Yalu',
-  text:`<p>You run for the black channel, and your body — loyal, cheated, carried past every reasonable limit — betrays you at the last stride. The old wound folds you sideways. The jump that needed everything gets almost everything, and almost, on grey ice over black water, is another word for the river.</p>
-  <p>The cold is not cruel. That surprises you. It is vast and dark and quiet, and the current beneath the ice runs — you can feel it — <em>toward home</em>, as it always has, since before Ming, before Jurchen, before borders. You stopped swimming somewhere. You do not remember when. Above you, through the grey glass of the ice, light moves like lantern-fire on a festival river.</p>
-  <p>They say, afterwards — the ferrymen and the garrison wives of Uiju say — that on some winter mornings a girl walks the Yalu ice from the Ming side, in the hour when the light comes up the water. She walks well, they say. Unhurried. Head high, silver in her hair. She reaches the Joseon bank as the sun clears the hills, and steps ashore, and is snow, and is home.</p>
-  <p class="whisper">Not every road ends where it should. Begin again, and bring her back a different way — stronger, wiser, or deeper of soul.</p>`,
-  choices:[{t:'Begin again.', to:'RESET'}]
-},
-e_tiger:{
-  eyebrow:'Ending · The Legend', crumb:'Ending',
-  title:'The Tiger of Liaodong',
-  text:`<p>You stand on the Joseon bank — one step from everything you have bled toward — and you find that you have turned around, and you are looking back across the ice at Liaodong, and you are thinking of a barred door you once lifted, and a ledger of names written between silk and abalone.</p>
-  <p>Peony. The kitchen boys. The old groom. Every soul purchased the way you were purchased, in neat columns, in a hundred houses like the house of Shen. You crossed the third water and were weighed, and this — this is what your side of the scale turns out to hold.</p>
-  <p>So the garrison records of Uiju note a woman who crossed <em>into</em> Joseon one winter morning and back out the same afternoon, provisioned, and the records say no more. But the border country says plenty, for years: of barred doors found open and slavers' ledgers found burned; of a boxer no post-station tough will bet against, a mourner no checkpoint questions, a rumor with a silver hairpin who moves bought people north along the mountain shrines the way spring moves — quietly, and then all at once, and always toward the river.</p>
-  <p>The Jurchen call her a spirit. The Ming call her a bandit. Stolen people, in the language of a small kingdom across the water, call her <span class="kr">호랑이 딸</span> — <em>the tiger's daughter</em> — and set out rice cakes on the first day of every month.</p>
-  <p>She is said to be home whenever she chooses to be. That is, perhaps, what free finally means.</p>`,
-  choices:[{t:'Begin again.', to:'RESET'}]
-},
-e_home:{
+a6_end:{
   eyebrow:'Epilogue', crumb:'Epilogue',
-  title:'The River Home',
-  text:()=>`<p>The Joseon bank takes your weight and you stand still on it for a long time, learning to believe in ground.</p>
-  <p>Uiju receives you the way border towns receive their miracles: with soup first and questions after. A garrison clerk finds your father's name in the rolls; an aunt you barely remember arrives at a dead run with her skirts gathered, wailing your name — your <em>name</em>, in your own tongue, in the open street, and no one anywhere is entitled to sell the woman it belongs to.</p>
-  ${S.flags.freed ? '<p>Word comes north with the spring merchants: that in Guangning, on a certain night of ghosts, a barred door was found open, and eleven bought people walked out of the house of Shen, and some were caught, but not all. Not all. You think of that door often — the small weight of the bar, the great weight of it — and you are never sorry.</p>' : ''}
-  ${S.flags.wen_blessing ? '<p>In autumn, a letter crosses the river through the ginseng traders, in a beautiful examination hand: <em>"To my student. The house is duller. The tea is worse. The Analects say the superior man does not, after all, stay where righteousness has left the building. Study daily. — Wen."</em> You write back in Korean letters and Chinese characters mixed, and imagine him complaining happily about your grammar for a week.</p>' : ''}
-  ${S.flags.ally_lian ? '<p>You dream of Lian sometimes — a girl at a moon gate, humming a Korean song about the moon and the rabbit under her breath where her mother cannot hear. May she grow curious and stubborn. The world needs its Lians.</p>' : ''}
-  <p>In spring you plant beans on your father's plot above the river, and hang your mother's memory a white lantern, and on the first day of every month — because your grandmother would expect it, and because debts travel — you set a spoonful of rice below the mountain shrine, for tigers, and for foxes, and for every trapped and stubborn soul still walking north.</p>
-  <p>The Yalu runs bright below the field. You are twenty-one years old. You are nobody's price.</p>
+  title:'Snow over Liaodong',
+  text:`<p>You stand on the ice between two countries. Behind you, a war, a general who calls you daughter in everything but blood, and a network with a hundred cages still to open. Ahead, woodsmoke and the graves of Uiju.</p>
+  <p>Jin comes to stand beside you — beside, always beside now — and looks where you're looking.</p>
+  <p>"We can come back across whenever you want," he says. In Korean. Getting better at it.</p>
+  <p>"I know," you say. "First I want to show you a ford upriver. Where my father fought seven men." You take his hand. "Then we go back to work. There are more cages."</p>
+  <p>Snow begins to fall on the river, on the ice, on both countries at once — falling, like you, on everything it loves without having to choose.</p>
   <p class="whisper">끝 — The End</p>`,
   choices:[{t:'Begin again.', to:'RESET'}]
 },
 
 RESET:{ enter(){ location.reload(); }, text:'', choices:[] },
-});
-
-/* after a victory on the ice, offer the crossing — or the legend */
-function endingChoices(){
-  const c = [{t:'Cross the last stretch of ice. Step onto the Joseon bank. Go home.', to:'e_home'}];
-  if(S.flags.freed){
-    c.push({t:'Reach the Joseon bank — and look back at Liaodong, at all the barred doors you left behind. <i>(A different destiny)</i>', to:'e_tiger'});
-  }
-  return c;
-}
-
+};
 /* boot handled by 3D engine */
 
 </script>
@@ -945,7 +604,7 @@ function reqLabel(req){
 }
 
 /* ---------------- overlay narrative renderer ---------------- */
-const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5};
+const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6};
 let overlayOpen=false, openedGate=null, selChoice=-1;
 
 function openOverlay(){ overlayOpen=true; $('overlay').classList.add('open'); }
@@ -988,6 +647,14 @@ function subtitle(text, ms){
 
 function go(id){
   if(id==='RESET'){ location.reload(); return; }
+  if(typeof id==='string' && id.indexOf('WAVE:')===0){
+    const next=id.slice(5);
+    if(overlayOpen) closeOverlay();
+    const ids = (world && world.L.spawnWave) ? world.L.spawnWave() : [];
+    world.L.wave = {next, ids};
+    $('objtxt').textContent='Fight!';
+    return;
+  }
   S.scene=id;
   const lvl = LEVEL_CARDS[id];
   if(lvl && lvl!==curLevel){
@@ -995,7 +662,7 @@ function go(id){
     loadLevel(lvl); startCine(()=>{ renderScene(id); openOverlay(); }); return;
   }
   if(overlayOpen){
-    const g = world && world.gates.find(g=>g.entry===id && !g.done);
+    const g = world && world.gates.find(g=>g.entry && g.entry===id && !g.done);
     if((g && g!==openedGate) || (world && world.closeScenes.includes(id))){ closeOverlay(); return; }
   }
   renderScene(id); openOverlay();
@@ -1003,11 +670,12 @@ function go(id){
 /* ---------------- Higgsfield chapter art (online: shows; offline: hides) ---------------- */
 const ART={
   p1: 'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
-  ch1:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041703_8565b960-1c4b-486e-b208-4251b8e68431.png',
+  ch1:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
   ch2:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150536_b7447fed-2742-4f43-83e6-3e5e7dc0a53d.png',
-  ch3:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150708_c22b34e0-f1a9-4d6f-872c-f55da26ad822.png',
-  ch4:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
-  ch5:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151218_eb6661c5-99a3-4fe7-b2c1-6e89187d2059.png',
+  ch3:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041703_8565b960-1c4b-486e-b208-4251b8e68431.png',
+  ch4:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150708_c22b34e0-f1a9-4d6f-872c-f55da26ad822.png',
+  ch5:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
+  ch6:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151218_eb6661c5-99a3-4fe7-b2c1-6e89187d2059.png',
 };
 function renderScene(id){
   const sc = SCENES[id]; if(!sc){ console.warn('missing scene',id); return; }
@@ -1335,31 +1003,94 @@ function lights(hemiSky,hemiGnd,hemiI,dirC,dirI,dx,dy,dz){
 }
 
 const LEVELS = {
-/* ---------- 1 · Shen Mansion (frosted morning) ---------- */
-1:{ name:'Chapter One · The House of Shen', spawn:[0,10],
+/* ---------- 1 · Uiju, Joseon (bright winter morning) ---------- */
+1:{ name:'Uiju, Joseon \u00b7 Age 11', spawn:[0,14],
+  build(){
+    sky('#c3cddd','#ccd5e2',18,80);
+    lights('#e8eef8','#8a8272',.9,'#fff2dd',.8,20,30,10);
+    ground(44,44,'#eef1f6',0);
+    // hanok farmhouses
+    building(-12,-10,8,5,2.8,MATS.wallDay,MATS.roof,{door:true});
+    building(-1,-13,7,5,2.6,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
+    building(10,-9,7,5,2.7,MATS.wallDay,MATS.roof,{door:true});
+    // millet field rows (south)
+    for(let i=0;i<36;i++){ const m=new THREE.Mesh(new THREE.ConeGeometry(.16,1.1,5),mat('#8a815e'));
+      m.position.set(-16+(i%12)*3, .55, 6+Math.floor(i/12)*3); world.group.add(m); }
+    // archery range (west): straw target
+    box(.4,1.6,1.6,'#c9b47e',-16,1,0,{solid:true});
+    box(.12,.5,.5,'#b4372a',-15.7,1.2,0,{});
+    // frozen river along the north edge
+    box(44,.1,7,'#a8c4d4',0,.04,-19,{});
+    world.solids.push({x1:-22,z1:-22.5,x2:22,z2:-15.5,top:3});
+    tree(-18,-14,1.1); tree(17,-15,1.2); tree(-19,10,1); tree(19,12,1.1);
+    mkSnow(500);
+  },
+  gates:[
+    {entry:'a1_drill', title:'Morning Drill', pos:[-14.5,2], avail:()=>true, fx(){ bump('mu',1); }},
+    {entry:'a1_raidgo', title:'Smoke on the Wind', pos:[0,-14.5], avail(){return this._p.done}},
+  ],
+  wave(){ return [ mkGuard(P.pos.x+4,P.pos.z+2,{hp:30,dmg:8,speed:3,aggro:60}),
+                   mkGuard(P.pos.x-4,P.pos.z+3,{hp:30,dmg:8,speed:2.8,aggro:60}) ]; }
+},
+
+/* ---------- 2 · Guangning slave market (grey morning) ---------- */
+2:{ name:'Guangning \u00b7 The Market of Old Kang', spawn:[0,24],
+  build(){
+    sky('#9aa3b4','#a5adbd',14,70);
+    lights('#c8d0de','#5a5347',.75,'#e8e2d2',.55,-14,26,8);
+    ground(34,60,'#8e94a2',0);
+    for(let i=0;i<5;i++){
+      building(-12,-22+i*11,7,6,3+(i%2)*0.7,MATS.wallDay,MATS.roof,{door:true,lantern:i<2,light:i===0});
+      if(i%2===0) building(11,-24+i*12,6,5,3.2,MATS.wallDay,MATS.roof,{door:true});
+    }
+    // slave cages: iron-dark boxes with bar posts
+    function cage(x,z){ box(3,2,3,'#2c2a26',x,1,z,{solid:true});
+      for(let i=0;i<4;i++) box(.12,2.2,.12,'#171412',x-1.4+i*.93,1.1,z+1.55,{}); }
+    cage(4,6); cage(4,-2); cage(-4,-8);
+    // auction block
+    box(4,.7,3,'#6e5a3a',0,.35,14,{solid:true,plat:true});
+    // market stalls
+    box(3,1.8,1.4,'#7a4a3a',-8,.9,16,{solid:true}); box(3,1.8,1.4,'#4a5a7a',8,.9,18,{solid:true});
+    wallRun(-17,-30,17,-30,5,'#5b5f6e');
+    tree(-16,14,1); tree(-16,-8,1.1);
+    // Kang's handlers — hostile from the start
+    mkGuard(2,10,{hp:35,dmg:9,aggro:9});
+    mkGuard(-3,2,{hp:35,dmg:9,aggro:9});
+    mkSnow(300);
+  },
+  closeScenes:['a2_close1'],
+  gates:[
+    {entry:'a2_break', title:'The Careless Knot', pos:[0,14.8], y:.7, avail:()=>true},
+    {entry:null, quick:'The lock gives. They scatter into the crowd like sparrows.', title:'Open the Cage', pos:[4,7.8], tag:'cage',
+      avail(){ return world.gates[0].done; }},
+    {entry:null, quick:'You strike the chain twice. An old man grips your hands and says a blessing you half-remember.', title:'Open the Cage', pos:[4,-.2], tag:'cage',
+      avail(){ return world.gates[0].done; }},
+    {entry:null, quick:'A girl your age runs without looking back. Good.', title:'Open the Cage', pos:[-4,-6.2], tag:'cage',
+      avail(){ return world.gates[0].done; }},
+    {entry:'a2_kang', title:'Old Kang', pos:[0,-14],
+      avail(){ return world.gates.filter(g=>g.tag==='cage'&&g.done).length>=3; }},
+  ]
+},
+
+/* ---------- 3 · House of Zhao (the five years) ---------- */
+3:{ name:'The House of Zhao \u00b7 Five Winters', spawn:[0,10],
   build(){
     sky('#b9c4d6','#c3cddd',18,80);
     lights('#dfe8f5','#8a8272',.85,'#fff2dd',.85,20,30,10);
     ground(46,46,'#e9edf4',0);
-    // perimeter
     wallRun(-21,-21,21,-21,2.6); wallRun(-21,21,21,21,2.6);
     wallRun(-21,-21,-21,21,2.6); wallRun(21,-21,21,21,2.6);
-    // dividing walls with moon gates: three courts west→east
     wallRun(-7,-21,-7,-2,2.4); wallRun(-7,2,-7,21,2.4); moonGate(-7,0,Math.PI/2);
     wallRun(7,-21,7,-2,2.4);  wallRun(7,2,7,21,2.4);  moonGate(7,0,Math.PI/2);
-    // buildings
-    building(-14,-16,9,5,3,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true}); // servants
+    building(-14,-16,9,5,3,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
     building(-14,16,8,5,3,MATS.wallDay,MATS.roof,{door:true});
-    building(0,-16,10,6,3.6,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true}); // study hall
+    building(0,-16,10,6,3.6,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
     building(0,16,10,6,3.6,MATS.wallDay,MATS.roof,{door:true});
     building(14,-16,9,5,3.2,MATS.wallDay,MATS.roof,{door:true});
-    building(14,16,9,5,3.2,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true}); // master hall
-    // koi pond, centre court
+    building(14,16,9,5,3.2,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
     box(6,.1,4,'#a8c4d4',0,.06,6,{});
     box(6.6,.3,.4,'#8f8266',0,.15,3.9,{}); box(6.6,.3,.4,'#8f8266',0,.15,8.1,{});
     box(.4,.3,4.6,'#8f8266',-3.3,.15,6,{}); box(.4,.3,4.6,'#8f8266',3.3,.15,6,{});
-    // laundry stones west court
-    box(1.4,.5,1,'#b9bfc9',-14,.25,4,{solid:true}); box(1.2,.4,.9,'#aab0bb',-12.4,.2,4.6,{solid:true});
     tree(-17,0,1.1); tree(17,6,1.2); tree(3,-8,.9); tree(-3,12,1);
     for(let i=0;i<3;i++) lantern(-7+.01, 2.2, -4+i*4);
     mkGuard(-16,-6,{dummy:true,hp:60});
@@ -1367,115 +1098,63 @@ const LEVELS = {
     mkSnow(700);
   },
   gates:[
-    {entry:'c1a', title:'The Young Miss', pos:[-13.2,4.8], avail:()=>true},
-    {entry:'c1b', title:'The Old Scholar', pos:[0,-11.5], avail(){return this._p.done}, },
-    {entry:'c1c', title:'The Silver Comb', pos:[14,10], avail(){return this._p.done}},
-    {entry:'c1d', title:'What the Night Carries', pos:[14,-11], avail(){return this._p.done}},
-  ]},
+    {entry:'a3_go',   title:'Year One \u00b7 Lady Mingzhu', pos:[0,17.5], avail:()=>true},
+    {entry:'a3_y2',   title:'Year Two \u00b7 The Yard', pos:[-14,-4], avail(){return this._p.done}, fx(){ bump('mu',2); }},
+    {entry:'a3_y3',   title:'Year Three \u00b7 The Son Who Dances', pos:[0,4], avail(){return this._p.done}, fx(){ bump('ji',1); }},
+    {entry:'a3_y4',   title:'Year Four \u00b7 What You Know', pos:[14,-13.5], avail(){return this._p.done}, fx(){ bump('ji',1); }},
+    {entry:'a3_dance',title:'Year Five \u00b7 The Pond, Evenings', pos:[0,8.5], avail(){return this._p.done}, fx(){ bump('hon',2); }},
+    {entry:'a3_fall', title:'A Market Morning', pos:[0,-13], avail(){return this._p.done}},
+    {entry:'a3_window',title:'A Grey Dawn', pos:[-14,13.5], avail(){return this._p.done}},
+    {entry:'a3_vow',  title:'The General\u2019s Question', pos:[14,13.5], avail(){return this._p.done}, fx(){ bump('mu',1); bump('hon',1); }},
+  ]
+},
 
-/* ---------- 2 · Ghost Festival (lantern night) ---------- */
-2:{ name:'Chapter Two · The Ghost Festival', spawn:[0,24],
-  build(){
-    sky('#0d0f1a','#131426',14,70);
-    lights('#3a4468','#1c1712',.5,'#93a4d8',.35,-14,26,8);
-    ground(34,60,'#3d4356',0);                              // street runs N-S
-    // river east
-    const riv=box(14,.1,60,'#0a1622',24,.02,0,{}); 
-    world.plats.push({x1:17,z1:-30,x2:31,z2:30,y:0});        // walkable? no—block:
-    world.solids.push({x1:17,z1:-30,x2:31,z2:30,top:3});     // river = impassable
-    // docks jutting into river
-    box(10,.4,5,'#4a3b2c',19,.2,10,{plat:true});
-    world.solids.pop&&0;
-    // buildings west side + east bank shops
-    for(let i=0;i<5;i++){
-      building(-12,-22+i*11,7,6,3+(i%2)*0.7,MATS.wallNight,MATS.roofNight,{door:true,lantern:true,light:i<2});
-      if(i%2===0) building(11,-24+i*12,6,5,3.2,MATS.wallNight,MATS.roofNight,{door:true,lantern:true,light:i===2});
-    }
-    // temple, north-west corner
-    building(-11,-27,8,7,4.2,'#5a3535','#2a1c1c',{door:true,lantern:true});
-    box(1.6,3.4,.3,'#7e2a1f',-11,1.7,-23.2,{solid:true});    // temple pillars
-    // city wall far north with gate tower
-    wallRun(-17,-30,17,-30,5,'#5b5f6e');
-    building(0,-30,6,4,6,'#5b5f6e','#2a2d38',{});
-    // lantern strings across the street
-    for(let z=-24;z<=24;z+=6){ lantern(-6,3,z,z%12===0); lantern(0,3.4,z+3); lantern(6,3,z); }
-    // floating lotus lanterns on the river (drift)
-    const lotus=[];
-    for(let i=0;i<16;i++){
-      const l=lantern(20+Math.random()*8,.25,-26+Math.random()*52); lotus.push(l);
-    }
-    world.dynamic.push(dt=>{ lotus.forEach((l,i)=>{ l.position.z+=dt*.6; l.position.x+=Math.sin(clock.elapsedTime*.7+i)*.003; if(l.position.z>29)l.position.z=-29; }); });
-    tree(-16,14,1); tree(-16,-8,1.1);
-    mkSnow(500);
-  },
-  closeScenes:['c2hub'],
-  gates:[
-    {entry:'c2hub_r1', title:'Float a Lantern', pos:[17.5,17], tag:'errand', avail(){return true},
-      fx(){ S.flags.did_lantern=true; bump('hon',1); }},
-    {entry:'c2hub_r2', title:'Walk the Wall', pos:[0,-26.5], tag:'errand', avail(){return true},
-      fx(){ S.flags.did_gates=true; bump('ji',1); }},
-    {entry:'c2hub_r3', title:'The Porters\u2019 Wager', pos:[19,8], tag:'errand', req:{stat:'mu',val:3}, avail(){return true},
-      fx(){ S.flags.did_porters=true; bump('mu',1); addItem('Silver taels'); }},
-    {entry:'c2b', title:'The Charm Seller', pos:[-10,-20],
-      avail(){ return world.gates.filter(g=>g.tag==='errand'&&g.done).length>=1; }},
-    {entry:'c2c', title:'Papers', pos:[-12,2], avail(){return this._p.done}},
-    {entry:'c2d', title:'Return over the Wall', pos:[0,27], avail(){return this._p.done}},
-  ]},
-
-/* ---------- 3 · Rooftop Escape (deep night) ---------- */
-3:{ name:'Chapter Three · The Night of Knives', spawn:[-16,16],
+/* ---------- 4 · The masked mission (rooftops, deep night) ---------- */
+4:{ name:'Years Later \u00b7 The Compound', spawn:[-16,16],
   build(){
     sky('#0a0d18','#0e1120',12,64);
     lights('#2c3760','#141210',.45,'#a9bce8',.5,-20,30,-10);
     ground(56,56,'#2e3342',0);
-    // roof network: buildings with jumpable gaps, ascending NE
     const B=[[-10,10,6,6,2.6],[-3,9,5,5,3.1],[3.5,6,6,5,3.5],[9,2,5,6,3.8],[13,-4,6,5,4.2],
              [8,-10,5,5,3.4],[1,-8,6,5,3],[-6,-4,5,6,2.7],[-12,-10,6,5,3.2],[15,-12,5,5,4.6],
              [-1,0,4,4,2.2],[6,-2,4,4,2.9]];
     B.forEach(b=>building(b[0],b[1],b[2],b[3],b[4],MATS.wallNight,MATS.roofNight,{lantern:Math.random()<.4}));
-    // stairs back up from courtyard (SW corner near spawn)
     for(let i=0;i<5;i++) box(2.4,.5,1.1,'#4a4636',-13.5,.25+i*.5,13.4-i*1.1,{solid:true,plat:true});
-    // kitchen court west: stove, jars
-    box(2,1,1.6,'#5a4636',-17,.5,-2,{solid:true}); box(.8,1,.8,'#6e5a3a',-15.6,.5,-1,{solid:true});
-    // main gate south
     wallRun(-8,20,8,20,3.4,'#5b5f6e'); building(0,20,4,3,4.4,'#5b5f6e','#2a2d38',{});
-    // north city wall + fields beyond
     wallRun(-28,-20,28,-20,5,'#565a68');
-    box(56,.2,14,'#39413a',0,-.02,-28,{});                   // millet fields (dark green)
-    for(let i=0;i<40;i++){ const m=new THREE.Mesh(new THREE.ConeGeometry(.16,1.2,5),mat('#4a5a40'));
-      m.position.set(-26+Math.random()*52,.6,-34+Math.random()*11); world.group.add(m); }
-    world.plats.push({x1:-28,z1:-35,x2:28,z2:-21,y:0});
-    // drain passage through wall (gap colliders leave opening at x=10)
+    // holding cages inside the compound
+    box(3,2,3,'#2c2a26',-6,1,-14,{solid:true});
+    box(3,2,3,'#2c2a26',14,1,6,{solid:true});
     tree(-20,6,1); lantern(0,4.6,20,true);
-    mkGuard(4,14,{hp:40,dmg:10,aggro:8,patrol:[[4,14],[-4,14],[-4,8],[4,8]]});
-    mkGuard(-9,-14,{hp:40,dmg:10,aggro:8,patrol:[[-9,-14],[6,-14]]});
+    mkGuard(4,14,{hp:45,dmg:11,aggro:8,patrol:[[4,14],[-4,14],[-4,8],[4,8]]});
+    mkGuard(-9,-14,{hp:45,dmg:11,aggro:8,patrol:[[-9,-14],[6,-14]]});
     mkGuard(17,4,{hp:55,dmg:12,aggro:9,speed:3});
     mkSnow(900);
   },
-  closeScenes:['c3a'],
+  closeScenes:['a4_go','a4_close'],
   gates:[
-    {entry:'c3a0', title:'The Servants\u2019 Door', pos:[-16,10], avail:()=>true},
-    {entry:'c3a_roof', title:'The Roofs', pos:[13,-4], y:4.3, tag:'route', req:{stat:'mu',val:5},
-      avail(){return world.gates[0].done && !world.L.route}, fx(){bump('mu',1);}},
-    {entry:'c3a_kitchen', title:'The Kitchen Gate', pos:[-16.5,-1], tag:'route', req:{stat:'ji',val:5},
-      avail(){return world.gates[0].done && !world.L.route}, fx(){bump('ji',1);}},
-    {entry:'c3a_ghost', title:'The Main Gate, Veiled', pos:[0,18], tag:'route', req:{stat:'hon',val:5},
-      avail(){return world.gates[0].done && !world.L.route}, fx(){bump('hon',1);}},
-    {entry:'c3a_cart', title:'The Night-soil Cart', pos:[-6,18.5], tag:'route',
-      avail(){return world.gates[0].done && !world.L.route}, fx(){S.flags.slow=true;}},
-    {entry:'c3b', title:'The City Wall', pos:[0,-17.5], avail(){return !!world.L.route}},
-    {entry:'c3c', title:'The Millet Fields', pos:[0,-28], avail(){return this._p.done}},
-  ]},
+    {entry:'a4_clash', title:'The Other Crew', pos:[13,-4], y:4.3,
+      avail(){ return world.enemies.filter(e=>!e.dummy&&e.hp<=0).length>=1; }},
+    {entry:'a4_team', title:'Split the Compound', pos:[0,-2], avail(){return this._p.done}},
+    {entry:null, quick:'Empty. Straw and a cold chain. Something is wrong.', title:'The West Cage', pos:[-6,-11.8], tag:'c4cage',
+      avail(){ return world.gates[1].done; }},
+    {entry:null, quick:'Also empty. Very wrong.', title:'The East Cage', pos:[14,8.2], tag:'c4cage',
+      avail(){ return world.gates[1].done; }},
+    {entry:'a4_ambushcut', title:'The Gates Close', pos:[0,18],
+      avail(){ return world.gates.filter(g=>g.tag==='c4cage'&&g.done).length>=2; }},
+  ],
+  wave(){ const w=[]; const spots=[[5,12],[-5,12],[8,-6],[-8,-4],[0,-12]];
+    spots.forEach(s=>w.push(mkGuard(s[0],s[1],{hp:45,dmg:11,speed:3.1,aggro:60})));
+    return w; }
+},
 
-/* ---------- 4 · Mountain Shrine (misty pines) ---------- */
-4:{ name:'Chapter Four · The Road of a Thousand Li', spawn:[0,24],
+/* ---------- 5 · The lake (bright noon, mountain mirror) ---------- */
+5:{ name:'The Next Day \u00b7 The Lake', spawn:[0,22],
   build(){
-    sky('#8b95a8','#98a2b4',10,52);
-    lights('#c8d2e2','#5a5e52',.8,'#e8eef8',.5,10,24,14);
-    // ascending terraces (south → north climb)
-    const T=[[0,20,26,12,0],[0,9,22,11,1.2],[0,-1,20,10,2.4],[0,-10,17,9,3.6],[0,-18,14,8,4.8],[0,-25,11,7,6]];
+    sky('#8b95a8','#98a2b4',10,60);
+    lights('#c8d2e2','#5a5e52',.85,'#e8eef8',.6,10,24,14);
+    const T=[[0,20,26,12,0],[0,9,22,11,1.2],[0,-1,20,10,2.4],[0,-10,17,9,3.6]];
     T.forEach(t=>box(t[2],Math.max(t[4],.3)+.3,t[3],'#e6ebf2',t[0],(t[4]-.15),t[1],{plat:true}));
-    // stepping stones between terraces
     T.slice(0,-1).forEach((t,i)=>{
       const n=T[i+1], steps=3;
       for(let s=1;s<=steps;s++){
@@ -1483,56 +1162,65 @@ const LEVELS = {
         box(2.6,.4,1.4,'#c9cfd8',(i%2?3:-3),y,z,{solid:true,plat:true});
       }
     });
-    // shrine at the summit
-    building(0,-25,5,4,2.8,'#7e2a1f',MATS.roof,{lantern:true,light:true});
-    box(.35,3,.35,'#8f3326',-2.4,1.5+6,-22,{solid:true}); box(.35,3,.35,'#8f3326',2.4,1.5+6,-22,{solid:true});
-    box(5.6,.4,.5,'#8f3326',0,3.1+6,-22,{});                // shrine gate beam
-    // pines everywhere
-    const spots=[[-9,16],[9,17],[-8,6],[8,7],[-7,-3],[7,-2],[-6,-12],[6,-11],[-4,-20],[4,-19],[-12,20],[12,21],[10,12],[-11,11]];
+    // the lake — a wide mirror at the top terrace's far side
+    box(26,.08,14,'#9fc6d8',0,3.62,-21,{});
+    world.solids.push({x1:-13,z1:-28,x2:13,z2:-14,top:6});
+    // camp at the base (her quarters): errand spots
+    building(-7,19,6,4,2.6,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
+    box(1.6,.6,1,'#6e5a3a',-2,.3,20,{solid:true});         // whetstone bench
+    box(1.4,.9,1,'#7a6a4a',3,.45,19,{solid:true});          // pack table
+    const spots=[[-9,12],[9,13],[-8,3],[8,4],[-7,-6],[7,-5],[-11,17],[11,18]];
     spots.forEach((p,i)=>tree(p[0],p[1],.9+((i*7)%5)*.14));
-    // stream, east edge
-    box(4,.1,44,'#7fa4b8',14,.03,2,{});
-    world.solids.push({x1:12,z1:-20,x2:16,z2:24,top:3});
-    // campfire at base
-    box(1,.3,1,'#3a2c20',-6,.15,21,{solid:true}); lantern(-6,.7,21,true);
-    mkSnow(650);
+    mkSnow(350);
   },
+  closeScenes:['a5_go'],
   gates:[
-    {entry:'c4a', title:'A Travelling Face', pos:[-6,19.5], avail:()=>true},
-    {entry:'c4b', title:'The Mountain Shrine', pos:[0,-23], y:6, avail(){return this._p.done}},
-    {entry:'c4c', title:'The Ferry Landing', pos:[11.5,10], avail(){return this._p.done}},
-    {entry:'c4d', title:'The North Road', pos:[0,-28.5], y:6, avail(){return this._p.done}},
-  ]},
+    {entry:null, quick:'You sharpen the blade. It was already sharp. You sharpen it anyway.', title:'The Whetstone', pos:[-2,21.2], tag:'busy', avail:()=>true},
+    {entry:null, quick:'Repack the bag. Unpack it. Repack it better. \u201cA riddle. A RIDDLE. Like I\u2019m twelve.\u201d', title:'The Pack', pos:[3,20.2], tag:'busy', avail:()=>true},
+    {entry:null, quick:'\u201cHe left ME.\u201d You win the argument. The empty yard concedes.', title:'Pace the Yard', pos:[-7,16.2], tag:'busy', avail:()=>true},
+    {entry:'a5_msg', title:'The Runner', pos:[0,13],
+      avail(){ return world.gates.filter(g=>g.tag==='busy'&&g.done).length>=3; }},
+    {entry:'a5_lake', title:'Where the Mountain Sees Itself', pos:[0,-12.5], y:3.6, avail(){return this._p.done}},
+  ]
+},
 
-/* ---------- 5 · The Frozen Yalu (dawn) ---------- */
-5:{ name:'Chapter Five · The Third Water', spawn:[0,26],
+/* ---------- 6 · The frozen Yalu (night, torches) ---------- */
+6:{ name:'The Frozen Yalu \u00b7 Night', spawn:[0,26],
   build(){
-    sky('#2a3350','#3a4260',16,90);
-    lights('#5a6a9a','#2c2a30',.6,'#f2b8a0',.7,-30,14,-40);   // low dawn sun
+    sky('#141a2e','#1c2338',16,90);
+    lights('#3a4a7a','#1c1a20',.55,'#e8b890',.5,-30,14,-40);
     ground(60,70,'#cfe0ea',0,MATS.ice);
-    // pressure ridges & cracks
     for(let i=0;i<14;i++){
       box(3+Math.random()*5,.28,.5,'#9fb8c8',-24+Math.random()*48,.14,-28+Math.random()*50,{ry:Math.random()*3});
     }
-    // black channel strip (impassable) at far north, beyond Batu
     box(60,.12,6,'#0a1420',0,.05,-24,{});
     world.solids.push({x1:-30,z1:-27,x2:30,z2:-21,top:3});
-    // Joseon bank beyond: snowy hills + watchtower smoke
     box(60,3,10,'#dfe7f0',0,1.5,-33,{});
-    box(2.5,5,2.5,'#4a4438',-8,2.5+3,-33,{}); lantern(-8,6.2+3,-32,true);
+    box(2.5,5,2.5,'#4a4438',-8,5.5,-33,{}); lantern(-8,9.2,-32,true);
     tree(6,-33,1.4); tree(11,-32,1.1); tree(-14,-33,1.2);
-    // south bank behind player: reeds & snow banks
     box(60,1.4,8,'#e6ebf2',0,.7,32,{solid:true});
-    for(let i=0;i<20;i++){ const r=new THREE.Mesh(new THREE.ConeGeometry(.1,1.4,4),mat('#8a815e'));
-      r.position.set(-28+Math.random()*56,.7,27+Math.random()*3); world.group.add(r); }
-    // Batu waits at the channel
-    world.L.batuBoss = mkGuard(0,-17,{boss:true,hostile:false,hp:170,dmg:16,speed:3.5,aggro:60});
+    // Kang's column: sledges + captive cages on the ice
+    box(4,1.2,2,'#4a3b2c',-8,.6,4,{solid:true});  box(4,1.2,2,'#4a3b2c',8,.6,-2,{solid:true});
+    box(3,2,3,'#2c2a26',-8,1,-4,{solid:true});     box(3,2,3,'#2c2a26',8,1,8,{solid:true});
+    for(let z=-8;z<=12;z+=5) lantern(0,2.2,z, z===2);
+    // escort riders (hostile)
+    mkGuard(-4,2,{hp:50,dmg:12,aggro:9});
+    mkGuard(5,-6,{hp:50,dmg:12,aggro:9});
+    mkGuard(0,12,{hp:50,dmg:12,aggro:8});
+    // Batu — passive until the confrontation
+    world.L.batuBoss = mkGuard(0,-16,{boss:true,hostile:false,hp:190,dmg:17,speed:3.6,aggro:60});
     world.L.batuBoss.bar.visible=false;
-    mkSnow(500);
+    mkSnow(600);
   },
+  closeScenes:['a6_go'],
   gates:[
-    {entry:'c5a', title:'Batu', pos:[0,-15], avail:()=>true},
-  ]},
+    {entry:null, quick:'The chain parts. Jin\u2019s dancers are already there, moving them west along the bank.', title:'Strike the Chains', pos:[-8,-2.2], tag:'c6cage', avail:()=>true},
+    {entry:null, quick:'\u201cWalk, don\u2019t run,\u201d you tell them in Korean. \u201cThe ice holds if you walk.\u201d', title:'Strike the Chains', pos:[8,9.8], tag:'c6cage', avail:()=>true},
+    {entry:'a6_batu', title:'The Man in Wolf-fur', pos:[0,-13.5],
+      avail(){ return world.gates.filter(g=>g.tag==='c6cage'&&g.done).length>=2; }},
+  ],
+  wave(){ const b=world.L.batuBoss; b.state='chase'; b.stateHome='chase'; b.bar.visible=true; return [b]; }
+},
 };
 
 /* gate availability plumbing: give each gate a reference to its predecessor */
@@ -1544,6 +1232,7 @@ function loadLevel(n){
   world.gates = L.gates.map(g=>Object.assign(Object.create(g), {done:false}));
   world.gates.forEach((g,i)=>{ g._p = world.gates[i-1]||{done:true}; mkGate(g); });
   world.closeScenes = L.closeScenes||[];
+  world.L.spawnWave = L.wave ? L.wave.bind(L) : null;
   P.pos.set(L.spawn[0], groundAt(L.spawn[0],L.spawn[1],50)+.02, L.spawn[1]);
   P.vy=0; P.safe.copy(P.pos); P.hp=P.maxhp; P.dead=0; if(typeof hpUI==='function')hpUI();
   $('chapname').textContent = L.name;
@@ -1752,6 +1441,13 @@ function tickEnemies(dt){
         if(e.boss&&e.hp<e.max){ e.hp=e.max; drawBar(e.bar,1);} } }
   }
   if(P.iframes>0)P.iframes-=dt;
+  if(world.L.wave){
+    const w=world.L.wave;
+    if(w.ids.every(e=>e.hp<=0)){
+      world.L.wave=null;
+      setTimeout(()=>go(w.next), 800);
+    }
+  }
 }
 function playerCombat(dt, atk, heavy, dodge, mv){
   P.atkCd-=dt; P.dodgeCd-=dt;
@@ -1914,10 +1610,11 @@ requestAnimationFrame(frame);
 
 /* ---------------- codes / boot ---------------- */
 const CODES={
-  'LANTERN':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:['Mother\u2019s binyeo'],flags:{}}); startAt(2);},
-  'ROOFTOP':()=>{Object.assign(S,{mu:4,ji:4,hon:4,items:['Mother\u2019s binyeo','Travel papers'],flags:{}}); startAt(3);},
-  'MOUNTAIN':()=>{Object.assign(S,{mu:5,ji:5,hon:5,items:['Mother\u2019s binyeo','Travel papers'],flags:{}}); startAt(4);},
-  'RIVER':()=>{Object.assign(S,{mu:6,ji:6,hon:6,items:['Mother\u2019s binyeo','Travel papers','Tiger amulet'],flags:{}}); startAt(5);},
+  'MARKET':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(2);},
+  'ESTATE':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(3);},
+  'MASKED':()=>{Object.assign(S,{mu:6,ji:5,hon:5,items:[],flags:{}}); startAt(4);},
+  'LAKE':()=>{Object.assign(S,{mu:6,ji:5,hon:6,items:[],flags:{}}); startAt(5);},
+  'RIVER':()=>{Object.assign(S,{mu:7,ji:6,hon:6,items:[],flags:{}}); startAt(6);},
 };
 function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
