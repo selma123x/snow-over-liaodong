@@ -249,13 +249,13 @@ ch1:{
   chapter:true, mark:'一', crumb:'Uiju · Joseon', code:null,
   eyebrow:'Uiju, Joseon · Winter · Age 11',
   title:'The Archer\u2019s Daughter',
-  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you the bow — dawn after dawn, until the string sings for you.</p>`,
+  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you the bow — dawn after dawn — and the short knife at dusk, the way a border soldier learns to kill up close when the arrows run out.</p>`,
   choices:[{t:'Morning drill.', to:'a1_drill'}]
 },
 a1_drill:{
   eyebrow:'Uiju · The Last Morning', crumb:'Uiju',
   title:'His Lessons',
-  text:`<p>"Again," he says, and you draw the bow again. The bow is his whole inheritance and he gives it gladly. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
+  text:`<p>"Again," he says, and you draw the bow again. Then the knife, close and low. He gives you both, gladly — the far kill and the near one. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
   choices:[{t:'Again.', to:'a1_raidgo'}]
 },
 a1_raidgo:{
@@ -326,7 +326,7 @@ a3_go:{
 a3_y2:{
   eyebrow:'House of Zhao · Year Two', crumb:'House of Zhao',
   title:'The General\u2019s Yard',
-  text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat — the first blade anyone has ever taught you. Your father gave you the bow; the general gives you steel.</p>
+  text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat. Your father gave you a soldier’s knife; the general means to give you a swordsman’s forms.</p>
   <p class="whisper">He drills you like a soldier, not a ward. Praise is a nod. You would kill for the nod. Train in the yard — the standing men of straw are yours.</p>`,
   choices:[{t:'Year three.', to:'a3_y3'}]
 },
@@ -1234,7 +1234,7 @@ function loadLevel(n){
   world.L.spawnWave = L.wave ? L.wave.bind(L) : null;
   P.pos.set(L.spawn[0], groundAt(L.spawn[0],L.spawn[1],50)+.02, L.spawn[1]);
   P.vy=0; P.safe.copy(P.pos); P.hp=P.maxhp; P.dead=0; if(typeof hpUI==='function')hpUI();
-  setWeapon(S.flags.trained?'Zhao Steel':'Father\u2019s Bow');
+  setWeapon(S.flags.trained?'Zhao Steel':'Knife \u0026 Bow');
   $('chapname').textContent = L.name;
   updateObjective();
 }
@@ -1326,7 +1326,14 @@ function hpUI(){ $('hpfill').style.width=Math.max(0,P.hp/P.maxhp*100)+'%'; }
 function updateCds(){
   for(let i=0;i<4;i++){
     const el=$('cd'+(i+1)); if(!el)continue;
+    // ④ ult needs the dance; ① dash needs training
     if(i===3 && !S.flags.dance){ el.textContent='4'; el.className='cd locked'; continue; }
+    if(i===0 && !S.flags.trained){ el.textContent='1'; el.className='cd locked'; continue; }
+    if(!S.flags.trained && (i===1||i===2)){                 // bow + throw available early
+      if(SK.cd[i]>0){ el.textContent=Math.ceil(SK.cd[i]); el.className='cd cool'; }
+      else { el.textContent=(i+1); el.className='cd ready'; }
+      continue;
+    }
     if(!S.flags.trained){ el.textContent=(i+1); el.className='cd locked'; continue; }
     if(SK.cd[i]>0){ el.textContent=Math.ceil(SK.cd[i]); el.className='cd cool'; }
     else { el.textContent=(i+1); el.className='cd ready'; }
@@ -1512,11 +1519,15 @@ function playerCombat(dt, k, dodge, mv){
     updateCds(); return;
   }
   if(!S.flags.trained){
-    if(k.basic && P.atkCd<=0){ P.atkCd=.55;
+    // Untrained kit: X = melee (her father's knife), ② = the bow.
+    if(k.basic && P.atkCd<=0){ P.atkCd=.42;
+      ANIM.atk=.3; ANIM.atkDur=.3; ANIM.heavy=false;
+      hitEnemies(1.8,1.1,11,.5,.35); }
+    if(k.s2 && SK.cd[1]<=0){ SK.cd[1]=SK.max[1];
       ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false; bowShot(); }
-    if(k.s3 && P.atkCd<=0){ P.atkCd=.7;
-      ANIM.atk=.45; ANIM.atkDur=.45; ANIM.heavy=true;
-      hitEnemies(1.6,1.2,9,1.0,.5); }
+    if(k.s3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];
+      ANIM.atk=.5; ANIM.atkDur=.5; ANIM.heavy=true;
+      hitEnemies(1.7,1.2,20,1.4,.9); }                 // early throw/shove, weaker than trained
     updateCds(); return;
   }
   if(k.basic && P.atkCd<=0){ P.atkCd=.38;
