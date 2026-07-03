@@ -203,7 +203,7 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
     <h1>SNOW OVER LIAODONG</h1>
     <div class="sub">a road home · in three waters</div>
     <button id="startBtn" type="button">Begin the Journey</button>
-    <div class="hint">Controller: left stick move · right stick camera · A jump · X strike · Y throw · B roll<br>
+    <div class="hint">Controller: left stick move · right stick camera · A jump · X shoot/strike · Y shove/throw · B roll<br>
     Touch: left pad move · right drag camera · STRIKE / ROLL / JUMP buttons</div>
     <div class="codeline" id="titleCode">I have a chapter code</div>
   </div>
@@ -247,13 +247,13 @@ ch1:{
   chapter:true, mark:'一', crumb:'Uiju · Joseon', code:null,
   eyebrow:'Uiju, Joseon · Winter · Age 11',
   title:'The Archer\u2019s Daughter',
-  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you everything.</p>`,
+  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you the bow — dawn after dawn, until the string sings for you.</p>`,
   choices:[{t:'Morning drill.', to:'a1_drill'}]
 },
 a1_drill:{
   eyebrow:'Uiju · The Last Morning', crumb:'Uiju',
   title:'His Lessons',
-  text:`<p>"Again," he says, and you draw the bow again. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
+  text:`<p>"Again," he says, and you draw the bow again. The bow is his whole inheritance and he gives it gladly. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
   choices:[{t:'Again.', to:'a1_raidgo'}]
 },
 a1_raidgo:{
@@ -324,7 +324,7 @@ a3_go:{
 a3_y2:{
   eyebrow:'House of Zhao · Year Two', crumb:'House of Zhao',
   title:'The General\u2019s Yard',
-  text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat.</p>
+  text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat — the first blade anyone has ever taught you. Your father gave you the bow; the general gives you steel.</p>
   <p class="whisper">He drills you like a soldier, not a ward. Praise is a nod. You would kill for the nod. Train in the yard — the standing men of straw are yours.</p>`,
   choices:[{t:'Year three.', to:'a3_y3'}]
 },
@@ -1099,7 +1099,7 @@ const LEVELS = {
   },
   gates:[
     {entry:'a3_go',   title:'Year One \u00b7 Lady Mingzhu', pos:[0,17.5], avail:()=>true},
-    {entry:'a3_y2',   title:'Year Two \u00b7 The Yard', pos:[-14,-4], avail(){return this._p.done}, fx(){ bump('mu',2); }},
+    {entry:'a3_y2',   title:'Year Two \u00b7 The Yard', pos:[-14,-4], avail(){return this._p.done}, fx(){ bump('mu',2); S.flags.trained=true; subtitle('Steel, at last. The strike and the throw are yours now.'); }},
     {entry:'a3_y3',   title:'Year Three \u00b7 The Son Who Dances', pos:[0,4], avail(){return this._p.done}, fx(){ bump('ji',1); }},
     {entry:'a3_y4',   title:'Year Four \u00b7 What You Know', pos:[14,-13.5], avail(){return this._p.done}, fx(){ bump('ji',1); }},
     {entry:'a3_dance',title:'Year Five \u00b7 The Pond, Evenings', pos:[0,8.5], avail(){return this._p.done}, fx(){ bump('hon',2); }},
@@ -1449,6 +1449,34 @@ function tickEnemies(dt){
     }
   }
 }
+function bowShot(){
+  const mult=1+(S.mu-2)*.08;
+  let best=null,bd=13;
+  for(const en of world.enemies){
+    if(en.hp<=0||en.state==='passive')continue;
+    const dx=en.grp.position.x-P.pos.x, dz=en.grp.position.z-P.pos.z, d=Math.hypot(dx,dz);
+    if(d>13)continue;
+    const a=Math.atan2(dx,dz), diff=Math.abs(((a-P.yaw+Math.PI*3)%(Math.PI*2))-Math.PI);
+    if(diff>.55)continue;
+    if(d<bd){bd=d;best=en;}
+  }
+  // arrow visual flies whether or not it hits
+  const ar=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.7,4), mat('#caa870'));
+  ar.rotation.x=Math.PI/2; ar.rotation.y=P.yaw;
+  ar.position.set(P.pos.x,P.pos.y+1.2,P.pos.z);
+  world.group.add(ar);
+  const dir={x:Math.sin(P.yaw),z:Math.cos(P.yaw)}, tgt=best, born=clock.elapsedTime;
+  world.dynamic.push(function fly(dt){
+    ar.position.x+=dir.x*26*dt; ar.position.z+=dir.z*26*dt;
+    if(clock.elapsedTime-born>.7){ ar.visible=false; }
+  });
+  if(best){
+    best.hp-=Math.round(15*mult);
+    drawBar(best.bar,best.hp/best.max);
+    if(!best.dummy){best.state='stagger';best.t=.3;}
+    if(best.hp<=0){best.state='dead';best.t=1.2;if(!best.dummy&&!best.boss){P.hp=Math.min(P.maxhp,P.hp+12);hpUI();}}
+  }
+}
 function playerCombat(dt, atk, heavy, dodge, mv){
   P.atkCd-=dt; P.dodgeCd-=dt;
   if(dodge && P.dodgeCd<=0 && P.grounded){
@@ -1463,6 +1491,15 @@ function playerCombat(dt, atk, heavy, dodge, mv){
     if(!blocked(P.pos.x,P.pos.z+dz,P.pos.y))P.pos.z+=dz;
   }
   const mult=1+(S.mu-2)*.08;
+  if(!S.flags.trained){
+    if(atk && P.atkCd<=0){ P.atkCd=.55;
+      ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false;
+      bowShot(); }
+    if(heavy && P.atkCd<=0){ P.atkCd=.7;
+      ANIM.atk=.45; ANIM.atkDur=.45; ANIM.heavy=true;
+      hitEnemies(1.6,1.2,Math.round(9*mult),1.0,.5); }
+    return;
+  }
   if(atk && P.atkCd<=0){ P.atkCd=.38;
     ANIM.atk=.3; ANIM.atkDur=.3; ANIM.heavy=false;
     hitEnemies(1.9,1.1,Math.round(12*mult),.5,.35); }
@@ -1612,9 +1649,9 @@ requestAnimationFrame(frame);
 const CODES={
   'MARKET':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(2);},
   'ESTATE':()=>{Object.assign(S,{mu:3,ji:3,hon:3,items:[],flags:{}}); startAt(3);},
-  'MASKED':()=>{Object.assign(S,{mu:6,ji:5,hon:5,items:[],flags:{}}); startAt(4);},
-  'LAKE':()=>{Object.assign(S,{mu:6,ji:5,hon:6,items:[],flags:{}}); startAt(5);},
-  'RIVER':()=>{Object.assign(S,{mu:7,ji:6,hon:6,items:[],flags:{}}); startAt(6);},
+  'MASKED':()=>{Object.assign(S,{mu:6,ji:5,hon:5,items:[],flags:{trained:true}}); startAt(4);},
+  'LAKE':()=>{Object.assign(S,{mu:6,ji:5,hon:6,items:[],flags:{trained:true}}); startAt(5);},
+  'RIVER':()=>{Object.assign(S,{mu:7,ji:6,hon:6,items:[],flags:{trained:true}}); startAt(6);},
 };
 function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
