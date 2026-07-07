@@ -125,6 +125,20 @@ body{font-family:var(--serif);color:var(--moon)}
   font-family:var(--serif);font-size:15px;letter-spacing:.1em;z-index:4;display:none}
 body.touchmode .tstick, body.touchmode #jumpBtn{display:block}
 /* ---------- cinematic letterbox + chapter art ---------- */
+
+/* ---- animation-system UI: portraits, cutscene surface, cut subtitles ---- */
+#portrait{position:fixed;left:16px;bottom:calc(38vh + 8px);z-index:6;width:76px;height:76px;display:none}
+#portrait img{width:100%;height:100%;object-fit:cover;border-radius:12px;border:1.5px solid var(--gold);
+  box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.portrait-fb{width:100%;height:100%;border-radius:12px;display:grid;place-items:center;
+  font-family:var(--serif);font-size:38px;color:#12131c;background:var(--pt,#ece1c8);
+  border:1.5px solid var(--gold);box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.cut-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;background:#05070d}
+#cutsub{position:fixed;left:50%;bottom:15vh;transform:translateX(-50%);z-index:5;max-width:84vw;
+  text-align:center;font-family:var(--serif);font-size:19px;line-height:1.45;color:var(--paper);
+  text-shadow:0 2px 12px rgba(0,0,0,.95);opacity:0;transition:opacity .5s ease;pointer-events:none}
+#cutsub.on{opacity:1}
+@media (max-width:640px){ #portrait{width:60px;height:60px} .portrait-fb{font-size:30px} #cutsub{font-size:16px} }
 #cine-top,#cine-bot{position:fixed;left:0;right:0;height:0;background:#000;z-index:4;transition:height .8s ease}
 #cine-top{top:0}#cine-bot{bottom:0}
 body.cine #cine-top,body.cine #cine-bot{height:11vh}
@@ -188,6 +202,8 @@ body.touchmode #atkBtn,body.touchmode #dodgeBtn{display:block}
 <div id="stickL" class="tstick"><div class="nub"></div></div>
 <button id="jumpBtn" type="button">JUMP</button>
 <div id="cine-top"></div><div id="cine-bot"></div>
+<div id="portrait"></div>
+<div id="cutsub"></div>
 <div id="cineskip">A / tap — skip</div>
 
 <div id="overlay"><div class="owrap">
@@ -249,13 +265,14 @@ ch1:{
   chapter:true, mark:'一', crumb:'Uiju · Joseon', code:null,
   eyebrow:'Uiju, Joseon · Winter · Age 11',
   title:'The Archer\u2019s Daughter',
-  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you the bow — dawn after dawn — and the short knife at dusk, the way a border soldier learns to kill up close when the arrows run out.</p>`,
+  text:`<p>You are <b>Baek Seol</b> — <span class="kr">백설</span>, <em>white snow</em>. Your father is an archer of the border garrison, and you are all he has. He teaches you the bow — dawn after dawn — and bare-handed ssireum in the threshing yard at dusk, until the boys refuse to face you.</p>`,
   choices:[{t:'Morning drill.', to:'a1_drill'}]
 },
 a1_drill:{
   eyebrow:'Uiju · The Last Morning', crumb:'Uiju',
   title:'His Lessons',
-  text:`<p>"Again," he says, and you draw the bow again. Then the knife, close and low. He gives you both, gladly — the far kill and the near one. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
+  speaker:'father',
+  text:`<p>"Again," he says, and you draw the bow again. Then empty hands, hip and shoulder, the throw that ends arguments. He gives you both, gladly — the far fight and the near one. "A blade in front of you is a problem," he says. "A blade behind you is a funeral. <em>Never</em> stop listening behind you."</p>`,
   choices:[{t:'Again.', to:'a1_raidgo'}]
 },
 a1_raidgo:{
@@ -263,11 +280,12 @@ a1_raidgo:{
   title:'Horns',
   text:`<p>Smoke on the north wind. Horns. Riders in the millet — <b>raiders</b>, crossing the frozen river. Your father is already running toward you.</p>
   <p class="whisper">He does not reach you in time. Rope. A saddle. The village burning behind.</p>`,
-  choices:[{t:'They carry you toward the river.', to:'WAVE:a1_rescue'}]
+  choices:[{t:'They carry you toward the river.', to:'WAVE:CINE:ford:a1_rescue'}]
 },
 a1_rescue:{
   eyebrow:'Uiju · The River Road', crumb:'Uiju',
   title:'He Comes For You',
+  speaker:'father',
   text:`<p>He catches them at the ford. One man, on foot, against seven. You watch your father take them apart — the first with an arrow, the last with his hands. Six men down in the snow.</p>
   <p>Then his arms are around you, and he is saying your name into your hair, and for one breath the world is safe —</p>
   <p>— and his arms go slack. You feel it before you understand it. The seventh man. From behind.</p>
@@ -294,6 +312,7 @@ a2_break:{
 a2_kang:{
   eyebrow:'Guangning · The Market', crumb:'Guangning',
   title:'Old Kang',
+  speaker:'kang',
   text:`<p>The crowd parts and the fat merchant is there, breathing hard, rings on every finger. He looks at his emptied cages, then at you, almost with wonder.</p>
   <p>"Do you know," he says pleasantly, "what you have <em>cost</em> me?" — and the back of his hand puts you on the stones.</p>`,
   choices:[{t:'The stones are cold. The sky turns.', to:'a2_zhao'}]
@@ -301,6 +320,7 @@ a2_kang:{
 a2_zhao:{
   eyebrow:'Guangning · The Market', crumb:'Guangning',
   title:'The General',
+  speaker:'zhao',
   text:`<p>A shadow between you and the second blow. An officer's boots. A voice used to being obeyed.</p>
   <p>"<b>General Zhao</b>," Kang says, suddenly all silk. "This is merchandise, general. Damaged merchandise."</p>
   <p>"Then you won't mind selling it cheap." He does not look at Kang. He is looking at you the way a man looks at a blade he has found in a scrap heap. "I watched her fight," he says. "You had six men. She was winning."</p>`,
@@ -318,32 +338,38 @@ ch3:{
 a3_go:{
   eyebrow:'House of Zhao · Year One', crumb:'House of Zhao',
   title:'Lady Mingzhu',
+  speaker:'mingzhu',
   text:`<p>The general's wife does not coo at you. She puts a brush in your hand. "Characters first. Then manners. Then everything else."</p>
   <p>When a visiting magistrate's wife calls you <em>that Korean thing</em> at dinner, Mingzhu sets down her cup very quietly. "In this house," she says, "we name people or we starve. Which will you choose?"</p>
+  <p>Once, walking the hills, she nods at a dark seam in the rock above the lake valley. "I love that cave," she says, to no one in particular. "For the freedom it allows." You are eleven. You file it under things grown women say.</p>
   <p class="whisper">That night, unprompted, you thank her — in Chinese. Her whole face changes.</p>`,
   choices:[{t:'Year two.', to:'a3_y2'}]
 },
 a3_y2:{
   eyebrow:'House of Zhao · Year Two', crumb:'House of Zhao',
   title:'The General\u2019s Yard',
+  speaker:'zhao',
   text:`<p>Zhao watches you beat the dust out of a quilt and sees the footwork in it. The next dawn there is a wooden sword by your sleeping mat. Your father gave you a soldier’s knife; the general means to give you a swordsman’s forms.</p>
   <p class="whisper">He drills you like a soldier, not a ward. Praise is a nod. You would kill for the nod. Train in the yard — the standing men of straw are yours.</p>`,
   choices:[{t:'Year three.', to:'a3_y3'}]
 },
 a3_y3:{
   eyebrow:'House of Zhao · Year Three', crumb:'House of Zhao',
-  title:'The Son Who Dances',
-  text:`<p><b>Jin</b>. The general's son, your age, ink on his fingers, forever humming. When Zhao drills him with the sword he turns every form into a turning, flowing <em>thing</em> — and Zhao walks away in disgust. "My son dances."</p>
-  <p>You spar him once, to put the slacker in his place. You lose. You cannot even say how. He was never where your blade was; it was like fencing with smoke that smiles.</p>
-  <p>"It's not a dance," he says, helping you up, infuriatingly kind. "It's just listening — with your whole body."</p>`,
+  title:'The Daughter Who Throws, the Son Who Dances',
+  speaker:'lan',
+  fx:()=>{ S.flags.sk3=true; },
+  text:`<p><b>Lan</b>, the general's daughter, four years your senior, drills you the way winter drills a mountain. Her specialty is the counter — wait, take the enemy's force, and return it with the ground attached. "Strength borrows," she says, dumping you on your back for the ninth time. "Balance <em>owns</em>."</p>
+  <p>And <b>Jin</b> — her little brother, your age, ink on his fingers, forever humming. When Zhao drills him he turns every sword form into a turning, flowing thing, and the general walks away in disgust. "My son dances."</p>
+  <p>You spar Jin once, to put the slacker in his place. You lose. He was never where your blade was — like fencing smoke that smiles. "It's just listening," he says, helping you up, infuriatingly kind. "With your whole body."</p>`,
   choices:[{t:'Year four.', to:'a3_y4'}]
 },
 a3_y4:{
   eyebrow:'House of Zhao · Year Four', crumb:'House of Zhao',
   title:'What You Know About Kang',
+  speaker:'zhao',
   text:`<p>One evening Zhao asks about your family — in Korean. Rough, careful Korean, learned from a border officer. So you tell him: the raid, the river, and the thing he does not know — <em>the raiders reported to Kang.</em> The fat merchant does not just sell what others catch. He sends the catchers. And some of what he sells is <b>information — north, to the Jurchen.</b></p>
   <p>Zhao is very still for a long time. "I thought he traded slaves," he says at last. "He trades in my country's throat." After that, the general starts keeping a second ledger, in his own hand, of everything Kang moves.</p>`,
-  choices:[{t:'Year five.', to:'a3_dance'}]
+  choices:[{t:'Year five.', to:'CINE:kiss:a3_dance'}]
 },
 a3_dance:{
   eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
@@ -372,6 +398,7 @@ a3_window:{
 a3_vow:{
   eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
   title:'The Question',
+  speaker:'zhao',
   text:`<p>Zhao stands in the ruined quiet of his house — wife buried, son gone, country folding. He asks it formally, like an officer, because it is the only way he can ask anything now:</p>
   <p>"When this war comes for us — and it is coming — will you serve China? Or will you go home, to your people?"</p>
   <p>You look at him a long moment. "<b>You are my people too.</b> I'll fight with you. But when we find Koreans in chains on this road — and we will — we free them. Every one. That is my price."</p>
@@ -391,6 +418,7 @@ ch4:{
 a4_clash:{
   eyebrow:'The Mission · Rooftops', crumb:'Years Later',
   title:'The Other Crew',
+  speaker:'jin',
   text:`<p>You are not alone. Figures on the far roofline — masked, silent, moving like a troupe of acrobats. Ribbons and hooks. They're going for <em>your</em> captives.</p>
   <p>Their leader lands opposite you — tall, masked, unhurried. "This compound is spoken for," he says. A stranger's voice, low and even.</p>
   <p>"Funny," you say. "I was about to say that."</p>`,
@@ -408,11 +436,12 @@ a4_ambushcut:{
   title:'It Was Never a Holding Compound',
   text:`<p>The last cage opens on empty straw. The gates you came through are now closed behind soldiers. Torches on every wall. It was bait — for people exactly like the two of you.</p>
   <p>The masked stranger draws his blade with a dancer's roll of the wrist. "Do try to keep up," he says.</p>`,
-  choices:[{t:'Back to back. Fight.', to:'WAVE:a4_recognize'}]
+  choices:[{t:'Back to back. Fight.', to:'WAVE:CINE:recognition:a4_recognize'}]
 },
 a4_recognize:{
   eyebrow:'The Mission · Rooftops', crumb:'Years Later',
   title:'The Shape of You',
+  speaker:'seol',
   text:`<p>There are too many. Thinking stops. Your body chooses for you — and it chooses <em>the pond, the lanterns, the turning form</em> — and the stranger flows into it with you like he has been waiting years for the invitation.</p>
   <p>Blade-edge to blade-edge, never touching. Two people cutting a circle out of a crowd of enemies, and neither of you is watching the enemies at all anymore. You are watching each other. You know this dance. You know this <em>dancer</em>.</p>
   <p>It ends. Everyone else is down. Two masks in the torch smoke, breathing hard.</p>
@@ -422,6 +451,7 @@ a4_recognize:{
 a4_leftme:{
   eyebrow:'The Mission · Rooftops', crumb:'Years Later',
   title:'You Left',
+  speaker:'seol',
   text:`<p>All the years arrive at once and what comes out is small and hard:</p>
   <p>"You left us." A breath. "You left <em>me</em>."</p>
   <p>He doesn't defend himself. His eyes do something complicated and sorrowful — and then move past your shoulder and go flat, and he <em>dashes</em> — hand at your waist, pulling you hard against him, his blade going out over your shoulder in the same motion —</p>
@@ -432,6 +462,7 @@ a4_leftme:{
 a4_hadit:{
   eyebrow:'The Mission · Rooftops', crumb:'Years Later',
   title:'I Had It',
+  speaker:'seol',
   text:`<p>"<b>I had it.</b>" Your voice is level and dangerous. Then, a half-second later, entirely unlevel: "And <em>don't touch me</em>. I'm mad at you."</p>
   <p>He raises both hands, steps back — and doesn't argue. "I know you don't need me to save you," he says quietly. "You never did."</p>
   <p>"I need to think. Don't follow me."</p>
@@ -465,12 +496,75 @@ a5_lake:{
   text:`<p>The water is glass. The mountain stands upside down in it. He is there at the shore, unmasked, and for once not moving at all — as if stillness were the gift he prepared.</p>
   <p>"You came," he says, in Korean. Still clumsy. Still learned for you.</p>
   <p>"I had nothing better to do," you say, in Chinese, and sit down beside him anyway.</p>
-  <p>You talk until the mirror turns gold. About Mingzhu. About the window. About the years. He tells you why he left; you tell him what it cost. Neither of you apologizes exactly. Both of you forgive approximately.</p>`,
-  choices:[{t:'Then he tells you why he\u2019s really in the region.', to:'a5_intel'}]
+  <p>You talk until the mirror turns gold. About Mingzhu. About the window. About the years. He tells you why he left; you tell him what it cost. Neither of you apologizes exactly. Both of you forgive approximately. Then he stands, offers his hand, and doesn\u2019t quite meet your eyes. \u201cThere\u2019s somewhere I want to show you.\u201d</p>`,
+  speaker:'jin',
+  choices:[{t:'The dark seam in the rock above the valley.', to:'a5_cavego'}]
+},
+a5_cavego:{
+  eyebrow:'The Cave', crumb:'The Cave',
+  title:'His Whole Hidden Life',
+  speaker:'jin',
+  text:`<p>Inside the seam, the rock opens like a held breath: lanterns, hanging silk paintings, calligraphy drying on lines, a spring pooling black and gold, moss where the light falls through a crack in the ceiling. A boy's secret, kept so long it became a man's soul, hung on stone walls.</p>
+  <p>"When did you start coming here?" you ask.</p>
+  <p>"Small. With friends first — for the echo." He smiles at some old noise. "Then alone, to sing. The acoustics forgive everything. Then, when I was eight — to draw. Away from them." A beat. "No one ever knew."</p>
+  <p>"Mingzhu did," you say, before you think. "She told me once she loved this cave. <em>For the freedom it allowed — the freedom to express what she couldn't say.</em>"</p>
+  <p>Jin does not move. Jin does not breathe. "...She <em>what?</em>"</p>
+  <p class="whisper">You never pondered it then. But what did she mean by that? The lantern light catches something in the cracks of the far wall — vertical, faint, deliberate.</p>`,
+  choices:[{t:'Search the walls. The dark keeps what the light misses.', to:'a5_frag_go'}]
+},
+a5_stone:{
+  eyebrow:'The Cave · The Message', crumb:'The Cave',
+  title:'Written Where No One Reads',
+  speaker:'jin',
+  text:()=>`<p>Five fragments, vertical in the cracks, in a woman's hand disguised as water stains. Assembled, they say:</p>
+  <p><em>"I followed my son when he was eight, and found his kingdom, and said nothing — because a named freedom dies. So I came alone instead, when the house grew too small for everything I was not permitted to say. I wrote in the dark, where no one reads. It was the only freedom on offer, and it was enough, because from these walls I watched my children become themselves.</em></p>
+  <p><em>If you are reading this, you learned to see in the dark, as I did. Look beneath the singing stone."</em></p>
+  <p>Jin's voice, when it finally comes, is a boy's: "The singing stone. Where the echo is best. I stood on it a thousand times."</p>`,
+  choices:[{t:'Lift it. Together.', to:'a5_letters'}]
+},
+a5_letters:{
+  eyebrow:'The Cave · Beneath the Stone', crumb:'The Cave',
+  title:'The Lacquered Box',
+  speaker:'mingzhu',
+  text:`<p>Paintings. Dozens — her own, signed with a seal neither of you has ever seen: her maiden name. She was an artist. All those years, the general's silent wife, painting in a cave in the dark. Jin holds one up to the lantern with shaking hands — it is <em>good</em>, it is where he comes from, and he never knew.</p>
+  <p>Beneath the paintings: three letters. One for Lan. One for Jin — and you watch him read it, watch the lines land: <em>"You will leave, my dove. Grief will make you run, because your heart moves before your feet, it always has. Do not be ashamed of it. But go back for the girl. I watched you two by the pond — two rivers pretending they don't share a sea. What I could not say aloud, I say here: be together. Life is short; the ice is long; love loudly, for both of us."</em></p>
+  <p>He looks up at you, wrecked and lit at once.</p>
+  <p class="whisper">She predicted the window. She forgave him years before he did it. And so — finally, fully, out loud in your own chest — so do you.</p>`,
+  choices:[{t:'"We’re alright, Jin. We were always going to be." — friends again, and more, and finally.', to:'a5_third'}]
+},
+a5_third:{
+  eyebrow:'The Cave · The Third Letter', crumb:'The Cave',
+  title:'The Daughter Winter Brought Me',
+  speaker:'mingzhu',
+  text:`<p>The third letter is addressed in careful characters: <em>"For the daughter winter brought me."</em></p>
+  <p><em>"Seol. My father was a master blacksmith — the finest in three provinces, though the world forgot, because his daughter was only permitted to marry, not to forge. Two of his works I kept. I leave them hidden in this cave, one for each of you, where only people who see in the dark deserve to find them. Take the high ledge and the water's secret. The steel remembers what I could not say. — Your mother in everything but blood."</em></p>
+  <p class="whisper">Two weapons. Hidden. Hers to give, at last.</p>`,
+  choices:[{t:'Find them.', to:'a5_hunt_go'}]
+},
+a5_sword:{
+  eyebrow:'The Cave · The High Ledge', crumb:'The Cave',
+  title:'The Crane’s Wing',
+  speaker:'jin',
+  text:`<p>On the high ledge, wrapped in oiled silk: a sword like nothing sane — blade curved the wrong way, weighted at the tip, a hilt long as a forearm. A <em>terrible</em> sword. For anyone on earth but one person.</p>
+  <p>Jin takes it and it disappears into motion — a wheel, a ribbon, a wing — built for a man who fights like water arguing with the wind. Etched down the spine, her father's hand: <span class="kr" style="color:#6c3f14">舞而不斗, 斷而不怨</span> — <em>"Dance, do not brawl; end, do not hate."</em></p>
+  <p>"It's hideous," you say, honestly, a little jealous of neither the sword nor the man, obviously, shut up.</p>
+  <p>"It's <em>perfect</em>," he breathes, and spins it again, showing off now, absolutely showing off for you.</p>`,
+  choices:[{t:'"The water’s secret." Yours is under the spring.', to:'a5_bow'}]
+},
+a5_bow:{
+  eyebrow:'The Cave · The Water’s Secret', crumb:'The Cave',
+  title:'The Winter Bow',
+  speaker:'jin',
+  text:`<p>Beneath the spring, in a stone-lined dry hollow: a bow of black horn and pale birch, strung with something that sings when the air touches it. It draws like breathing out. It is, instantly and unarguably, the finest thing you have ever held — your father would have wept over the workmanship.</p>
+  <p>Etched along the upper limb: <span class="kr">눈은 내리되, 활은 집으로</span> — <em>"Snow may fall; the arrow flies home."</em></p>
+  <p>"She etched yours in Korean," Jin says quietly. "She must have learned the letters just to —" He stops, because you are crying, and then you are laughing, and the acoustics of the cave forgive everything.</p>
+  <p class="whisper">The Winter Bow. A mother's protection, drawn taut.</p>`,
+  choices:[{t:'String it. Then — to business.', to:'a5_intel'}]
 },
 a5_intel:{
-  eyebrow:'The Lake · Dusk', crumb:'The Lake',
+  eyebrow:'The Cave · Dusk', crumb:'The Cave',
   title:'Kang',
+  speaker:'jin',
   text:`<p>"The man we were both hunting last night," Jin says, "works for an old name. <b>Kang.</b> Fatter now, richer now — he sells captives north across the Yalu, and he sells the border's secrets with them. Tonight he moves a whole column of Koreans across the ice. His Jurchen partner rides escort. A raider captain called <b>Batu</b>."</p>
   <p>The name goes through you like river cold. <em>Batu.</em> A ford, five years old, a blade from behind.</p>
   <p>"My people are already moving," Jin says. He looks at you — beside him, this time, not in front. "Fight with us. With <em>me</em>. As equals, or not at all."</p>
@@ -490,6 +584,7 @@ ch6:{
 a6_batu:{
   eyebrow:'The Yalu · The Column', crumb:'The Yalu',
   title:'The Seventh Man',
+  speaker:'batu',
   text:`<p>He is older, broader, grey in the wolf-fur. He watches you come across the ice and something like memory moves behind his eyes.</p>
   <p>"The archer's girl," Batu says at last, and smiles. "He was good, your father. Six of mine. I still count it."</p>
   <p>"Count this," you say, and draw.</p>`,
@@ -506,6 +601,7 @@ a6_win:{
 a6_free:{
   eyebrow:'The Yalu · The Crossing', crumb:'The Yalu',
   title:'Go Home. Walk Tall.',
+  speaker:'seol',
   text:`<p>"The far bank is Joseon," you tell them, in the language of your mother's songs. "Walk. Don't run — the ice holds if you walk."</p>
   <p>A girl your old age hesitates. "My family — what they'll say, about where I've been—"</p>
   <p>"Then say it first, and say it loud," you tell her. "You survived. That is the whole story. Anyone ashamed of you should try surviving it themselves." You say it like an order, because she needs it to be one. She squares her shoulders. She walks.</p>
@@ -518,8 +614,139 @@ a6_end:{
   text:`<p>You stand on the ice between two countries. Behind you, a war, a general who calls you daughter in everything but blood, and a network with a hundred cages still to open. Ahead, woodsmoke and the graves of Uiju.</p>
   <p>Jin comes to stand beside you — beside, always beside now — and looks where you're looking.</p>
   <p>"We can come back across whenever you want," he says. In Korean. Getting better at it.</p>
-  <p>"I know," you say. "First I want to show you a ford upriver. Where my father fought seven men." You take his hand. "Then we go back to work. There are more cages."</p>
-  <p>Snow begins to fall on the river, on the ice, on both countries at once — falling, like you, on everything it loves without having to choose.</p>
+  <p>"I know," you say. "First — we go back to work. There are more cages." You look once more at the woodsmoke of home, and turn from it, because turning from it is how you'll earn it.</p>
+  <p class="whisper">End of Act One.</p>`,
+  choices:[{t:'Act Two · The Falling Cities', to:'ch7'}]
+},
+
+/* ================= ACT 2 · THE FALLING CITIES ================= */
+ch7:{
+  chapter:true, mark:'七', crumb:'Liaoyang', code:'SIEGE',
+  eyebrow:'Liaoyang · The Fourth Month · Night',
+  title:'The City That Held a Country',
+  text:`<p>Liaoyang — the great eastern capital — is burning from the inside. Traitors opened the sluice gates; the Eight Banners are in the streets. Somewhere in the garrison quarter, an old general refuses to leave his post.</p>
+  <p class="whisper">Zhao is in that city. Go get your father.</p>`,
+  choices:[{t:'Into the smoke.', to:'a7_go'}]
+},
+a7_lan:{
+  eyebrow:'Liaoyang · The Garrison Quarter', crumb:'Liaoyang', speaker:'lan',
+  title:'The Daughter Holds the Door',
+  text:`<p><b>Lan</b> holds the barricade with twenty exhausted soldiers and the calm of a woman balancing accounts. "He won't come," she says, in place of hello. "Li Yongfang knelt at Fushun and they made him rich. Father says he would rather be poor and <em>his own</em>."</p>
+  <p>"Then we don't ask," you say. "We carry."</p>
+  <p>Something like a smile. "Little sister. You did grow up."</p>`,
+  choices:[{t:'Cut a path to the keep.', to:'WAVE:a7_zhao'}]
+},
+a7_zhao:{
+  eyebrow:'Liaoyang · The Keep', crumb:'Liaoyang', speaker:'zhao',
+  title:'The General’s Last Post',
+  text:`<p>He stands in his armor in an empty command hall, gray as the smoke, writing the last dispatch no one will ever read. "I held this line eleven years," he says, without turning. "A man should die where he stood."</p>
+  <p>"A man should <em>live</em> where he's loved," you say. "You taught me strategy, general. This position is lost. Your people are not. Choose the war you can still win."</p>
+  <p>His brush stops. "...Mingzhu used to argue like that." He sets it down. "Very well, daughter. Carry me out of my grave."</p>`,
+  choices:[{t:'The dancers clear the rooftop road.', fx:()=>{S.flags.zhaoSaved=true;}, to:'a7_dance'}]
+},
+a7_dance:{
+  eyebrow:'Liaoyang · The Rooftop Road', crumb:'Liaoyang', speaker:'zhao',
+  title:'What the General Sees',
+  text:`<p>Above the burning streets, Jin's troupe moves the evacuees roof to roof — ribbons and hooks, children passed hand to hand over the fire, a whole rescue conducted like choreography. Zhao watches his son lift an old woman across a gap as gently as a bow across strings.</p>
+  <p>"I called it dancing," the general says at last. "All those years. I said it like a small word."</p>
+  <p>"It is dancing," you say.</p>
+  <p>"Yes." He watches his son catch a falling boy out of the air. "It is the biggest word I know now."</p>`,
+  choices:[{t:'West, through the water gate, out.', to:'ch8'}]
+},
+
+ch8:{
+  chapter:true, mark:'八', crumb:'The Pass', code:'LEDGER',
+  eyebrow:'The Western Hills · Weeks Later',
+  title:'The Ledger Road',
+  text:`<p>Bad news travels in Kang's handwriting: the fat merchant slipped his chains in the chaos of the fall — of course he did; grease escapes any grip — and sold his masterwork to the conquerors: <b>the Great Ledger.</b> Every route. Every safehouse. Every name your network has.</p>
+  <p class="whisper">A copy travels tonight through the pass below, under escort, to a Banner officer they call the <b>Wolf</b>. It must not arrive.</p>`,
+  choices:[{t:'Hunt.', to:'a8_go'}]
+},
+a8_convoy:{
+  eyebrow:'The Pass · Midnight', crumb:'The Pass',
+  title:'Lanterns in the Cut',
+  text:`<p>Below: a strongbox on a cart, riders in wolf-fur, and — marching roped behind, because Kang never wastes cargo space — a line of captives bound for the northern markets.</p>
+  <p>Jin's hand finds your shoulder in the dark. "Box or people first?"</p>
+  <p>"People. Always people. Then we burn his paperwork."</p>`,
+  choices:[{t:'Take the convoy.', to:'WAVE:a8_ledger'}]
+},
+a8_ledger:{
+  eyebrow:'The Pass · The Strongbox', crumb:'The Pass',
+  title:'What the Wolf Wanted',
+  text:`<p>The captives go west with Lan's outriders. The strongbox opens on the Great Ledger's neat, fat pages — and on top, a letter of sale, already sealed: <em>"To Ohan of the Plain Blue Banner — the whole apparatus, for services rendered. The original follows with me to Shenyang. — K."</em></p>
+  <p>The original. With <em>him</em>. To the capital of the conquest, where the holding yards are — where they gather the taken before the long march north.</p>
+  <p class="whisper">Shenyang, then. The belly of it.</p>`,
+  choices:[{t:'Act Three.', to:'ch9'}]
+},
+
+/* ================= ACT 3 · THE WAY HOME ================= */
+ch9:{
+  chapter:true, mark:'九', crumb:'Shenyang', code:'YARDS',
+  eyebrow:'Shenyang · The Holding Yards · Night',
+  title:'The Belly of the Conquest',
+  text:`<p>The yards of Shenyang: cage rows under torchlight, a bureaucracy of grief, clerks weighing people like rice. Somewhere in the counting house at its heart, a fat man balances his masterpiece one last time.</p>
+  <p class="whisper">Every cage. Then Kang. In that order.</p>`,
+  choices:[{t:'Over the wall.', to:'a9_go'}]
+},
+a9_kang:{
+  eyebrow:'Shenyang · The Counting House', crumb:'Shenyang', speaker:'kang',
+  title:'The Man Who Counted Everything',
+  text:`<p>He doesn't run. Men like Kang never run; they renegotiate. "The archer's girl," he says warmly, hands spread over the Great Ledger like a priest over scripture. "Name a price. Everyone has one. I have met <em>everyone.</em>"</p>
+  <p>"You met me twice," you say. "The day you sold me, and tonight. Both times you counted wrong."</p>
+  <p>Behind you, the yards stand open, and the people he priced fill the doorway — hundreds of them, silent, looking at him.</p>
+  <p>"I'm not going to kill you," you say, stepping aside. "I'm not even going to judge you. <em>They</em> get to. You're going home with them — to Joseon, roped to the last cart, past every village you emptied. Let them do the counting."</p>`,
+  choices:[{t:'The ledger burns. The column turns east.', to:'a9_out'}]
+},
+a9_out:{
+  eyebrow:'Shenyang · Before Dawn', crumb:'Shenyang', speaker:'zhao',
+  title:'Two Roads',
+  text:`<p>At the walls, Zhao takes your hands. He is going west with Lan — there is a resistance to stitch together, and an old strategist is worth a regiment. You are going east, with the freed, across the river. Both of you know what this goodbye is.</p>
+  <p>"You said once I was your people too," he says. "Hear the other half. You were never my servant, Seol. You were my second daughter from the day I watched you fight six men with your hands tied wrong."</p>
+  <p>"They were tied fine," you manage, through the tears. "I loosened them myself."</p>
+  <p>"I know." He holds your head like a blessing. "Go home, daughter. Walk tall the whole way."</p>`,
+  choices:[{t:'East. The river. Home.', to:'ch10'}]
+},
+
+ch10:{
+  chapter:true, mark:'十', crumb:'Uiju', code:'HOME',
+  eyebrow:'Uiju, Joseon · Dawn',
+  title:'The Third Crossing',
+  text:`<p>The ford, again. Smaller than memory, the way all first places are. On the far bank: your village, your father's grave, and a column of freed people at your back who are each about to learn what coming home costs.</p>
+  <p class="whisper">Hooves on the west wind. The Wolf did not take the loss of his ledger kindly.</p>`,
+  choices:[{t:'Then he can discuss it here.', to:'a10_go'}]
+},
+a10_wolf:{
+  eyebrow:'Uiju · The Ford', crumb:'Uiju', speaker:'batu',
+  title:'Ohan of the Plain Blue Banner',
+  text:`<p>He rides down the bank the way winter comes down a valley. "The property of the Khan," he calls across the ice, "does not walk away."</p>
+  <p>"Property doesn't," you agree, stringing the Winter Bow. "People do. Come count what the difference costs."</p>
+  <p class="whisper">On this ford your father fought seven men. You are not your father. You are what he made, finished by three more hands. And you are not alone.</p>`,
+  choices:[{t:'For every name in that ledger.', to:'WAVE:a10_win'}]
+},
+a10_win:{
+  eyebrow:'Uiju · The Ford', crumb:'Uiju',
+  title:'What the River Keeps',
+  text:`<p>It ends where it began: on river ice, against wolf-fur — but this time the dance is beside you, matching you turn for turn, and the arrows fly home the way a mother promised they would. Ohan commits to his line. You were never on it.</p>
+  <p>The river takes what it is owed, and closes.</p>`,
+  choices:[{t:'The village is waking.', fx:()=>{S.flags.wolfDown=true;}, to:'a10_return'}]
+},
+a10_return:{
+  eyebrow:'Uiju · The Village', crumb:'Uiju', speaker:'seol',
+  title:'Say It First, Say It Loud',
+  text:`<p>They come out to the road — and stop. You watch the village look at the returned: the sideways glances, the elder already muttering about <em>what must have happened to them out there</em>, a mother's hand hesitating an inch from her own daughter's face.</p>
+  <p>So you step into the road, and you say it loud enough for both banks of the river:</p>
+  <p>"Every person behind me crossed hell to stand on this dirt. If your first question is what was <em>done to them</em> instead of what they <em>survived</em>, you are asking about your own shame, not theirs. They walked home. That is the whole story. Anyone who thinks otherwise can try surviving it first."</p>
+  <p>Silence. Then the mother's hand closes the inch. Then the whole road is arms and weeping, and the elder is very quiet, and somewhere a grandmother starts the song for homecomings that no one has needed in nine years.</p>`,
+  choices:[{t:'One more grave to visit.', to:'a10_end'}]
+},
+a10_end:{
+  eyebrow:'Epilogue · The Ford', crumb:'Epilogue',
+  title:'Snow over Liaodong',
+  text:`<p>Your father's grave looks north over the ford he held. You lay the Winter Bow's first arrow on the stone — the far kill and the near one, both come home — and you tell him everything, and the wind off the river listens the whole time.</p>
+  <p>Jin waits at the bank, at that respectful distance he has finally, <em>finally</em> learned. When you join him he doesn't ask if you're all right. He just settles shoulder to shoulder, facing the water, close enough that neither of you is behind the other.</p>
+  <p>"A blade behind you is a funeral," you say. The old lesson. The first one.</p>
+  <p>"Then it's good," he says, in Korean — barely clumsy at all anymore — "that you will never fight alone again."</p>
+  <p>Snow begins over the river, over both countries, over the graves and the woodsmoke and the long roads west — falling, like you always will now, on everything it loves without having to choose.</p>
   <p class="whisper">끝 — The End</p>`,
   choices:[{t:'Begin again.', to:'RESET'}]
 },
@@ -527,6 +754,269 @@ a6_end:{
 RESET:{ enter(){ location.reload(); }, text:'', choices:[] },
 };
 /* boot handled by 3D engine */
+
+</script>
+<script>
+/* ============================================================================
+   SNOW OVER LIAODONG — ANIMATION SYSTEM PLUMBING  (step 1: systems only)
+   ----------------------------------------------------------------------------
+   Five subsystems, every one with a procedural fallback so missing Higgsfield
+   assets never break gameplay:
+     A) ASSETS         — one registry; injecting a real asset is a 1-line edit
+     B) Sprite/flipbook renderer (camera-facing quads, sheet or frame-seq)
+     C) Portrait system for dialogue UI
+     D) VFX flipbook system for combat events
+     E) Cutscene playback (video OR frame-sequence OR procedural puppet)
+   Art direction is locked to ART_STYLE against the chapter-painting reference.
+   ============================================================================ */
+
+/* ---- Layer 0: art-direction lock ---------------------------------------- */
+const ART_STYLE = {
+  ref: 'ink-wash + muted gold, painterly snow (matches chapter paintings)',
+  palette: { ink:'#141a2e', paper:'#ece1c8', gold:'#c19a3f', blood:'#7a2e28',
+             jade:'#5f7a6a', frost:'#a8c4d4', warm:'#e8b890' },
+  // procedural fallbacks are tinted from this palette so they sit in-world
+};
+
+/* ---- A) ASSET REGISTRY --------------------------------------------------
+   Each entry: {kind, url|frames, cols,rows,fps, loop, fallback}
+   kind: 'portrait' | 'flipbook' | 'cutscene' | 'ui'
+   url present  -> use Higgsfield asset (sheet png, frame list, or mp4)
+   url null     -> procedural fallback runs, gameplay unaffected
+   Filling an asset later = paste a URL here. Nothing else changes.        */
+const ASSETS = {
+  /* a) character portraits (painted busts for dialogue) */
+  portrait: {
+    seol:   { url:null, fallback:{glyph:'雪', tint:'#ece1c8'} },
+    father: { url:null, fallback:{glyph:'父', tint:'#b9a888'} },
+    kang:   { url:null, fallback:{glyph:'康', tint:'#7a6a4a'} },
+    zhao:   { url:null, fallback:{glyph:'趙', tint:'#8a8272'} },
+    mingzhu:{ url:null, fallback:{glyph:'明', tint:'#c8b6d2'} },
+    lan:    { url:null, fallback:{glyph:'蘭', tint:'#8aa88f'} },
+    jin:    { url:null, fallback:{glyph:'進', tint:'#a9bce8'} },
+    batu:   { url:null, fallback:{glyph:'狼', tint:'#9a7a5a'} },
+  },
+  /* b) combat VFX flipbooks (sheet: cols×rows, fps) */
+  flipbook: {
+    slash:   { url:null, cols:6, rows:1, fps:30, loop:false, fallback:'slash' },
+    bowhit:  { url:null, cols:5, rows:1, fps:30, loop:false, fallback:'spark' },
+    impact:  { url:null, cols:6, rows:1, fps:28, loop:false, fallback:'dust'  },
+    dust:    { url:null, cols:5, rows:1, fps:24, loop:false, fallback:'dust'  },
+    death:   { url:null, cols:6, rows:1, fps:24, loop:false, fallback:'poof'  },
+    /* c) signature Dance ult aura (looping while active) */
+    dance:   { url:null, cols:8, rows:1, fps:24, loop:true,  fallback:'petals'},
+  },
+  /* d) cinematic sequences (mp4 or frame list); procedural puppet if null */
+  cutscene: {
+    ford:        { url:null, frames:null, fallback:'puppet' }, // father's death
+    kiss:        { url:null, frames:null, fallback:'puppet' }, // cave kiss
+    recognition: { url:null, frames:null, fallback:'puppet' }, // rooftop
+    lake:        { url:null, frames:null, fallback:'puppet' }, // the lake
+  },
+  /* e) UI / background motion */
+  ui: { titleLoop:{ url:null, fallback:'snow' } },
+};
+function haveAsset(kind,key){ const a=ASSETS[kind]&&ASSETS[kind][key]; return !!(a&&a.url); }
+
+/* ---- TURNKEY INJECTION API ----------------------------------------------
+   Asset production later becomes one call per asset. No structural edits.
+     injectPortrait('jin',  'https://.../jin_bust.png')
+     injectFlipbook('slash','https://.../slash_sheet.png', {cols:6,rows:1,fps:30})
+     injectCutscene('ford', 'https://.../ford.mp4')                   // video
+     injectCutscene('kiss', ['url_f0.png','url_f1.png',...], {fps:12}) // frame-seq
+     injectUI('titleLoop',  'https://.../title_loop.webm')
+   Each validates the slot exists, then flips it live. Missing slot = warn,
+   never throw. Idempotent: re-injecting overwrites cleanly.               */
+function injectPortrait(key, url){
+  if(!ASSETS.portrait[key]){ console.warn('no portrait slot:',key); return false; }
+  ASSETS.portrait[key].url = url; return true;
+}
+function injectFlipbook(key, url, opts){
+  if(!ASSETS.flipbook[key]){ console.warn('no flipbook slot:',key); return false; }
+  const d=ASSETS.flipbook[key]; d.url=url;
+  if(opts){ if(opts.cols)d.cols=opts.cols; if(opts.rows)d.rows=opts.rows;
+            if(opts.fps)d.fps=opts.fps; if(opts.loop!=null)d.loop=opts.loop; }
+  return true;
+}
+function injectCutscene(key, urlOrFrames, opts){
+  if(!ASSETS.cutscene[key]){ console.warn('no cutscene slot:',key); return false; }
+  const d=ASSETS.cutscene[key];
+  if(Array.isArray(urlOrFrames)){ d.frames=urlOrFrames; d.url=null; if(opts&&opts.fps)d.fps=opts.fps; }
+  else { d.url=urlOrFrames; d.frames=null; }
+  return true;
+}
+function injectUI(key, url){
+  if(!ASSETS.ui[key]){ console.warn('no ui slot:',key); return false; }
+  ASSETS.ui[key].url=url; return true;
+}
+/* Batch loader: paste a manifest object later, one call fills everything. */
+function injectManifest(m){
+  m=m||{};
+  for(const k in (m.portrait||{})) injectPortrait(k, m.portrait[k]);
+  for(const k in (m.flipbook||{})){ const v=m.flipbook[k]; Array.isArray(v)?injectFlipbook(k,v[0],v[1]):injectFlipbook(k,v); }
+  for(const k in (m.cutscene||{})){ const v=m.cutscene[k]; Array.isArray(v)?injectCutscene(k,v[0],v[1]):injectCutscene(k,v); }
+  for(const k in (m.ui||{})) injectUI(k, m.ui[k]);
+}
+/* Coverage report: what's filled vs still procedural-fallback. Read-only. */
+function assetCoverage(){
+  const rep={};
+  for(const kind of ['portrait','flipbook','cutscene','ui']){
+    const keys=Object.keys(ASSETS[kind]); const filled=keys.filter(k=>{
+      const a=ASSETS[kind][k]; return !!(a.url || (a.frames&&a.frames.length)); });
+    rep[kind]=filled.length+'/'+keys.length+(filled.length?(' ['+filled.join(',')+']'):'');
+  }
+  return rep;
+}
+
+/* ---- B) SPRITE / FLIPBOOK RENDERER --------------------------------------
+   Camera-facing textured quad that plays a sprite sheet. Used by VFX (D) and,
+   later, any sheet-based character overlays. Falls back to a procedural
+   particle burst when no sheet URL is present.                             */
+const FX = []; // active world-space effects, ticked each frame
+function _sheetTexture(url, cols, rows){
+  const tex = new THREE.TextureLoader().load(url, undefined, undefined, ()=>{ /* CORS/miss: caller already has fallback */ });
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(1/cols, 1/rows);
+  return tex;
+}
+function spawnFlipbook(key, x, y, z, scale){
+  const def = ASSETS.flipbook[key];
+  scale = scale||1.6;
+  if(def && def.url){
+    const tex=_sheetTexture(def.url, def.cols, def.rows);
+    const mat=new THREE.SpriteMaterial({map:tex, transparent:true, depthTest:false, blending:THREE.AdditiveBlending});
+    const sp=new THREE.Sprite(mat); sp.scale.set(scale,scale,1); sp.position.set(x,y,z);
+    world.group.add(sp);
+    const total=def.cols*def.rows; let f=0, acc=0;
+    FX.push(function(dt){
+      acc+=dt; if(acc>=1/def.fps){ acc=0; f++;
+        if(f>=total){ if(def.loop){f=0;} else { world.group.remove(sp); return false; } }
+        tex.offset.set((f%def.cols)/def.cols, 1-Math.floor(f/def.cols+1)/def.rows);
+      }
+      return true;
+    });
+    return sp;
+  }
+  // FALLBACK: procedural particle burst tinted from palette
+  return _proceduralBurst(def?def.fallback:'dust', x,y,z, scale);
+}
+function _proceduralBurst(kind, x,y,z, scale){
+  const pal=ART_STYLE.palette;
+  const colByKind={slash:pal.paper, spark:pal.warm, dust:'#b9a888', poof:'#cfd7e0',
+                   petals:pal.frost, default:'#cfd7e0'};
+  const col=colByKind[kind]||colByKind.default;
+  const n=kind==='petals'?14:10, parts=[];
+  for(let i=0;i<n;i++){
+    const m=new THREE.Mesh(new THREE.SphereGeometry(.06*scale,4,4), mat(col));
+    m.position.set(x,y,z); world.group.add(m);
+    const a=Math.random()*6.28, sp=1.5+Math.random()*2.5;
+    parts.push({m, vx:Math.cos(a)*sp, vy:1+Math.random()*2.5, vz:Math.sin(a)*sp});
+  }
+  let life=kind==='petals'?1.2:.5;
+  FX.push(function(dt){
+    life-=dt;
+    parts.forEach(p=>{ p.m.position.x+=p.vx*dt; p.m.position.y+=p.vy*dt; p.m.position.z+=p.vz*dt;
+      p.vy-=6*dt; p.m.material.opacity=Math.max(0,life); p.m.material.transparent=true; });
+    if(life<=0){ parts.forEach(p=>world.group.remove(p.m)); return false; }
+    return true;
+  });
+}
+function tickFX(dt){ for(let i=FX.length-1;i>=0;i--){ if(FX[i](dt)===false) FX.splice(i,1); } }
+
+/* combat-event entry points (engine calls these; assets optional) */
+function vfxSlash(x,y,z){ spawnFlipbook('slash',x,y,z,2.0); }
+function vfxBowHit(x,y,z){ spawnFlipbook('bowhit',x,y,z,1.2); }
+function vfxImpact(x,y,z){ spawnFlipbook('impact',x,y,z,1.6); }
+function vfxDeath(x,y,z){ spawnFlipbook('death',x,y,z,1.8); }
+let _danceAura=null;
+function vfxDanceStart(){ if(!_danceAura) _danceAura=spawnFlipbook('dance',P.pos.x,P.pos.y+1,P.pos.z,3.2); }
+function vfxDanceStop(){ _danceAura=null; /* loop self-clears when ASSETS.dance has no url; sheet loop stops at ult end via SK.ult guard below */ }
+
+/* ---- C) PORTRAIT SYSTEM (dialogue UI) -----------------------------------
+   Scenes may declare `speaker:'jin'`. renderScene calls setPortrait(id).
+   Painted bust when available; else a styled calligraphy glyph medallion.  */
+function setPortrait(speaker){
+  const slot=$('portrait'); if(!slot) return;
+  if(!speaker){ slot.style.display='none'; slot.innerHTML=''; return; }
+  const def=ASSETS.portrait[speaker];
+  slot.style.display='block';
+  if(def && def.url){
+    slot.innerHTML=`<img src="${def.url}" alt="" onerror="this.parentNode.setAttribute('data-fb','1')">`;
+  } else {
+    const fb=(def&&def.fallback)||{glyph:'人',tint:'#ece1c8'};
+    slot.innerHTML=`<div class="portrait-fb" style="--pt:${fb.tint}">${fb.glyph}</div>`;
+  }
+}
+
+/* ---- D) already above (vfx* entry points) -------------------------------- */
+
+/* ---- E) CUTSCENE PLAYBACK ABSTRACTION -----------------------------------
+   playCutscene(key, {subs:[{t,txt}], dur, after}) chooses, in order:
+     1. Higgsfield video  (ASSETS.cutscene[key].url ends .mp4/.webm)
+     2. Higgsfield frame sequence (frames:[urls])
+     3. Procedural puppet (existing in-engine staged camera + subtitles)
+   Subtitles are driven uniformly regardless of which path runs.           */
+let CUT={active:false,t:0,dur:0,subs:[],after:null,mode:null,vid:null,shot:null};
+function playCutscene(key, opts){
+  opts=opts||{}; const def=ASSETS.cutscene[key]||{};
+  CUT={active:true,t:0,dur:opts.dur||6,subs:(opts.subs||[]).slice(),after:opts.after||null,
+       mode:null,vid:null,shot:opts.shot||null,key:key};
+  document.body.classList.add('cine');
+  const bar=$('cutsub'); if(bar){ bar.textContent=''; bar.classList.remove('on'); }
+  if(def.url && /\.(mp4|webm)$/.test(def.url)){
+    CUT.mode='video';
+    const v=document.createElement('video');
+    v.src=def.url; v.autoplay=true; v.playsInline=true; v.muted=false;
+    v.className='cut-video'; v.onended=()=>endCutscene();
+    document.body.appendChild(v); CUT.vid=v;
+  } else if(def.frames && def.frames.length){
+    CUT.mode='frames'; CUT.frames=def.frames; CUT.fps=def.fps||12; CUT.fi=0;
+    const img=document.createElement('img'); img.className='cut-video'; document.body.appendChild(img);
+    CUT.vid=img; img.src=def.frames[0];
+  } else {
+    CUT.mode='puppet';            // procedural fallback: staged camera sweep
+    if(typeof opts.stage==='function') CUT.shot=opts.stage; // per-scene choreography hook
+    startCine(null);              // reuse existing letterboxed camera sweep
+  }
+}
+function tickCutscene(dt){
+  if(!CUT.active) return;
+  CUT.t+=dt;
+  // frame-sequence advance
+  if(CUT.mode==='frames'){
+    const fi=Math.floor(CUT.t*CUT.fps);
+    if(fi!==CUT.fi){ CUT.fi=fi; if(fi<CUT.frames.length) CUT.vid.src=CUT.frames[fi]; else return endCutscene(); }
+  }
+  // puppet choreography hook + camera
+  if(CUT.mode==='puppet'){ if(CUT.shot) CUT.shot(CUT.t,dt); }
+  // subtitles (shared by all modes)
+  const bar=$('cutsub');
+  if(bar && CUT.subs.length){
+    const cur=CUT.subs[0];
+    if(CUT.t>=cur.t){ bar.textContent=cur.txt; bar.classList.add('on'); CUT._shown=CUT.subs.shift(); }
+  }
+  if(CUT.mode!=='video' && CUT.mode!=='frames' && CUT.t>=CUT.dur) endCutscene();
+}
+function endCutscene(){
+  if(!CUT.active) return;
+  CUT.active=false; document.body.classList.remove('cine');
+  const bar=$('cutsub'); if(bar) bar.classList.remove('on');
+  if(CUT.vid){ CUT.vid.remove(); CUT.vid=null; }
+  if(CINE.active) endCine();
+  const after=CUT.after; CUT.after=null; if(after) after();
+}
+function skipCutscene(){ if(CUT.active) endCutscene(); }
+
+/* ---- procedural rig style tuning hook (Layer 0 consistency) --------------
+   Called by mkPlayer/mkGuard after build so rig materials match the palette
+   reference rather than raw primary colors. No-op-safe if rig absent.      */
+function styleRig(grp, role){
+  if(!grp) return;
+  const pal=ART_STYLE.palette;
+  const tint = role==='player'? pal.paper : role==='boss'? pal.blood : role==='ally'? pal.jade : '#6b6f7e';
+  grp.traverse&&grp.traverse(o=>{ if(o.material&&o.material.color&&o.userData.styleable){ /* reserved */ } });
+  grp.userData.styleTint=tint;
+}
 
 </script>
 <script>
@@ -603,7 +1093,7 @@ function reqLabel(req){
 }
 
 /* ---------------- overlay narrative renderer ---------------- */
-const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6};
+const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6, ch7:7, ch8:8, ch9:9, ch10:10};
 let overlayOpen=false, openedGate=null, selChoice=-1;
 
 function openOverlay(){ overlayOpen=true; $('overlay').classList.add('open'); }
@@ -654,6 +1144,17 @@ function go(id){
     $('objtxt').textContent='Fight!';
     return;
   }
+  if(typeof id==='string' && id.indexOf('CINE:')===0){
+    const rest=id.slice(5), ci=rest.indexOf(':');
+    const key=rest.slice(0,ci), next=rest.slice(ci+1);
+    if(overlayOpen) closeOverlay();
+    const spec=(typeof CUTSPECS!=='undefined'&&CUTSPECS[key])||{};
+    playCutscene(key,{dur:spec.dur||8, subs:spec.subs||[], stage:spec.stage||null, after:()=>go(next)});
+    return;
+  }
+  // ---- cave area swap-ins (Mission 5). Build the room, drop the quest gates. ----
+  if(id==='a5_frag_go'){ if(overlayOpen) closeOverlay(); buildCaveArea('fragments'); return; }
+  if(id==='a5_hunt_go'){ if(overlayOpen) closeOverlay(); buildCaveArea('weapons'); return; }
   S.scene=id;
   const lvl = LEVEL_CARDS[id];
   if(lvl && lvl!==curLevel){
@@ -675,6 +1176,10 @@ const ART={
   ch4:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150708_c22b34e0-f1a9-4d6f-872c-f55da26ad822.png',
   ch5:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
   ch6:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151218_eb6661c5-99a3-4fe7-b2c1-6e89187d2059.png',
+  ch7:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150708_c22b34e0-f1a9-4d6f-872c-f55da26ad822.png',
+  ch8:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
+  ch9:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150536_b7447fed-2742-4f43-83e6-3e5e7dc0a53d.png',
+  ch10:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
 };
 function renderScene(id){
   const sc = SCENES[id]; if(!sc){ console.warn('missing scene',id); return; }
@@ -682,6 +1187,7 @@ function renderScene(id){
   const card=$('ocard');
   card.classList.remove('fade'); void card.offsetWidth; card.classList.add('fade');
   card.classList.toggle('chapter', !!sc.chapter);
+  if(typeof setPortrait==='function') setPortrait(sc.speaker||null);
   $('oeyebrow').textContent = sc.eyebrow||'';
   $('otitle').textContent = sc.title||'';
   let body = typeof sc.text==='function' ? sc.text() : sc.text;
@@ -1001,6 +1507,123 @@ function lights(hemiSky,hemiGnd,hemiI,dirC,dirI,dx,dy,dz){
   const d=new THREE.DirectionalLight(dirC,dirI); d.position.set(dx,dy,dz); world.group.add(d);
 }
 
+
+
+/* ================= THE FOUR HERO CUTSCENES (puppet stagings) =================
+   Camera choreography + timed dialogue over the live 3D scene. Skippable.
+   If Higgsfield cinematics are ever injected, these stagings are bypassed
+   automatically by playCutscene's asset-priority logic.                     */
+const CUTSPECS = {
+  ford: { dur: 16, subs: [
+      {t:0.5, txt:'He catches them at the ford. One man, on foot, against seven.'},
+      {t:3.5, txt:'You watch your father take them apart \u2014 the first with an arrow, the last with his hands.'},
+      {t:7.0, txt:'Then his arms are around you, and he is saying your name into your hair \u2014'},
+      {t:10.0,txt:'\u2014 and his arms go slack. You feel it before you understand it.'},
+      {t:13.0,txt:'A blade behind you is a funeral. He was holding you when he stopped listening.'},
+    ],
+    stage(t,dt){
+      // slow orbital descent toward the river's edge, ending close and low
+      const a=-1.2+t*.09, r=16-Math.min(10,t*.8), h=7-Math.min(5,t*.42);
+      camera.position.set(P.pos.x+Math.sin(a)*r, h, P.pos.z-19+Math.cos(a)*r);
+      camera.lookAt(new THREE.Vector3(P.pos.x, 1, P.pos.z-19));
+    } },
+  kiss: { dur: 12, subs: [
+      {t:0.5, txt:'\u201cStop trying to beat me. Move with me.\u201d'},
+      {t:3.0, txt:'And one evening you stop fighting it \u2014'},
+      {t:5.5, txt:'\u2014 and the two of you are one turning shape in the lantern light, blade-edge to blade-edge, never touching.'},
+      {t:9.0, txt:'The form ends. Neither of you steps back.'},
+      {t:10.8,txt:'The distance closes by itself.'},
+    ],
+    stage(t,dt){
+      // slow circle around the pond, drifting upward at the end (the tasteful cut to the lanterns)
+      const a=t*.28, r=9-Math.min(3,t*.2), h=2.2+(t>9? (t-9)*1.6 : 0);
+      camera.position.set(Math.sin(a)*r, h, 6+Math.cos(a)*r);
+      camera.lookAt(new THREE.Vector3(0, t>9? 3.5+(t-9) : 1.2, 6));
+    } },
+  recognition: { dur: 10, subs: [
+      {t:0.4, txt:'There are too many. Thinking stops. Your body chooses for you \u2014'},
+      {t:3.0, txt:'\u2014 and it chooses the pond, the lanterns, the turning form \u2014'},
+      {t:5.5, txt:'\u2014 and the stranger flows into it with you, like he has been waiting years for the invitation.'},
+      {t:8.0, txt:'You know this dance. You know this dancer.'},
+    ],
+    stage(t,dt){
+      // accelerating circle around the player \u2014 the dance made of camera
+      const a=t*(.4+t*.06), r=7.5-Math.min(3.5,t*.35);
+      camera.position.set(P.pos.x+Math.sin(a)*r, 3.4-Math.min(1.6,t*.15), P.pos.z+Math.cos(a)*r);
+      camera.lookAt(new THREE.Vector3(P.pos.x, 1.3, P.pos.z));
+    } },
+  lake: { dur: 12, subs: [
+      {t:0.5, txt:'The water is glass. The mountain stands upside down in it.'},
+      {t:3.5, txt:'He is there at the shore \u2014 and for once, not moving at all.'},
+      {t:6.5, txt:'As if stillness were the gift he prepared.'},
+      {t:9.0, txt:'\u201cYou came,\u201d he says. In Korean. Still clumsy. Still learned for you.'},
+    ],
+    stage(t,dt){
+      // long slow push across the water toward the shore
+      const z=-30+t*1.1, h=5.5-t*.22;
+      camera.position.set(Math.sin(t*.1)*3, Math.max(2.2,h), z);
+      camera.lookAt(new THREE.Vector3(0, 3.9, -16));
+    } },
+};
+
+/* ---- Mission 5 cave sub-area. Rebuilds world.group in place, sets gates. ---- */
+function buildCaveArea(phase){
+  // wipe current area
+  while(world.group.children.length) world.group.remove(world.group.children[0]);
+  world.solids.length=0; world.gates.length=0; world.enemies.length=0;
+  world.dynamic.length=0; world.closeScenes=[];
+  P.pos.set(0,1.1,10); P.vy=0; P.grounded=true; P.safe.copy(P.pos);
+
+  // warm lantern-lit cave: dark rock, gold light, hanging paintings, spring, moss
+  sky('#1a1710','#221c12',10,42);
+  lights('#3a2f22','#0a0806',.5,'#e8b070',.9,4,10,6);
+  ground(40,40,'#26201a',0);
+  // rock shell (solid walls around a room)
+  wallRun(-14,-14,14,-14,5,'#2c2620'); wallRun(-14,14,14,14,5,'#2c2620');
+  wallRun(-14,-14,-14,14,5,'#2c2620'); wallRun(14,-14,14,14,5,'#2c2620');
+  // rock pillars / uneven interior
+  box(2,4,2,'#322a22',-8,2,-6,{solid:true}); box(2.4,5,2.4,'#2e271f',9,2.5,-4,{solid:true});
+  box(1.6,3,1.6,'#352c23',6,1.5,7,{solid:true});
+  // the spring pool (far corner) — the 'water's secret'
+  box(7,.08,6,'#3a6a72',-8,.06,-10,{}); world.solids.push({x1:-11,z1:-13,x2:-5,z2:-7,top:.3});
+  // the singing stone (center, low platform you can stand on)
+  box(2.2,.5,2.2,'#4a4034',0,.25,-2,{solid:true,plat:true});
+  // hanging paintings (quads on the walls) — art blends per style
+  for(let i=0;i<5;i++){ box(1.4,1.9,.06,'#c9b78a',-11+i*5.5,2.6,-13.6,{}); }
+  // lanterns for warmth
+  lantern(-8,3.4,-6,true); lantern(9,3.6,-4,true); lantern(0,3.2,6,true); lantern(-8,2.6,-10,true);
+  // moss dabs + a shaft of light (light cone)
+  for(let i=0;i<10;i++) box(.6,.05,.6,'#4a6a3a',-12+Math.random()*24,.06,-12+Math.random()*24,{});
+  mkSnow(60);
+
+  if(phase==='fragments'){
+    $('objtxt').textContent='Read the cave. Find the five fragments.';
+    const fpos=[[-11,-6,2.4],[11,-8,2.4],[-9,-11,.6],[6,10,2.6],[0,-2,1.0]]; // last = on the singing stone
+    fpos.forEach((p,i)=>{
+      world.gates.push({
+        entry:null, quick:'A line, vertical in the crack \u2014 a woman\u2019s hand disguised as water-stain.',
+        title:'Fragment '+(i+1), pos:[p[0],p[1]], y:p[2], tag:'frag', avail:()=>true
+      });
+    });
+    world.gates.push({ entry:'a5_stone', title:'Beneath the Singing Stone', pos:[0,-2], y:.6,
+      avail(){ return world.gates.filter(g=>g.tag==='frag'&&g.done).length>=5; } });
+    world.closeScenes=['a5_stone'];
+  } else { // weapons
+    $('objtxt').textContent='Two weapons. The high ledge, and the water\u2019s secret.';
+    // sword: high ledge (a raised platform you jump to)
+    box(3,.5,2,'#3a3128',9,3,-9,{solid:true,plat:true});
+    box(2.2,.4,1.2,'#43392d',7.5,1.6,-8,{solid:true,plat:true}); // step up
+    world.gates.push({ entry:'a5_sword', title:'The High Ledge \u2014 Crane\u2019s Wing', pos:[9,-9], y:3.3,
+      avail:()=>true, fx(){ S.flags.jinsword=true; } });
+    world.gates.push({ entry:'a5_bow', title:'The Water\u2019s Secret \u2014 Winter Bow', pos:[-8,-10], y:.4,
+      avail(){ return world.gates.find(g=>g.entry==='a5_sword').done; },
+      fx(){ S.flags.mombow=true; if(typeof setWeapon==='function') setWeapon('The Winter Bow'); } });
+    world.closeScenes=['a5_sword','a5_bow'];
+  }
+  // reset the visit book-keeping for gates
+  world.gates.forEach(g=>{ g.done=false; g._p=null; });
+}
+
 const LEVELS = {
 /* ---------- 1 · Uiju, Joseon (bright winter morning) ---------- */
 1:{ name:'Uiju, Joseon \u00b7 Age 11', spawn:[0,14],
@@ -1179,7 +1802,7 @@ const LEVELS = {
     {entry:null, quick:'\u201cHe left ME.\u201d You win the argument. The empty yard concedes.', title:'Pace the Yard', pos:[-7,16.2], tag:'busy', avail:()=>true},
     {entry:'a5_msg', title:'The Runner', pos:[0,13],
       avail(){ return world.gates.filter(g=>g.tag==='busy'&&g.done).length>=3; }},
-    {entry:'a5_lake', title:'Where the Mountain Sees Itself', pos:[0,-12.5], y:3.6, avail(){return this._p.done}},
+    {entry:'a5_lake', title:'Where the Mountain Sees Itself', pos:[0,-12.5], y:3.6, cine:'lake', avail(){return this._p.done}},
   ]
 },
 
@@ -1220,8 +1843,128 @@ const LEVELS = {
   ],
   wave(){ const b=world.L.batuBoss; b.state='chase'; b.stateHome='chase'; b.bar.visible=true; return [b]; }
 },
-};
+7:{ name:'Liaoyang \u00b7 The Fall', spawn:[-16,18],
+  build(){
+    sky('#1a0e10','#241114',12,60);
+    lights('#7a3428','#170c0a',.6,'#ff9a5a',.75,-10,26,-8);
+    ground(56,56,'#2e2126',0);
+    const B=[[-10,10,6,6,2.6],[-3,9,5,5,3.1],[3.5,6,6,5,3.5],[9,2,5,6,3.8],[13,-4,6,5,4.2],
+             [8,-10,5,5,3.4],[1,-8,6,5,3],[-6,-4,5,6,2.7],[-12,-10,6,5,3.2],[15,-12,5,5,4.6]];
+    B.forEach((b,i)=>building(b[0],b[1],b[2],b[3],b[4],MATS.wallNight,MATS.roofNight,{lantern:i%3===0}));
+    // fires: glowing braziers scattered (burning city)
+    for(let i=0;i<8;i++){ lantern(-18+Math.random()*36,1.2+Math.random()*2,-16+Math.random()*32,true); }
+    // the keep (Zhao's post) at the north
+    wallRun(-8,-18,8,-18,4,'#4a3a34'); building(0,-18,6,4,5,'#4a3a34','#2a1d1a',{lantern:true,light:true});
+    // barricade (Lan) mid-map
+    box(6,1.2,1,'#5a4636',-4,.6,6,{solid:true});
+    mkGuard(6,10,{hp:50,dmg:12,aggro:8,patrol:[[6,10],[-2,10]]});
+    mkGuard(-10,-2,{hp:50,dmg:12,aggro:8});
+    mkGuard(12,-8,{hp:55,dmg:13,aggro:9,speed:3});
+    mkSnow(300);
+  },
+  closeScenes:['a7_go'],
+  gates:[
+    {entry:null, quick:'A family runs past with everything they own in two baskets. The city is ending around them.', title:'The Burning Street', pos:[-8,12], tag:'l7q', avail:()=>true},
+    {entry:'a7_lan', title:'The Barricade', pos:[-4,6.8],
+      avail(){ return world.enemies.filter(e=>!e.dummy&&e.hp<=0).length>=1; }},
+    {entry:'a7_dance', title:'The Rooftop Road', pos:[10,-14], avail(){ return !!S.flags.zhaoSaved; }},
+  ],
+  wave(){ const w=[]; [[2,-6],[-4,-8],[6,-12],[-8,-12]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:48,dmg:12,speed:3,aggro:60}))); return w; }
+},
 
+/* ---------- 8 · The mountain pass (ledger convoy) ---------- */
+8:{ name:'The Western Hills \u00b7 The Pass', spawn:[0,20],
+  build(){
+    sky('#141826','#1b2030',12,70);
+    lights('#3a4a6a','#14120e',.5,'#c8d4ee',.55,-16,28,-12);
+    const T=[[0,18,24,12,0],[0,7,20,10,1.4],[0,-3,18,9,2.8],[0,-12,15,8,4.2]];
+    T.forEach(t=>box(t[2],Math.max(t[4],.3)+.3,t[3],'#dfe5ee',t[0],(t[4]-.15),t[1],{plat:true}));
+    T.slice(0,-1).forEach((t,i)=>{ const n=T[i+1];
+      for(let s2=1;s2<=3;s2++){ const y=t[4]+(n[4]-t[4])*s2/3.4, z=t[1]+(n[1]-t[1])*(s2/4)-2;
+        box(2.6,.4,1.4,'#c9cfd8',(i%2?3:-3),y,z,{solid:true,plat:true}); } });
+    // the cut below (convoy road) with cart + strongbox
+    box(4,1,2,'#4a3b2c',0,4.6,-16,{solid:true}); box(1.4,.9,1,'#6a5a3a',0,5.4,-16,{});
+    for(let z=-18;z<=-8;z+=4) lantern(3,5.4,z,true);
+    const spots=[[-8,12],[8,13],[-7,3],[7,4],[-6,-6],[6,-5]];
+    spots.forEach((p,i)=>tree(p[0],p[1],.9+((i*7)%5)*.14));
+    mkGuard(-3,-14,{hp:52,dmg:13,aggro:9}); mkGuard(4,-10,{hp:52,dmg:13,aggro:9});
+    mkSnow(700);
+  },
+  closeScenes:['a8_go'],
+  gates:[
+    {entry:null, quick:'Wolf-fur riders below, and behind the cart \u2014 a roped line of people, stumbling in the dark.', title:'The Overlook', pos:[0,8], y:1.7, avail:()=>true},
+    {entry:'a8_convoy', title:'Lanterns in the Cut', pos:[0,-10.5], y:4.4, avail(){return world.gates[0].done;}},
+  ],
+  wave(){ const w=[]; [[-4,-14],[5,-12],[0,-18],[-7,-9]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:52,dmg:13,speed:3,aggro:60}))); return w; }
+},
+
+/* ---------- 9 · Shenyang holding yards (night) ---------- */
+9:{ name:'Shenyang \u00b7 The Holding Yards', spawn:[0,26],
+  build(){
+    sky('#0c0f1a','#121628',14,70);
+    lights('#2c3760','#100e0c',.45,'#e8b070',.6,10,24,-10);
+    ground(40,60,'#232838',0);
+    // cage rows
+    function cage(x,z){ box(3,2,3,'#241f1a',x,1,z,{solid:true});
+      for(let i=0;i<4;i++) box(.12,2.2,.12,'#141210',x-1.4+i*.93,1.1,z+1.55,{}); }
+    cage(-8,10); cage(-8,2); cage(-8,-6); cage(8,8); cage(8,0); cage(8,-8);
+    for(let z=-12;z<=14;z+=6) lantern(0,2.4,z, z===2||z===-10);
+    // the counting house (north)
+    wallRun(-10,-20,10,-20,4,'#3a3446'); building(0,-20,8,5,4.4,'#3a3446','#221e2c',{lantern:true,light:true});
+    wallRun(-19,-26,19,-26,5,'#2c2a36'); wallRun(-19,20,19,20,5,'#2c2a36');
+    mkGuard(0,14,{hp:55,dmg:13,aggro:8,patrol:[[0,14],[0,4]]});
+    mkGuard(-10,-2,{hp:55,dmg:13,aggro:8,patrol:[[-10,-2],[-4,-2]]});
+    mkGuard(10,-4,{hp:55,dmg:13,aggro:8});
+    mkSnow(250);
+  },
+  closeScenes:['a9_go'],
+  gates:[
+    {entry:null, quick:'The lock gives. \u201cGo south along the wall,\u201d you whisper in Korean. \u201cDancers will meet you.\u201d', title:'Cage Row', pos:[-8,10.8], tag:'yc', avail:()=>true},
+    {entry:null, quick:'An old man grips your wrist: \u201cMy granddaughter \u2014 third cage.\u201d You are already moving.', title:'Cage Row', pos:[8,8.8], tag:'yc', avail:()=>true},
+    {entry:null, quick:'The children go over the wall in the dancers\u2019 ribbons, laughing \u2014 laughing \u2014 at the ride.', title:'Cage Row', pos:[-8,-5.2], tag:'yc', avail:()=>true},
+    {entry:'a9_kang', title:'The Counting House', pos:[0,-18],
+      avail(){ return world.gates.filter(g=>g.tag==='yc'&&g.done).length>=3; }},
+    {entry:'a9_out', title:'The Western Gate', pos:[-16,18], avail(){ return this._p && this._p.done; }},
+  ],
+  wave(){ const w=[]; [[-4,6],[4,4],[0,-4],[-6,-10],[6,-12]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:55,dmg:13,speed:3.1,aggro:60}))); return w; }
+},
+
+/* ---------- 10 · Uiju ford at dawn (the return) ---------- */
+10:{ name:'Uiju \u00b7 The Third Crossing', spawn:[0,20],
+  build(){
+    sky('#3a3f55','#8a7a88',16,90);
+    lights('#c8a8b8','#2c2430',.7,'#ffd8a8',.7,30,18,20);
+    ground(48,60,'#e8ecf2',0);
+    // the ford: frozen river band across the middle
+    box(48,.1,10,'#b8d0dc',0,.05,-6,{});
+    // village (south, behind spawn)
+    building(-12,16,8,5,2.8,MATS.wallDay,MATS.roof,{door:true,lantern:true});
+    building(0,18,7,5,2.6,MATS.wallDay,MATS.roof,{door:true,lantern:true,light:true});
+    building(11,15,7,5,2.7,MATS.wallDay,MATS.roof,{door:true});
+    // father's grave on the north rise
+    box(1,1.4,.4,'#8a8d98',6,.7,-18,{solid:true});
+    tree(4,-19,1.2); tree(8.5,-18,1);
+    // millet stubble
+    for(let i=0;i<24;i++){ const m=new THREE.Mesh(new THREE.ConeGeometry(.14,.8,5),mat('#9a8f6a'));
+      m.position.set(-14+(i%12)*2.6,.4,8+Math.floor(i/12)*3); world.group.add(m); }
+    tree(-16,-14,1.1); tree(16,-15,1.2); tree(-18,8,1);
+    mkSnow(500);
+  },
+  closeScenes:['a10_go'],
+  gates:[
+    {entry:null, quick:'The village is smaller than memory. All first places are.', title:'The Road Home', pos:[0,14], tag:'l10q', avail:()=>true},
+    {entry:'a10_wolf', title:'Riders on the West Wind', pos:[0,-6],
+      avail(){ return world.gates[0].done; }},
+    {entry:'a10_return', title:'The Village Wakes', pos:[0,16.5], avail(){ return !!S.flags.wolfDown; }},
+    {entry:'a10_end', title:'The Grave on the Rise', pos:[6,-16.5],
+      avail(){ return world.gates.find(g=>g.entry==='a10_return').done; }},
+  ],
+  wave(){
+    const w=[]; [[-5,-8],[5,-9],[-8,-4],[8,-5]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:52,dmg:13,speed:3,aggro:60})));
+    const boss=mkGuard(0,-12,{boss:true,hp:210,dmg:18,speed:3.7,aggro:60}); boss.state='chase'; boss.stateHome='chase'; w.push(boss);
+    return w; }
+},
+};
 /* gate availability plumbing: give each gate a reference to its predecessor */
 function loadLevel(n){
   curLevel=n; baseWorld(); initMats();
@@ -1234,7 +1977,7 @@ function loadLevel(n){
   world.L.spawnWave = L.wave ? L.wave.bind(L) : null;
   P.pos.set(L.spawn[0], groundAt(L.spawn[0],L.spawn[1],50)+.02, L.spawn[1]);
   P.vy=0; P.safe.copy(P.pos); P.hp=P.maxhp; P.dead=0; if(typeof hpUI==='function')hpUI();
-  setWeapon(S.flags.trained?'Zhao Steel':'Knife \u0026 Bow');
+  setWeapon(S.flags.mombow?'The Winter Bow':(S.flags.trained?'Zhao Steel':'Fists \u0026 Bow'));
   $('chapname').textContent = L.name;
   updateObjective();
 }
@@ -1314,7 +2057,9 @@ function tickGates(dt, wantEnter){
 }
 function openGate(g){
   if(g.quick){ subtitle(g.quick); if(g.fx)g.fx(); g.done=true; if(g.onDone)g.onDone(); updateObjective(); return; }
-  openedGate=g; if(g.fx)g.fx(); if(g.tag==='route') world.L.route=true; go(g.entry);
+  openedGate=g; if(g.fx)g.fx(); if(g.tag==='route') world.L.route=true;
+  if(g.cine && !g._cined){ g._cined=true; go('CINE:'+g.cine+':'+g.entry); return; }
+  go(g.entry);
 }
 
 /* ==================================================================
@@ -1329,6 +2074,7 @@ function updateCds(){
     // ④ ult needs the dance; ① dash needs training
     if(i===3 && !S.flags.dance){ el.textContent='4'; el.className='cd locked'; continue; }
     if(i===0 && !S.flags.trained){ el.textContent='1'; el.className='cd locked'; continue; }
+    if(i===2 && !S.flags.sk3){ el.textContent='3'; el.className='cd locked'; continue; }
     if(!S.flags.trained && (i===1||i===2)){                 // bow + throw available early
       if(SK.cd[i]>0){ el.textContent=Math.ceil(SK.cd[i]); el.className='cd cool'; }
       else { el.textContent=(i+1); el.className='cd ready'; }
@@ -1399,6 +2145,7 @@ function guardLegs(e,dt,moving){
   } else { e.thighL.rotation.x*=.8; e.thighR.rotation.x*=.8; e.kneeL.rotation.x*=.8; e.kneeR.rotation.x*=.8; }
 }
 function hitEnemies(range,arc,dmg,knock,stun){
+  if(typeof vfxSlash==='function'){ const fx=Math.sin(P.yaw)*range*.6, fz=Math.cos(P.yaw)*range*.6; vfxSlash(P.pos.x+fx,P.pos.y+1,P.pos.z+fz); }
   let hit=0;
   for(const e of world.enemies){
     if(e.hp<=0||e.state==='passive')continue;
@@ -1488,7 +2235,8 @@ function bowShot(){
     if(clock.elapsedTime-born>.7){ ar.visible=false; }
   });
   if(best){
-    best.hp-=Math.round(15*mult);
+    if(typeof vfxBowHit==='function') vfxBowHit(best.grp.position.x,best.grp.position.y+1,best.grp.position.z);
+    best.hp-=Math.round((S.flags&&S.flags.mombow?22:15)*mult);
     drawBar(best.bar,best.hp/best.max);
     if(!best.dummy){best.state='stagger';best.t=.3;}
     if(best.hp<=0){best.state='dead';best.t=1.2;if(!best.dummy&&!best.boss){P.hp=Math.min(P.maxhp,P.hp+12);hpUI();}}
@@ -1515,7 +2263,7 @@ function playerCombat(dt, k, dodge, mv){
     if(SK.ult>.6) P.pos.y+=dt*2.2;
     SK.tick=(SK.tick||0)-dt;
     if(SK.tick<=0){ SK.tick=.3; hitEnemies(3.4,Math.PI,14,1.2,.6); }
-    if(SK.ult<=0){ player.rotation.y=P.yaw; }
+    if(SK.ult<=0){ player.rotation.y=P.yaw; if(typeof vfxDanceStop==='function') vfxDanceStop(); }
     updateCds(); return;
   }
   if(!S.flags.trained){
@@ -1525,9 +2273,9 @@ function playerCombat(dt, k, dodge, mv){
       hitEnemies(1.8,1.1,11,.5,.35); }
     if(k.s2 && SK.cd[1]<=0){ SK.cd[1]=SK.max[1];
       ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false; bowShot(); }
-    if(k.s3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];
+    if(k.s3 && S.flags.sk3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];
       ANIM.atk=.5; ANIM.atkDur=.5; ANIM.heavy=true;
-      hitEnemies(1.7,1.2,20,1.4,.9); }                 // early throw/shove, weaker than trained
+      hitEnemies(1.7,1.2,20,1.4,.9); }                 // Lan's counter-throw (untrained power)
     updateCds(); return;
   }
   if(k.basic && P.atkCd<=0){ P.atkCd=.38;
@@ -1542,11 +2290,11 @@ function playerCombat(dt, k, dodge, mv){
     P.iframes=Math.max(P.iframes,.2); }
   if(k.s2 && SK.cd[1]<=0){ SK.cd[1]=SK.max[1];                     // 2 · Father's Bow
     ANIM.atk=.35; ANIM.atkDur=.35; ANIM.heavy=false; bowShot(); }
-  if(k.s3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];                     // 3 · Ssireum Throw
+  if(k.s3 && S.flags.sk3 && SK.cd[2]<=0){ SK.cd[2]=SK.max[2];      // 3 · Lan's Counter-Throw
     ANIM.atk=.55; ANIM.atkDur=.55; ANIM.heavy=true;
     hitEnemies(1.8,1.3,28,1.8,1.1); }
   if(k.s4 && S.flags.dance && SK.cd[3]<=0){ SK.cd[3]=SK.max[3];    // 4 · ULT: The Dance
-    SK.ult=1.4; P.vy=5; P.grounded=false;
+    SK.ult=1.4; P.vy=5; P.grounded=false; if(typeof vfxDanceStart==='function') vfxDanceStart();
     subtitle('The pond. The lanterns. Move with it.',1400); }
   updateCds();
 }
@@ -1670,9 +2418,13 @@ function frameBody(t){
   if(!world){ renderer.render(scene,camera); return; }
   const pad=pollPad(t||0);
   const look=new THREE.Vector2(0,0);
+  if((typeof CUT!=='undefined'&&CUT.active)){
+    const gp=navigator.getGamepads&&navigator.getGamepads()[0];
+    if((gp&&gp.buttons[0]&&gp.buttons[0].pressed)||TOUCH.jump||KEY.Space){ TOUCH.jump=false; KEY.Space=false; skipCutscene(); }
+    tickCutscene(dt); if(typeof tickFX==='function')tickFX(dt); world.dynamic.forEach(f=>f(dt)); tickSnow(dt); renderer.render(scene,camera); return; }
   if(CINE.active){
     if(pad.enter||TOUCH.jump||KEY.Space){ endCine(); TOUCH.jump=false; KEY.Space=false; }
-    else { tickCine(dt); world.dynamic.forEach(f=>f(dt)); tickSnow(dt); renderer.render(scene,camera); return; }
+    else { if(typeof CUT!=='undefined'&&CUT.active){tickCutscene(dt);} else {tickCine(dt);} if(typeof tickFX==='function')tickFX(dt); world.dynamic.forEach(f=>f(dt)); tickSnow(dt); renderer.render(scene,camera); return; }
   }
   if(!overlayOpen && started){
     const mv=new THREE.Vector2(pad.mv.x+TOUCH.move.x+((KEY.KeyD||KEY.ArrowRight)?1:0)-((KEY.KeyA||KEY.ArrowLeft)?1:0),
@@ -1692,6 +2444,7 @@ function frameBody(t){
   }
   tickCamera(dt, look);
   world.dynamic.forEach(f=>f(dt));
+  if(typeof tickFX==='function') tickFX(dt);
   tickSnow(dt);
   renderer.render(scene,camera);
 }
@@ -1701,9 +2454,13 @@ requestAnimationFrame(frame);
 const CODES={
   'MARKET':()=>{S.flags={}; startAt(2);},
   'ESTATE':()=>{S.flags={}; startAt(3);},
-  'MASKED':()=>{S.flags={trained:true}; startAt(4);},
-  'LAKE':()=>{S.flags={trained:true,dance:true}; startAt(5);},
-  'RIVER':()=>{S.flags={trained:true,dance:true}; startAt(6);},
+  'MASKED':()=>{S.flags={trained:true,sk3:true}; startAt(4);},
+  'LAKE':()=>{S.flags={trained:true,sk3:true,dance:true}; startAt(5);},
+  'RIVER':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(6);},
+  'SIEGE':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(7);},
+  'LEDGER':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(8);},
+  'YARDS':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(9);},
+  'HOME':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(10);},
 };
 function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
