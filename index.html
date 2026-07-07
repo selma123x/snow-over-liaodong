@@ -634,7 +634,8 @@ a7_lan:{
   title:'The Daughter Holds the Door',
   text:`<p><b>Lan</b> holds the barricade with twenty exhausted soldiers and the calm of a woman balancing accounts. "He won't come," she says, in place of hello. "Li Yongfang knelt at Fushun and they made him rich. Father says he would rather be poor and <em>his own</em>."</p>
   <p>"Then we don't ask," you say. "We carry."</p>
-  <p>Something like a smile. "Little sister. You did grow up." She turns to shout an order, turns back. "You know what I do now? Mother taught me sums, so I keep books. Kang counts what he takes. I count what we take <em>back</em> — every name we free goes in my ledger. When this is over, mine will be longer than his." A beat, quieter: "Her letter said I should forgive the world for being what it is. I'm starting with a barricade."</p>`,
+  <p>Something like a smile. "Little sister. You did grow up." She turns to shout an order, turns back. "You know what I do now? Mother taught me sums, so I keep books. Kang counts what he takes. I count what we take <em>back</em> — every name we free goes in my ledger. When this is over, mine will be longer than his." A beat, quieter: "Her letter said I should forgive the world for being what it is. I'm starting with a barricade."</p>
+  <p>Then, as you turn to go, she catches your arm — the only time tonight her calm cracks. "One more thing. There's an officer with the Banners out there. Doesn't loot. Doesn't burn. He walks the captive pens with a brush and paper and he <em>counts</em>. My scouts say the soldiers fear him more than the fire. They call him the Wolf." She lets go. "A man who counts people, little sister. You know the type. This one has an army."</p>`,
   choices:[{t:'Cut a path to the keep.', to:'WAVE:a7_zhao'}]
 },
 a7_zhao:{
@@ -675,6 +676,8 @@ a8_ledger:{
   eyebrow:'The Pass · The Strongbox', crumb:'The Pass',
   title:'What the Wolf Wanted',
   text:`<p>The captives go west with Lan's outriders. The strongbox opens on the Great Ledger's neat, fat pages — and on top, a letter of sale, already sealed: <em>"To Ohan of the Plain Blue Banner — the whole apparatus, for services rendered. The original follows with me to Shenyang. — K."</em></p>
+  <p>You turn the pages and go cold in a new way. The margins are <em>annotated</em> — a second hand, red ink, small and immaculate. Corrections. Cross-references. A question mark beside a safehouse Kang got wrong. And on the page that maps the network's methods, one entry circled twice, a single note in that patient red hand: <em>"The girl. Fights like two schools. Confirm."</em></p>
+  <p>Jin reads it over your shoulder and is quiet for a moment. "Kang sells," he says finally. "This one <em>studies</em>."</p>
   <p>The original. With <em>him</em>. To the capital of the conquest, where the holding yards are — where they gather the taken before the long march north.</p>
   <p class="whisper">Shenyang, then. The belly of it.</p>`,
   choices:[{t:'Night watch, before the long road.', to:'a8_jin'}]
@@ -711,7 +714,10 @@ a9_kang:{
 a9_out:{
   eyebrow:'Shenyang · Before Dawn', crumb:'Shenyang', speaker:'zhao',
   title:'Two Roads',
-  text:`<p>At the walls, Zhao takes your hands. He is going west with Lan — there is a resistance to stitch together, and an old strategist is worth a regiment. You are going east, with the freed, across the river. Both of you know what this goodbye is.</p>
+  text:`<p>As the last of the freed clear the wall, hooves sound in the yards behind you — unhurried hooves, which is somehow worse. On the rampart above the emptied cages, a rider in wolf-fur sits perfectly still, taking in the open doors, the cut chains, the burning counting house. He does not shout. He does not give chase. He takes out a brush, and writes.</p>
+  <p>Then he looks up — across all that distance, directly at you, as if your position were an entry he had already confirmed — and inclines his head. A merchant's nod. An accountant's nod. <em>A debt, acknowledged, to be collected.</em></p>
+  <p>"Ohan," Jin says quietly beside you. Nobody asks how he knows.</p>
+  <p>At the walls, Zhao takes your hands. He is going west with Lan — there is a resistance to stitch together, and an old strategist is worth a regiment. You are going east, with the freed, across the river. Both of you know what this goodbye is.</p>
   <p>"You said once I was your people too," he says. "Hear the other half. You were never my servant, Seol. You were my second daughter from the day I watched you fight six men with your hands tied wrong."</p>
   <p>"They were tied fine," you manage, through the tears. "I loosened them myself."</p>
   <p>"I know." He holds your head like a blessing. "Go home, daughter. Walk tall the whole way."</p>
@@ -730,25 +736,28 @@ ch10:{
 a10_wolf:{
   eyebrow:'Uiju · The Ford', crumb:'Uiju', speaker:'batu',
   title:'Ohan of the Plain Blue Banner',
-  text:`<p>He rides down the bank the way winter comes down a valley. "The property of the Khan," he calls across the ice, "does not walk away."</p>
-  <p>"Property doesn't," you agree, stringing the Winter Bow. "People do. Come count what the difference costs."</p>
-  <p class="whisper">On this ford your father fought seven men. You are not your father. You are what he made, finished by three more hands. And you are not alone.</p>`,
+  text:`<p>He rides down the bank the way winter comes down a valley — without hurry, because winter has never once been late. He dismounts on the ice, and from his saddle he takes not a warhorn but a <em>book</em>, and holds it up: the Great Ledger, original, red-margined.</p>
+  <p>"Baek Seol," he says, and your own name in his mouth is an itemization. "Entry four hundred and six. I have read you. Two schools of the sword, a bow above her weight, and a habit of striking first." He sets the ledger down on the ice between you, gently, like a wager. "Batu died charging you. Batu was an animal. I am an <em>inventory</em>. I do not charge. I wait, and I collect. The property of the Khan does not walk away."</p>
+  <p>"Property doesn't," you agree, stringing the Winter Bow. "People do. And you can't read what we'll do next — that's the whole difference. Come count what it costs."</p>
+  <p class="whisper">He fights like his ledger: guarded, patient, nothing wasted. Wait for the moment he spends himself — then make him pay for it. On this ford your father fought seven men. You are what he made, finished by three more hands. And you are not alone.</p>`,
   choices:[{t:'For every name in that ledger.', to:'WAVE:a10_win'}]
 },
 a10_win:{
   eyebrow:'Uiju · The Ford', crumb:'Uiju',
   title:'What the River Keeps',
-  text:`<p>It ends where it began: on river ice, against wolf-fur — but this time the dance is beside you, matching you turn for turn, and the arrows fly home the way a mother promised they would. Ohan commits to his line. You were never on it.</p>
-  <p>The river takes what it is owed, and closes.</p>`,
+  text:`<p>It ends where it began: on river ice, against wolf-fur — but this time the dance is beside you, matching you turn for turn, and the arrows fly home the way a mother promised they would. Batu committed to lines. Ohan commits to <em>nothing</em> — he guards, he waits, he counts your habits back at you. So you give him the one thing no ledger holds: the turning form, improvised, two people moving as one shape that has never existed before this moment and will never exist again.</p>
+  <p>He spends his stroke. You are already inside it. The margin note was wrong — you don't fight like two schools. You fight like four people who loved you.</p>
+  <p>The Great Ledger goes into the black channel first. Then the river takes what it is owed, and closes.</p>`,
   choices:[{t:'The village is waking.', fx:()=>{S.flags.wolfDown=true;}, to:'a10_return'}]
 },
 a10_return:{
   eyebrow:'Uiju · The Village', crumb:'Uiju', speaker:'seol',
   title:'Say It First, Say It Loud',
   text:`<p>They come out to the road — and stop. You watch the village look at the returned: the sideways glances, the elder already muttering about <em>what must have happened to them out there</em>, a mother's hand hesitating an inch from her own daughter's face.</p>
-  <p>So you step into the road, and you say it loud enough for both banks of the river:</p>
-  <p>"Every person behind me crossed hell to stand on this dirt. If your first question is what was <em>done to them</em> instead of what they <em>survived</em>, you are asking about your own shame, not theirs. They walked home. That is the whole story. Anyone who thinks otherwise can try surviving it first."</p>
-  <p>Silence. Then the mother's hand closes the inch. Then the whole road is arms and weeping, and the elder is very quiet, and somewhere a grandmother starts the song for homecomings that no one has needed in nine years.</p>`,
+  <p>And then someone pushes through the crowd from the <em>village</em> side. A young woman in miller's clothes, marching like she has rehearsed this in her head for a year — because she has. <b>Danbi.</b> From the mill village below Uiju. Word crossed the river faster than you did.</p>
+  <p>She plants herself between the villagers and the returned, and says it first, and says it loud: "I am Danbi, daughter of this valley. I was taken. I walked home across the ice. I survived — <em>that is the whole story.</em>" She looks the muttering elder dead in the eye. "A woman on the river taught me to say that. Anyone who thinks there is more to ask can try surviving it themselves."</p>
+  <p>She finds you in the crowd then, and the look she gives you is the entire payment: <em>see — it grew.</em> So when you step up beside her, your speech has already been given, and better than you would have given it. All you add, loud enough for both banks: "What she said. Every word. For every one of them."</p>
+  <p>Silence. Then the mother's hand closes the inch. Then the whole road is arms and weeping, and the elder is very quiet, and somewhere a grandmother starts the song for homecomings that no one has needed in nine years — and Jin, beside you, greets the nearest bewildered farmer with a phrasebook bow: <span class="kr">안녕하십니까. 저는 진입니다.</span> His accent is terrible. The farmer laughs, and takes his hand anyway.</p>`,
   choices:[{t:'One more grave to visit.', to:'a10_end'}]
 },
 a10_end:{
@@ -1861,7 +1870,7 @@ const LEVELS = {
     mkGuard(5,-6,{hp:50,dmg:12,aggro:9});
     mkGuard(0,12,{hp:50,dmg:12,aggro:8});
     // Batu — passive until the confrontation
-    world.L.batuBoss = mkGuard(0,-16,{boss:true,hostile:false,hp:190,dmg:17,speed:3.6,aggro:60});
+    world.L.batuBoss = mkGuard(0,-16,{boss:true,hostile:false,hp:190,dmg:17,speed:3.6,aggro:60}); world.L.batuBoss.charger=true;
     world.L.batuBoss.bar.visible=false;
     mkSnow(600);
   },
@@ -1992,7 +2001,7 @@ const LEVELS = {
   ],
   wave(){
     const w=[]; [[-5,-8],[5,-9],[-8,-4],[8,-5]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:52,dmg:13,speed:3,aggro:60})));
-    const boss=mkGuard(0,-12,{boss:true,hp:210,dmg:18,speed:3.7,aggro:60}); boss.state='chase'; boss.stateHome='chase'; w.push(boss);
+    const boss=mkGuard(0,-12,{boss:true,hp:230,dmg:18,speed:3.2,aggro:60}); boss.wolf=true; boss.state='wguard'; boss.wt=2; boss.stateHome='chase'; w.push(boss);
     return w; }
 },
 };
@@ -2009,6 +2018,7 @@ function loadLevel(n){
   P.pos.set(L.spawn[0], groundAt(L.spawn[0],L.spawn[1],50)+.02, L.spawn[1]);
   P.vy=0; P.safe.copy(P.pos); P.hp=P.maxhp; P.dead=0; if(typeof hpUI==='function')hpUI();
   setWeapon(S.flags.mombow?'The Winter Bow':(S.flags.trained?'Zhao Steel':'Fists \u0026 Bow'));
+  SK.max[3] = (n>=7)?28:20;   /* the Dance costs more focus in the late war */
   $('chapname').textContent = L.name;
   updateObjective();
 }
@@ -2184,11 +2194,14 @@ function hitEnemies(range,arc,dmg,knock,stun){
     if(d>range)continue;
     const a=Math.atan2(dx,dz), diff=Math.abs(((a-P.yaw+Math.PI*3)%(Math.PI*2))-Math.PI);
     if(diff>arc)continue;
-    e.hp-=dmg; hit++;
+    let mod=1;
+    if(e.wolf){ if(e.state==='wguard') mod=.1; else if(e.state==='wopen') mod=2; }
+    if(e.state==='bslide') mod=2;
+    e.hp-=Math.round(dmg*mod); hit++;
     drawBar(e.bar, e.hp/e.max);
-    if(!e.dummy){ e.state='stagger'; e.t=stun; }
+    if(!e.dummy && !(e.wolf&&e.state==='wguard')){ e.state='stagger'; e.t=stun; }
     const m=d||1; e.grp.position.x+=dx/m*knock; e.grp.position.z+=dz/m*knock;
-    if(e.hp<=0){ e.state='dead'; e.t=1.2; if(!e.dummy&&!e.boss){ P.hp=Math.min(P.maxhp,P.hp+12); hpUI(); } }
+    if(e.hp<=0){ e.state='dead'; e.t=1.2; if(!e.dummy&&!e.boss){ P.hp=Math.min(P.maxhp,P.hp+(curLevel>=7?6:12)); hpUI(); } }
   }
   return hit;
 }
@@ -2201,7 +2214,40 @@ function tickEnemies(dt){
     if(e.state==='dummy'||e.state==='passive'){ continue; }
     const dx=P.pos.x-g.position.x, dz=P.pos.z-g.position.z, d=Math.hypot(dx,dz);
     e.bar.visible = d<14;
-    if(e.state==='stagger'){ e.t-=dt; if(e.t<=0)e.state='chase'; continue; }
+    if(e.state==='stagger'){ e.t-=dt; if(e.t<=0)e.state=(e.wolf?'wguard':'chase'); if(e.wolf&&e.state==='wguard')e.wt=3; continue; }
+    /* ---- OHAN (wolf): guard -> flurry -> spent ---- */
+    if(e.state==='wguard'){
+      g.rotation.y=Math.atan2(dx,dz); e.arm.rotation.x=-1.5; guardLegs(e,dt,false);
+      if(!e._tg1){ e._tg1=1; subtitle('He guards \u2014 your blows glance off him. Survive the flurry; strike when he is spent.',3200); }
+      e.wt-=dt;
+      if(e.wt<=0){ e.state='chase'; e.wolfCombo=3; }
+      continue; }
+    if(e.state==='wopen'){
+      e.arm.rotation.x*=.8; guardLegs(e,dt,false);
+      if(!e._tg2){ e._tg2=1; subtitle('He is spent \u2014 NOW.',1600); }
+      e.t-=dt; if(e.t<=0){ e.state='wguard'; e.wt=3; }
+      continue; }
+    /* ---- BATU (charger): windup -> committed line -> slide ---- */
+    if(e.state==='bwind'){
+      e.t-=dt; e.arm.rotation.x=-1.9; g.rotation.y=Math.atan2(e.cdx,e.cdz);
+      if(e.t<=0){ e.state='bcharge'; e.t=.8; }
+      continue; }
+    if(e.state==='bcharge'){
+      e.t-=dt;
+      const nx=g.position.x+e.cdx*9*dt, nz=g.position.z+e.cdz*9*dt;
+      if(!blocked(nx,g.position.z,g.position.y))g.position.x=nx;
+      if(!blocked(g.position.x,nz,g.position.y))g.position.z=nz;
+      guardLegs(e,dt,true);
+      if(!e._chit && Math.hypot(P.pos.x-g.position.x,P.pos.z-g.position.z)<1.4){ e._chit=1; hurtPlayer(e.dmg+6, g.position.x, g.position.z); }
+      if(e.t<=0){ e.state='bslide'; e.t=1.4; }
+      continue; }
+    if(e.state==='bslide'){
+      e.t-=dt; e.arm.rotation.x*=.85;
+      const nx=g.position.x+e.cdx*2.2*dt, nz=g.position.z+e.cdz*2.2*dt;
+      if(!blocked(nx,g.position.z,g.position.y))g.position.x=nx;
+      if(!blocked(g.position.x,nz,g.position.y))g.position.z=nz;
+      if(e.t<=0){ e.state='chase'; e.bcd=5; }
+      continue; }
     if(e.state==='idle'){
       if(d<e.aggro && !P.dead) e.state='chase';
       else if(e.patrol){ const p=e.patrol[e.pi], px=p[0]-g.position.x, pz=p[1]-g.position.z, pd=Math.hypot(px,pz);
@@ -2211,6 +2257,10 @@ function tickEnemies(dt){
       continue; }
     if(e.state==='chase'){
       if(P.dead){ e.state='idle'; continue; }
+      if(e.charger){ e.bcd=(e.bcd||0)-dt;
+        if(e.bcd<=0 && d>4 && d<11){
+          if(!e._tg1){ e._tg1=1; subtitle('He charges in straight lines. Step aside \u2014 then punish the slide.',2800); }
+          e.state='bwind'; e.t=.8; e._chit=0; e.cdx=dx/d; e.cdz=dz/d; continue; } }
       g.rotation.y=Math.atan2(dx,dz);
       if(d>1.8){ const nx=g.position.x+dx/d*e.speed*dt, nz=g.position.z+dz/d*e.speed*dt;
         if(!blocked(nx,g.position.z,g.position.y))g.position.x=nx;
@@ -2227,7 +2277,13 @@ function tickEnemies(dt){
     if(e.state==='strike'){ e.t-=dt; e.arm.rotation.x=Math.min(1.1, e.arm.rotation.x+dt*14);
       if(e.t<=0){ e.state='cool'; e.t=e.boss?.7:1.15; } continue; }
     if(e.state==='cool'){ e.arm.rotation.x*=.88; }
-    if(e.state==='cool'){ e.t-=dt; if(e.t<=0)e.state='chase'; continue; }
+    if(e.state==='cool'){ e.t-=dt;
+      if(e.t<=0){
+        if(e.wolf){
+          if(e.wolfCombo>0){ e.wolfCombo--; e.state='windup'; e.t=.3; }
+          else { e.state='wopen'; e.t=1.8; }
+        } else e.state='chase';
+      } continue; }
   }
   if(!P.dead && P.hp<P.maxhp && clock.elapsedTime-P.lastHurt>5){ P.hp=Math.min(P.maxhp,P.hp+2.2*dt); hpUI(); }
   if(P.dead){ P.dead-=dt;
@@ -2267,9 +2323,10 @@ function bowShot(){
   });
   if(best){
     if(typeof vfxBowHit==='function') vfxBowHit(best.grp.position.x,best.grp.position.y+1,best.grp.position.z);
-    best.hp-=Math.round((S.flags&&S.flags.mombow?22:15)*mult);
+    let bm=1; if(best.wolf){ bm=best.state==='wguard'?.1:(best.state==='wopen'?2:1); } if(best.state==='bslide') bm=2;
+    best.hp-=Math.round((S.flags&&S.flags.mombow?22:15)*mult*bm);
     drawBar(best.bar,best.hp/best.max);
-    if(!best.dummy){best.state='stagger';best.t=.3;}
+    if(!best.dummy && !(best.wolf&&best.state==='wguard')){best.state='stagger';best.t=.3;}
     if(best.hp<=0){best.state='dead';best.t=1.2;if(!best.dummy&&!best.boss){P.hp=Math.min(P.maxhp,P.hp+12);hpUI();}}
   }
 }
