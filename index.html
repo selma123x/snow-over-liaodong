@@ -377,14 +377,14 @@ a3_dance:{
   text:`<p>Sixteen. Jin finally teaches you properly, by the pond, evenings. "Stop trying to beat me. Move <em>with</em> me." And one evening you stop fighting it — and the two of you are one turning shape in the lantern light, blade-edge to blade-edge, never touching, reading each other like a language.</p>
   <p>The form ends. Neither of you steps back. The distance closes by itself.</p>
   <p class="whisper">The kiss tastes like the beginning of something. It is actually the end of everything.</p>`,
-  choices:[{t:'That same month —', to:'a3_fall'}]
+  choices:[{t:'That same month —', to:'CINE:mingzhu:a3_fall'}]
 },
 a3_fall:{
   eyebrow:'House of Zhao · Year Five', crumb:'House of Zhao',
   title:'The North Falls',
-  text:`<p>Fushun falls to the Jurchen. Then the news comes like ice cracking: city after city, generals surrendering, the border folding inward. The war stops being weather on the horizon.</p>
-  <p>It reaches the house on a market morning. A strike on the eastern estate — fast riders, guided by someone who knew the roads. <b>Lady Mingzhu</b> was overseeing the granary there.</p>
-  <p>They bring her home in the cart she left in. The house does not recover. China is falling, and it has begun with her.</p>`,
+  text:`<p>The funeral is white, and enormous, and wrong — she would have hated the expense. Zhao stands through all of it like a man holding a wall up with his back. Lan runs the household's grief the way she runs everything: lists, provisions, guests fed — and only you see her hands shake over the accounts her mother taught her.</p>
+  <p>And you — you keep reaching for the anger you learned at eleven, the old fire that carried you out of the first loss. It doesn't come. What comes instead is quieter and worse: you had a mother again, and you knew it only long enough to lose her.</p>
+  <p class="whisper">Guided by someone who knew the roads. You will remember that phrase. Later, you will understand it.</p>`,
   choices:[{t:'Jin does not speak for days.', to:'a3_window'}]
 },
 a3_window:{
@@ -604,7 +604,8 @@ a6_free:{
   speaker:'seol',
   text:`<p>"The far bank is Joseon," you tell them, in the language of your mother's songs. "Walk. Don't run — the ice holds if you walk."</p>
   <p>A girl your old age hesitates. "My family — what they'll say, about where I've been—"</p>
-  <p>"Then say it first, and say it loud," you tell her. "You survived. That is the whole story. Anyone ashamed of you should try surviving it themselves." You say it like an order, because she needs it to be one. She squares her shoulders. She walks.</p>
+  <p>"Then say it first, and say it loud," you tell her. "You survived. That is the whole story. Anyone ashamed of you should try surviving it themselves." You say it like an order, because she needs it to be one. She squares her shoulders.</p>
+  <p>"Danbi," she says, at the edge of the ice — her name, offered like a debt acknowledged. "From the mill village below Uiju. If you ever cross—" She doesn't finish it. She walks.</p>
   <p class="whisper">One by one, they cross. You count every head that reaches the far bank.</p>`,
   choices:[{t:'And then it is your turn to decide.', to:'a6_end'}]
 },
@@ -633,7 +634,7 @@ a7_lan:{
   title:'The Daughter Holds the Door',
   text:`<p><b>Lan</b> holds the barricade with twenty exhausted soldiers and the calm of a woman balancing accounts. "He won't come," she says, in place of hello. "Li Yongfang knelt at Fushun and they made him rich. Father says he would rather be poor and <em>his own</em>."</p>
   <p>"Then we don't ask," you say. "We carry."</p>
-  <p>Something like a smile. "Little sister. You did grow up."</p>`,
+  <p>Something like a smile. "Little sister. You did grow up." She turns to shout an order, turns back. "You know what I do now? Mother taught me sums, so I keep books. Kang counts what he takes. I count what we take <em>back</em> — every name we free goes in my ledger. When this is over, mine will be longer than his." A beat, quieter: "Her letter said I should forgive the world for being what it is. I'm starting with a barricade."</p>`,
   choices:[{t:'Cut a path to the keep.', to:'WAVE:a7_zhao'}]
 },
 a7_zhao:{
@@ -676,6 +677,16 @@ a8_ledger:{
   text:`<p>The captives go west with Lan's outriders. The strongbox opens on the Great Ledger's neat, fat pages — and on top, a letter of sale, already sealed: <em>"To Ohan of the Plain Blue Banner — the whole apparatus, for services rendered. The original follows with me to Shenyang. — K."</em></p>
   <p>The original. With <em>him</em>. To the capital of the conquest, where the holding yards are — where they gather the taken before the long march north.</p>
   <p class="whisper">Shenyang, then. The belly of it.</p>`,
+  choices:[{t:'Night watch, before the long road.', to:'a8_jin'}]
+},
+
+a8_jin:{
+  eyebrow:'The Pass · Night Watch', crumb:'The Pass', speaker:'jin',
+  title:'Two Rivers',
+  text:`<p>He takes the watch beside you, and for a long time the only sound is the wind combing the pines. Then, quietly: "Shenyang frightens me." You look over. Jin does not say things like that. "All my life I've moved <em>around</em> things. Grief. My father. Walls. It's what the dance is — the art of never being where the blow lands." A breath. "There's no around, where we're going. There's only through. That's your art, not mine."</p>
+  <p>"So I'm asking," he says, and he makes himself look at you when he says it. "Lead the yards. I'll put my dancers wherever you point. You cut lines. I draw circles. Shenyang needs a line."</p>
+  <p>It costs him something to hand you that, and you both know it, and he hands it over anyway — the boy who once grabbed your waist to save you, asking to follow you into the conquest's belly.</p>
+  <p>Later, half-asleep against your shoulder, he murmurs through a phrasebook of one: <span class="kr">안녕하십니까. 저는... 진입니다.</span> — practicing. "If I'm going to meet your village," he says, "I should greet them properly." You do not tell him his accent is terrible. You memorize it instead.</p>`,
   choices:[{t:'Act Three.', to:'ch9'}]
 },
 
@@ -703,7 +714,8 @@ a9_out:{
   text:`<p>At the walls, Zhao takes your hands. He is going west with Lan — there is a resistance to stitch together, and an old strategist is worth a regiment. You are going east, with the freed, across the river. Both of you know what this goodbye is.</p>
   <p>"You said once I was your people too," he says. "Hear the other half. You were never my servant, Seol. You were my second daughter from the day I watched you fight six men with your hands tied wrong."</p>
   <p>"They were tied fine," you manage, through the tears. "I loosened them myself."</p>
-  <p>"I know." He holds your head like a blessing. "Go home, daughter. Walk tall the whole way."</p>`,
+  <p>"I know." He holds your head like a blessing. "Go home, daughter. Walk tall the whole way."</p>
+  <p>Lan's goodbye is a folded page pressed into your palm — a copy of the first sheet of her ledger. The first entry, in her precise hand, is your name and a date nine years old. "You were the first one we took back," she says. "The ledger starts with you. Remember that when it feels like it started with losing." Then, fierce and fast, the hug of a woman who doesn't do hugs: "Take care of my little brother. He listens to you. He has never once listened to anyone."</p>`,
   choices:[{t:'East. The river. Home.', to:'ch10'}]
 },
 
@@ -812,6 +824,7 @@ const ASSETS = {
     kiss:        { url:null, frames:null, fallback:'puppet' }, // cave kiss
     recognition: { url:null, frames:null, fallback:'puppet' }, // rooftop
     lake:        { url:null, frames:null, fallback:'puppet' }, // the lake
+    mingzhu:     { url:null, frames:null, fallback:'puppet' }, // her death
   },
   /* e) UI / background motion */
   ui: { titleLoop:{ url:null, fallback:'snow' } },
@@ -1551,6 +1564,24 @@ const CUTSPECS = {
       const a=t*(.4+t*.06), r=7.5-Math.min(3.5,t*.35);
       camera.position.set(P.pos.x+Math.sin(a)*r, 3.4-Math.min(1.6,t*.15), P.pos.z+Math.cos(a)*r);
       camera.lookAt(new THREE.Vector3(P.pos.x, 1.3, P.pos.z));
+    } },
+  mingzhu: { dur: 18, subs: [
+      {t:0.6, txt:'Fushun falls. Then Tieling. The names come like ice cracking on a warming river.'},
+      {t:4.2, txt:'It reaches the house on a market morning. A strike on the eastern estate \u2014 fast riders, guided by someone who knew the roads.'},
+      {t:8.2, txt:'Lady Mingzhu was overseeing the granary there.'},
+      {t:11.0,txt:'They bring her home in the cart she left in.'},
+      {t:14.0,txt:'The general does not weep. Lan does not weep. Jin goes still \u2014 and stays still.'},
+      {t:16.2,txt:'China is falling. In this house, it began with her.'},
+    ],
+    stage(t,dt){
+      // begin high above the estate, descend with terrible slowness toward the front gate,
+      // then \u2014 for the last four seconds \u2014 stop moving entirely and let the snow fall
+      if(t<14){
+        const p=t/14, h=16-p*13, z=26-p*8;
+        camera.position.set(Math.sin(t*.05)*2.5, h, z);
+        camera.lookAt(new THREE.Vector3(0, 1.2, 17));
+      }
+      // hold. stillness is the point. (Jin's grief \u2014 the dancer gone stone \u2014 as camera language)
     } },
   lake: { dur: 12, subs: [
       {t:0.5, txt:'The water is glass. The mountain stands upside down in it.'},
