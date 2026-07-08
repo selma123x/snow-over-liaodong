@@ -680,7 +680,82 @@ a7w_ohan:{
   <p>Someone has been recording the camp for weeks. Grain estimates. The count of the freed. The three passes. A sketch of the west gully. And, near the end, underlined once: <em>"The Woman on the River will not abandon the slow. She holds the roads that protect the weak and sacrifices the road that protects herself. Predict: she gives the order she can least live with. This is not weakness. Study it. It is how she will be taken."</em></p>
   <p>Namgil reads it over your shoulder and goes very still. "This isn't a soldier," he says quietly. "Soldiers want to kill you. This one wants to <em>understand</em> you first."</p>
   <p class="whisper">He has a name, though you do not know it yet. He signs nothing. He does not need to. Somewhere across the river, a man is reading you like a ledger — and he is not wrong either.</p>`,
-  choices:[{t:'Fold the pages. Keep them. Learn the shape of the shadow.', fx:()=>{ if(S&&S.flags){S.flags.m7done=true;} }, to:'ch7'}]
+  choices:[{t:'Fold the pages. Keep them. Learn the shape of the shadow.', fx:()=>{ if(S&&S.flags){S.flags.m7done=true;} }, to:'ch8j'}]
+},
+
+/* ================= ACT 2 · M8 · TWO KINGS, ONE GIRL ================= */
+ch8j:{
+  chapter:true, mark:'八', crumb:'The Border Shrine', code:'SHRINE',
+  eyebrow:'The Joseon Bank · First Thaw',
+  title:'Two Kings, One Girl',
+  text:`<p>Two letters reach the waystation in the same week. One in Ming military hand, from a colonel of the collapsing border army, requesting parley. One in careful court Korean, on paper finer than anything you have touched since childhood, inviting "the Woman on the River" to a mountain shrine on the Joseon bank — to discuss, it says, <em>the matter of the returned</em>.</p>
+  <p class="whisper">Two dying kingdoms, and both of them have finally learned your name. You cross your own river for the first time in ten years — invited, this time. It should feel like victory. It feels like walking into a house where you no longer know which rooms you are allowed in.</p>`,
+  choices:[{t:'The mountain path, at first light.', to:'a8j_go'}]
+},
+a8j_soldier:{
+  eyebrow:'The Shrine Path · Morning', crumb:'The Border Shrine', speaker:'seol',
+  title:'The Man at the First Gate',
+  text:`<p>An old soldier keeps the shrine path — too old for the wall now, one shoulder higher than the other, a border man's squint. He hears you give your name to the escort, and his whole face changes the way ice changes when the river moves under it.</p>
+  <p>"Baek," he says. "Of Uiju garrison. There was an archer — " He stops. Looks at you properly. At your hands, at how you stand. "There was an archer of that name who could put a shaft through a willow leaf in a crosswind. Stubborn as a stone in a boot. He had a daughter he would not stop talking about." His voice does not quite hold. "You have his draw. I watched you walk up the hill and I thought, there is Baek's draw, walking."</p>
+  <p>You had not cried yet on this mountain. You had planned not to.</p>
+  <p>"He was my friend," the old man says simply. "Whatever they say inside — and they will say things, girl — his daughter walks this path with her head up. That is all. Go on up."</p>`,
+  choices:[{t:'Up, past the prayer ribbons.', to:'a8j_ming'}]
+},
+a8j_ming:{
+  eyebrow:'The Shrine · The Outer Hall', crumb:'The Border Shrine', speaker:'wei',
+  title:'The Colonel Who Is Losing',
+  text:`<p><b>Colonel Wei</b> has crossed the river quietly, without banners, which tells you what is left of Ming pride. He is younger than his grey. He puts a map between you and speaks like a man rationing his own breath.</p>
+  <p>"I will not flatter you. Liaodong is lost. I intend to lose it <em>slowly</em>, and make the losing expensive, because every month I buy is a month of villages that do not burn. Your network sees roads I cannot. Fold it into my command and I can arm you, feed you, legitimize you."</p>
+  <p>"And when your war needs those roads more than the people on them?"</p>
+  <p>He does not pretend to be insulted. He looks at the map for a long moment. "Then the war would win. It always does. That is an honest answer; I ask you to respect it." He rolls the map and pushes it across to you anyway — routes, garrisons, fords. "For when you refuse me. Which you are about to." A tired, real smile. "I will die correcting my betters' mistakes, girl. It is good work. It is just not yours."</p>
+  <p class="whisper">He believes it completely: victory first, or the suffering never ends. He is not wrong the way villains are wrong. He is wrong the way soldiers are — from inside a duty he cannot put down.</p>`,
+  choices:[{t:'The inner shrine. The court\u2019s man waits.', to:'a8j_court'}]
+},
+a8j_court:{
+  eyebrow:'The Shrine · The Inner Hall', crumb:'The Border Shrine', speaker:'yun',
+  title:'Inspector Yun',
+  text:`<p><b>Inspector Yun</b> serves the Border Defense Command, which means he serves the court's fear with a scholar's manners. He pours your tea himself — a courtesy, and a message: no servants, no witnesses. He is precise, quiet, and visibly, carefully tired.</p>
+  <p>"The court has heard of you. Some call you a heroine of the people. Some call you a bandit queen with an army of the shamed." He lets that word sit, watching you not react. "I am sent to offer this: legitimacy. Protection. Supply. The kingdom's quiet gratitude." A pause, the exact length of honesty. "On conditions. The women you return — the court asks that they come home <em>quietly</em>. Unannounced. Dispersed. No columns crossing the ice in daylight, no names spoken in market squares. And you will give us your lists, so the families can be… prepared."</p>
+  <p>"Prepared to deny them."</p>
+  <p>"Prepared to <em>survive</em> them," he says, and for one unguarded moment the mask slips and underneath is a man who hates every word of his own instructions. "You think I do not know what I am asking? I have a daughter. But I serve a court that fears scandal more than it fears the Jurchen, in a country where a rumor kills a woman as surely as a blade, only slower. I cannot change the water these families swim in. I can only offer you a way to move through it without drowning the people you carry. Change comes, Woman on the River. It comes <em>slowly</em>, or it comes over corpses."</p>
+  <p>"It is already over corpses," you say. "You have only been asked not to look at them."</p>
+  <p class="whisper">He does not argue. That is the worst of it. Nobody in this shrine is lying to you. They are all telling you the truth from inside walls they did not build and cannot leave.</p>`,
+  choices:[{t:'No lists. No hiding. You walk out into the snow.', to:'a8j_okhui'}]
+},
+a8j_okhui:{
+  eyebrow:'The Village Below · Dusk', crumb:'The Border Shrine', speaker:'okhui',
+  title:'Ok-hui Comes Home',
+  text:`<p>You did not come to the shrine alone. <b>Ok-hui</b> travelled with you — freed at Shenyang's borderposts last autumn, twenty years old, from this very valley. She has talked about this village for three hundred li: the well, the persimmon tree, her mother's hands. She practically runs the last slope, and you let her, because hope like that should be allowed to run.</p>
+  <p>Her mother is at the well at dusk, exactly where Ok-hui said she would be. You watch the recognition hit the older woman like weather — the bucket set down slowly, the two steps forward, the hands rising to her daughter's face — and then you watch her <em>see the neighbours seeing</em>, and the hands stop an inch away, and fold themselves into her sleeves, and the two steps become a formal half-bow to a stranger.</p>
+  <p>"You have the look of my daughter," the mother says, loudly enough for the yards around to hear. "My daughter died in the war." And then, so quietly it barely survives the distance between their bodies: <em>"Come to the back gate. After dark. Every night, my love. Every night I will be there."</em></p>
+  <p>The father never comes out. Late that night, someone leaves a bundle on the wall: a child's jacket, carefully kept for ten years, and food wrapped in cloth, still warm. Her brother's footprints, already filling with snow.</p>
+  <p class="whisper">No one in that house stopped loving her. That is the unbearable part. There is no cage here to cut, no slaver to throw. Only a whole village's worth of watching eyes, and a family doing the arithmetic of survival in a world that made love a liability. You stand in the dark with your hands empty. For the first time since the market at Guangning, there is nothing for your hands to do.</p>`,
+  choices:[{t:'Then — horns across the water. Qing scouts, on the Joseon bank.', to:'a8j_raid'}]
+},
+a8j_raid:{
+  eyebrow:'The Village · Night Alarm', crumb:'The Border Shrine', speaker:'seol',
+  title:'Whose Country, Whose Blood',
+  text:`<p>A Jurchen scouting party has crossed the thawing river — a probe, a torch-raid, the war testing Joseon's door. The village that would not look at Ok-hui is screaming. The court's escort is a mountain away. There is only you, and her, and the dark.</p>
+  <p>Ok-hui is already moving — toward the village that renamed her a dead stranger an hour ago. You catch her eye. "They — " she starts, and cannot finish it, and does not need to. <em>They are still mine.</em></p>
+  <p class="whisper">Inspector Yun will hear of this by morning: the bandit queen and one of her shamed, bleeding for a village that would not say their names. Fight.</p>`,
+  choices:[{t:'Defend them. All of them. It was never conditional.', to:'WAVE:a8j_after'}]
+},
+a8j_after:{
+  eyebrow:'The Village · Before Dawn', crumb:'The Border Shrine', speaker:'yun',
+  title:'What Cannot Be Said Aloud',
+  text:`<p>The scouts are driven back across the ice. The village stands. And in the grey before dawn, Inspector Yun comes down the mountain on foot, alone, and finds you binding a cut on Ok-hui's arm while the well-yard pretends not to watch.</p>
+  <p>He looks at the village. At the blood on the snow that is yours and hers. At the mother by the well who is gripping her own sleeves so hard her knuckles have gone white — looking at her daughter, and at the eyes of her neighbours, and back, trapped precisely between.</p>
+  <p>"I cannot give you the court's blessing," Yun says at last, formally, for any ears that need it. Then he takes something from his sleeve and presses it into your hand, and his voice drops below the reach of the village. "My personal seal. If a magistrate stops your people on any road in this province — you never met me, and you show him that." He straightens. Reassembles the mask. "The court will hear that a Qing incursion was repelled by persons unknown. Persons unknown have my gratitude. Change comes slowly, Woman on the River." A pause. His eyes go, once, to Ok-hui. "May it come faster than I believe it will."</p>`,
+  choices:[{t:'And Ok-hui makes her choice.', to:'a8j_leave'}]
+},
+a8j_leave:{
+  eyebrow:'The Ford Below the Village · Dawn', crumb:'The Border Shrine', speaker:'okhui',
+  title:'What Home Is Not',
+  text:`<p>She stands at the ford with her childhood jacket folded under her arm, looking back at the village once — at the well, the persimmon tree, the back gate where her mother will wait tonight and every night for a daughter who will not be there.</p>
+  <p>"I thought home was a place," Ok-hui says. Her voice is very steady, which is how you know what it costs. "It's not. It's being <em>seen</em>. My mother sees me only in the dark. Your camp saw me at noon, by my name, the first day." She turns from the village, and her chin is up, and her father's stubbornness is in it, or maybe her own. "I'll come back for the back gate. Someday I'll come back in daylight, and I'll make them say my name in the market square. But I'm not going to stand in the dark waiting to be loved. I'm coming with you."</p>
+  <p>You cross the ice together as the sun comes up behind Joseon — behind the country that is yours, and hers, and would not have either of you yet.</p>
+  <p class="whisper">Home is not always where you are accepted. Sometimes home is the people who say your name in daylight — and the promise you make to the back gates: <em>someday, in daylight, all of you.</em> Word comes from the west as you reach the far bank: Liaoyang is burning. Zhao is inside.</p>`,
+  choices:[{t:'West. Now.', to:'ch7'}]
 },
 
 /* ================= ACT 2 · (existing) LIAOYANG ================= */
@@ -882,6 +957,9 @@ const ASSETS = {
     jin:    { url:null, fallback:{glyph:'進', tint:'#a9bce8'} },
     batu:   { url:null, fallback:{glyph:'狼', tint:'#9a7a5a'} },
     namgil: { url:null, fallback:{glyph:'冈', tint:'#7a6a52'} },
+    yun:    { url:null, fallback:{glyph:'尹', tint:'#8a92b0'} },
+    okhui:  { url:null, fallback:{glyph:'玉', tint:'#c8a8a0'} },
+    wei:    { url:null, fallback:{glyph:'衛', tint:'#7a8272'} },
   },
   /* b) combat VFX flipbooks (sheet: cols×rows, fps) */
   flipbook: {
@@ -1181,7 +1259,7 @@ function reqLabel(req){
 }
 
 /* ---------------- overlay narrative renderer ---------------- */
-const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6, ch7w:11, ch7:7, ch8:8, ch9:9, ch10:10};
+const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6, ch7w:11, ch8j:12, ch7:7, ch8:8, ch9:9, ch10:10};
 let overlayOpen=false, openedGate=null, selChoice=-1;
 
 function openOverlay(){ overlayOpen=true; $('overlay').classList.add('open'); }
@@ -1266,6 +1344,7 @@ const ART={
   ch6:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151218_eb6661c5-99a3-4fe7-b2c1-6e89187d2059.png',
   ch7:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150708_c22b34e0-f1a9-4d6f-872c-f55da26ad822.png',
   ch7w:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
+  ch8j:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
   ch8:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
   ch9:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150536_b7447fed-2742-4f43-83e6-3e5e7dc0a53d.png',
   ch10:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
@@ -2111,6 +2190,54 @@ const LEVELS = {
   // the defense: riders come down the north track; holding two roads means fighting here
   wave(){ const w=[]; [[-3,-10],[3,-11],[-7,-8],[6,-9],[0,-14]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:50,dmg:13,speed:3.1,aggro:60}))); return w; }
 },
+
+12:{ name:'The Joseon Bank \u00b7 The Border Shrine', spawn:[0,24],
+  build(){
+    sky('#c9d2de','#dde4ec',20,90);
+    lights('#eef2f8','#8a8478',.95,'#fff4e2',.6,14,26,12);
+    // terraced mountain path rising north
+    const T=[[0,22,26,10,0],[0,12,22,9,1.6],[0,3,19,8,3.2],[0,-6,16,8,4.8],[0,-15,13,8,6.4]];
+    T.forEach(t=>box(t[2],Math.max(t[4],.3)+.3,t[3],'#e9edf3',t[0],(t[4]-.15),t[1],{plat:true}));
+    T.slice(0,-1).forEach((t,i)=>{ const n=T[i+1];
+      for(let s2=1;s2<=3;s2++){ const y=t[4]+(n[4]-t[4])*s2/3.4, z=t[1]+(n[1]-t[1])*(s2/4)-1.6;
+        box(2.4,.4,1.3,'#cfd5dd',(i%2?2.5:-2.5),y,z,{solid:true,plat:true}); } });
+    // the shrine at the top: hall + inner hall
+    building(0,-16,8,5,3.4,'#8a6a52','#5a3d2e',{door:true,lantern:true,light:true});
+    building(-6,-14,4,3,2.6,'#8a6a52','#5a3d2e',{door:true});
+    // prayer-ribbon poles along the path (thin posts with small colored flags)
+    const ribbonCols=['#c85a4a','#5a7ac8','#c8b44a','#6ac87a','#c88ab0'];
+    for(let i=0;i<8;i++){
+      const z=16-i*4, x=(i%2? 5.5:-5.5);
+      box(.14,3.2,.14,'#6a5a48',x,1.6+(T[Math.min(4,Math.floor(i/2))][4]||0),z,{});
+      box(.7,.4,.04,ribbonCols[i%5],x+.4,2.6+(T[Math.min(4,Math.floor(i/2))][4]||0),z,{ry:.3});
+    }
+    // the seonangdang cairn at the first terrace edge
+    box(1.2,.4,1.2,'#9a9da8',-4,.2,18,{solid:true}); box(.9,.35,.9,'#8a8d98',-4,.55,18,{});
+    box(.6,.3,.6,'#7a7d88',-4,.85,18,{}); box(.35,.25,.35,'#6a6d78',-4,1.1,18,{});
+    // the village below (south of spawn): hanok, the well, the persimmon tree
+    building(-8,30,6,4,2.6,'#b8a88e','#6a4a38',{door:true});
+    building(2,32,6,4,2.5,'#b8a88e','#6a4a38',{door:true,lantern:true});
+    building(11,29,5,4,2.7,'#b8a88e','#6a4a38',{door:true});
+    box(1.6,.9,1.6,'#8a8d98',-2,.45,27,{solid:true});                 // the well
+    tree(6,26,1.3); tree(-13,27,1.1);                                  // persimmon + pine
+    world.solids.push({x1:-30,z1:34,x2:30,z2:36,top:4});               // village edge
+    tree(-9,10,1); tree(9,6,1.1); tree(-8,-2,1); tree(8,-8,1.2);
+    mkSnow(650);
+  },
+  closeScenes:['a8j_go'],
+  gates:[
+    {entry:null, quick:'Your hand places a stone on the cairn before your mind remembers the custom. Ten years, and the hand remembered.', title:'The Seonangdang', pos:[-4,19.2], tag:'m8q', avail:()=>true},
+    {entry:null, quick:'Prayer ribbons move in the wind. Somewhere below, a temple bell \u2014 one note, held, let go.', title:'The Ribbon Poles', pos:[5.5,14], y:1.6, tag:'m8q', avail:()=>true},
+    {entry:'a8j_soldier', title:'The Man at the First Gate', pos:[0,10], y:1.6,
+      avail(){ return world.gates.filter(g=>g.tag==='m8q'&&g.done).length>=2; }},
+    {entry:'a8j_ming', title:'The Outer Hall \u00b7 Colonel Wei', pos:[-6,-12.5], y:6.4, avail(){ return this._p && this._p.done; }},
+    {entry:'a8j_court', title:'The Inner Hall \u00b7 Inspector Yun', pos:[0,-14], y:6.4, avail(){ return this._p && this._p.done; }},
+    {entry:'a8j_okhui', title:'The Village Below \u00b7 The Well at Dusk', pos:[-2,27.5], avail(){ return this._p && this._p.done; }},
+    {entry:'a8j_leave', title:'The Ford Below the Village', pos:[0,33], avail(){ return !!(S.flags&&S.flags.m8raid); }},
+  ],
+  wave(){ if(S&&S.flags)S.flags.m8raid=true;
+    const w=[]; [[-6,29],[6,31],[0,25],[-10,26]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:48,dmg:12,speed:3,aggro:60}))); return w; }
+},
 };
 /* gate availability plumbing: give each gate a reference to its predecessor */
 function loadLevel(n){
@@ -2653,12 +2780,12 @@ const CODES={
   'LAKE':()=>{S.flags={trained:true,sk3:true,dance:true}; startAt(5);},
   'RIVER':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(6);},
   'WAYSTATION':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(11);},
+  'SHRINE':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(12);},
   'SIEGE':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(7);},
   'LEDGER':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(8);},
   'YARDS':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(9);},
   'HOME':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(10);},
-};
-function startAt(n){
+};function startAt(n){
   const t=$('title'); if(t) t.style.display='none'; started=true;
   renderStats(); renderSatchel();
   loadLevel(n); startCine(()=>go('ch'+n));
