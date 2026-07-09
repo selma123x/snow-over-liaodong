@@ -783,8 +783,10 @@ a7_zhao:{
   title:'The General’s Last Post',
   text:`<p>He stands in his armor in an empty command hall, gray as the smoke, writing the last dispatch no one will ever read. "I held this line eleven years," he says, without turning. "A man should die where he stood."</p>
   <p>"A man should <em>live</em> where he's loved," you say. "You taught me strategy, general. This position is lost. Your people are not. Choose the war you can still win."</p>
+  <p>"You cannot save everyone," you say — and you hear whose arithmetic that is in your mouth, and hate it a little.</p>
+  <p>"No," Zhao says. He looks at the empty hall — at eleven years of holding a line the strategists wrote off long ago. "But I can decide what kind of man I am when I fail. Strategy tells you what to spend, daughter. It never tells you what you <em>are</em>. That, you must decide before the bill arrives — because it always arrives, and it always asks."</p>
   <p>His brush stops. "...Mingzhu used to argue like that." He sets it down. "Very well, daughter. Carry me out of my grave."</p>`,
-  choices:[{t:'The dancers clear the rooftop road.', fx:()=>{S.flags.zhaoSaved=true;}, to:'a7_dance'}]
+  choices:[{t:'Out, through the falling city.', fx:()=>{S.flags.zhaoSaved=true;}, to:'a9m_namgil'}]
 },
 a7_dance:{
   eyebrow:'Liaoyang · The Rooftop Road', crumb:'Liaoyang', speaker:'zhao',
@@ -793,14 +795,55 @@ a7_dance:{
   <p>"I called it dancing," the general says at last. "All those years. I said it like a small word."</p>
   <p>"It is dancing," you say.</p>
   <p>"Yes." He watches his son catch a falling boy out of the air. "It is the biggest word I know now."</p>`,
-  choices:[{t:'West, through the water gate, out.', to:'ch8'}]
+  choices:[{t:'Above the fire, the general watches his son carry a city.', to:'a9m_ledger'}]
 },
 
+a9m_namgil:{
+  eyebrow:'Liaoyang · The South Gate', crumb:'Liaoyang', speaker:'namgil',
+  title:'How Many Graves Does Kindness Require',
+  text:`<p>Namgil stands at the south gate watching the eastern capital of a civilization burn down to its bones, and when he speaks it is quiet, which is worse than shouting.</p>
+  <p>"We saved two hundred people at the waystation," he says. "The army that came after them has killed thousands this week. Look at it." He does not gesture at the fire. He doesn't need to. "How many graves does kindness require, Seol, before it becomes cruelty? We pull ten from the water while the flood takes ten thousand, and we call ourselves the good ones because our hands are full."</p>
+  <p>"Say what you want to say."</p>
+  <p>"Cut the supply roads. All of them — through the villages if the villages are in the way. Leave the slow columns; they cost us speed we cannot spend. Make the war expensive for the machine instead of survivable for its victims." He finally looks at you, and there is grief in it, not zeal, which is what makes him dangerous. "A surgeon cuts away flesh to save the body."</p>
+  <p>"Then remember the flesh is made of people," you say. "The day you forget that, Namgil, you are not a surgeon. You are the disease with better intentions."</p>
+  <p>He holds your eyes a long moment. "One of us is wrong," he says. "I genuinely do not know which. That is the part I cannot sleep through." He shoulders his pack. "Kang's hub is by the grain wharfs. The network found it this morning. Come see what the machine looks like from inside — then tell me again about flesh."</p>
+  <p class="whisper">He is not your enemy. He is the person you might have become if Mingzhu had never put a brush in your hand. That is why you cannot dismiss him, and why you must answer him.</p>`,
+  choices:[{t:'The grain wharfs. Kang’s hub.', to:'a9m_hub'}]
+},
+a9m_hub:{
+  eyebrow:'Liaoyang · The Grain Wharfs', crumb:'Liaoyang', speaker:'seol',
+  title:'The Machine From Inside',
+  text:`<p>You expected a den. You find an <em>office</em>. Clerks' desks in rows. Manifests in triplicate. Rate tables pinned to the wall — the price of a strong man, a skilled woman, a child, adjusted seasonally, like grain. A whole bureaucracy of taking, running smoothly while its city burns, because the machine does not care where it stands.</p>
+  <p>And on the master desk, corrections in a patient red hand you know now: Kang's estimates amended, his routes optimized, his sloppy sums fixed. At the margin of a page projecting next season's "yield," one note: <em>"The Woman will come here. She will spare the man and take the books. Prepare accordingly. — O."</em></p>
+  <p>Namgil reads it beside you and exhales slowly. "He knows you better than the court does. Better than Wei. Maybe better than —" He stops. "Seol. He <em>planned</em> for your mercy."</p>
+  <p class="whisper">Batu fought your strength. This one studies your humanity — files it, prices it, builds around it. Fight through the hub. The books are the mission. The man is not.</p>`,
+  choices:[{t:'Clear the wharfs.', to:'WAVE:a9m_kang'}]
+},
+a9m_kang:{
+  eyebrow:'Liaoyang · The Counting Room', crumb:'Liaoyang', speaker:'kang',
+  title:'Only One Piece',
+  text:`<p>You find Kang under a desk, and the years have not been kind, or rather they have been exactly kind enough: fatter, softer, sweating through silk, scrabbling at a strongbox he cannot lift alone. The terror of your childhood, revealed by firelight as a clerk who ate well.</p>
+  <p>"You," he says — and then, seeing your face stay level, he begins to talk fast, the way he always did when the price moved against him. "You still think I was the monster. I was only the man who <em>admitted</em> what everyone wanted. The magistrates wanted their cut. The garrisons wanted their quiet. The buyers — oh, the buyers wanted, and they washed their hands with my name." His hands spread, rings loose on thinner fingers. "Kill me. Go on. He has copies of everything. He has <em>better</em> men than me already trained. You will have killed a fat old clerk, and the machine will not miss a single shipment."</p>
+  <p>And the terrible thing is: the red ink on his desk already told you the same.</p>
+  <p>"I'm not going to kill you," you say, and watch relief and humiliation fight in his face, because he understands the second part before you say it. "You're not worth the lesson it would unteach. Run, Kang. Run to your buyer in Shenyang and tell him his note was right. Tell him she took the books." You lift the hub's master ledger — heavy as a tombstone, thousands of pages. "Tell him she's coming for the shelf they sit on."</p>`,
+  choices:[{t:'He runs. The dancers are moving the wharf captives to the rooftops.', to:'a7_dance'}]
+},
+a9m_ledger:{
+  eyebrow:'Liaoyang · The West Road · Dawn', crumb:'Liaoyang', speaker:'namgil',
+  title:'Names Are Not Weapons',
+  text:`<p>Outside the walls, in the grey after, the column forms up — the wharf captives, the rooftop children, Zhao leaning on Lan and refusing to lean much. You stand with the master ledger in your arms. It is heavier than a shield.</p>
+  <p>Namgil watches you hold it. "So," he says. "You spared the clerk and took his arithmetic. What will you do with it? Burn the routes it names? It would cripple them for a season. I would call that a victory."</p>
+  <p>Old you would have burned it — burned the roads, the wharfs, the whole grammar of the machine, and called the fire justice.</p>
+  <p>"Names are not weapons," you say. "They are promises." You open it, and the firelight moves across page after page after page — <em>thousands</em> of them. Villages. Ages. Dates taken. Prices paid. Every entry a person the machine filed and forgot, and every one of them, from this morning, a debt the network now owes. "We're not going to burn what they did, Namgil. We're going to <em>answer</em> it. Every name. Starting with the ones in Shenyang."</p>
+  <p>He looks at the pages a long time. "That's not a war plan," he says at last. "That's a vow." A breath. "...I'll get the column moving." It is not agreement. It is not refusal. It is a man deciding to watch a little longer before he chooses.</p>
+  <p class="whisper">The war just became bigger than one girl. Home is the values you refuse to surrender — even holding the enemy's arithmetic, even offered the easy fire.</p>`,
+  choices:[{t:'West. Then north. Shenyang.', to:'ch8'}]
+},
 ch8:{
   chapter:true, mark:'八', crumb:'The Pass', code:'LEDGER',
   eyebrow:'The Western Hills · Weeks Later',
   title:'The Ledger Road',
-  text:`<p>Bad news travels in Kang's handwriting: the fat merchant slipped his chains in the chaos of the fall — of course he did; grease escapes any grip — and sold his masterwork to the conquerors: <b>the Great Ledger.</b> Every route. Every safehouse. Every name your network has.</p>
+  text:`<p>Bad news travels in Kang's handwriting: the fat merchant ran straight to his buyer — of course he did; grease flows downhill to money — and sold his masterwork to the conquerors: <b>the Great Ledger.</b> Every route. Every safehouse. Every name your network has.</p>
   <p class="whisper">A copy travels tonight through the pass below, under escort, to a Banner officer they call the <b>Wolf</b>. It must not arrive.</p>`,
   choices:[{t:'Hunt.', to:'a8_go'}]
 },
@@ -2051,6 +2094,9 @@ const LEVELS = {
   closeScenes:['a7_go'],
   gates:[
     {entry:null, quick:'A family runs past with everything they own in two baskets. The city is ending around them.', title:'The Burning Street', pos:[-8,12], tag:'l7q', avail:()=>true},
+    {entry:null, quick:'A merchant bars his shutters, then stops, then unbars them and walks away leaving the door wide open.', title:'The Silk Row', pos:[8,8], tag:'l7q', avail:()=>true},
+    {entry:null, quick:'Soldiers feed a bonfire of documents \u2014 eleven years of records, keeping the enemy warm.', title:'The Archive Yard', pos:[-2,-2], tag:'l7q', avail:()=>true},
+    {entry:null, quick:'A temple bell, rung by no one \u2014 the rope tied off, tolling the warning to a city already leaving.', title:'The Bell Tower', pos:[13,-2], y:4.4, tag:'l7q', avail:()=>true},
     {entry:'a7_lan', title:'The Barricade', pos:[-4,6.8],
       avail(){ return world.enemies.filter(e=>!e.dummy&&e.hp<=0).length>=1; }},
     {entry:'a7_dance', title:'The Rooftop Road', pos:[10,-14], avail(){ return !!S.flags.zhaoSaved; }},
