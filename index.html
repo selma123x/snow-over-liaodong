@@ -755,7 +755,116 @@ a8j_leave:{
   <p>"I thought home was a place," Ok-hui says. Her voice is very steady, which is how you know what it costs. "It's not. It's being <em>seen</em>. My mother sees me only in the dark. Your camp saw me at noon, by my name, the first day." She turns from the village, and her chin is up, and her father's stubbornness is in it, or maybe her own. "I'll come back for the back gate. Someday I'll come back in daylight, and I'll make them say my name in the market square. But I'm not going to stand in the dark waiting to be loved. I'm coming with you."</p>
   <p>You cross the ice together as the sun comes up behind Joseon — behind the country that is yours, and hers, and would not have either of you yet.</p>
   <p class="whisper">Home is not always where you are accepted. Sometimes home is the people who say your name in daylight — and the promise you make to the back gates: <em>someday, in daylight, all of you.</em> Word comes from the west as you reach the far bank: Liaoyang is burning. Zhao is inside.</p>`,
-  choices:[{t:'West. Now.', to:'ch7'}]
+  choices:[{t:'West. Now.', to:'ch8c'}]
+},
+
+/* ================= ACT 2 · SIDE ARC · THE CHILD BETWEEN CROWNS ================= */
+ch8c:{
+  chapter:true, mark:'回', crumb:'Between Crowns', code:'CROWNS',
+  eyebrow:'The Joseon Interior · One Detour',
+  title:'The Child Between Crowns',
+  text:`<p>West means Liaoyang, and Liaoyang is burning — but a column bound for home cannot be marched into a war. One night's detour, then: the ones returning to Joseon must be left somewhere safe first, in a dry cave above the valley road, with food and two of Jin's people and every promise you can afford.</p>
+  <p>It is on that road that the rumours find you. Travellers moving the wrong way, talking low. People are disappearing in the interior. Officials arrested at night. Families punished for sons who never came home. The king — they say it in whispers, glancing at the trees — the king has decided the kingdom is full of traitors, and that everyone who survived the north <em>survived it suspiciously</em>.</p>
+  <p class="whisper">You have carried these people across two wars to bring them home. And home, it seems, has begun to eat itself. The court sits in a fortress palace in the hills, two valleys east. You should not go. You go.</p>`,
+  choices:[{t:'Two valleys east. Quietly.', to:'a8c_go'}]
+},
+a8c_court:{
+  eyebrow:'The Hill Palace · Night', crumb:'Between Crowns', speaker:'jin',
+  title:'A Beautiful Place Holding Its Breath',
+  text:`<p>The palace is the most beautiful thing you have seen in Joseon — and the quietest. Lanterns on new snow. Curved roofs stacked up the hillside like folded hands. And wrongness everywhere, once you know how to read it: guards who watch the <em>courtiers</em> instead of the walls. Servants crossing courtyards with their eyes down, hugging the colonnades. No music. No laughter. A whole palace waiting for a blow to land.</p>
+  <p>You and Jin go up and over — roofline to roofline, old habits, his hand signals and your count — until you are lying flat on the tiles above the great hall, where light spills through the lattice and voices carry.</p>
+  <p>"Whatever we see," Jin breathes, "we are not here. Two masked foreigners over the throne hall — there is no version of being caught that we survive."</p>`,
+  choices:[{t:'Look down through the lattice.', to:'a8c_king'}]
+},
+a8c_king:{
+  eyebrow:'The Great Hall · Through the Lattice', crumb:'Between Crowns', speaker:'wang',
+  title:'The King Who Saw Only Knives',
+  text:`<p>The king is not old, and that is somehow the worst of it — a man with years left, spending them all tonight. He paces before his assembled ministers with a list in his hand, and his voice never rises, which is more frightening than shouting: every name on the list has confessed, he says. Everyone confesses. The kingdom is riddled through, sold to the Ming, sold to the Jurchen, sold by everyone he ever trusted — and if he is not ruthless <em>now</em>, Joseon disappears.</p>
+  <p>An old minister — the best of them, you can tell by how the others' eyes keep going to him — kneels and says, gently, the one true thing: <em>"Jeonha, there is no plot. There is only fear, and it is eating the country faster than any enemy could."</em></p>
+  <p>The king kills him. There, on the steps of his own throne, with his own hand, and stands over the body breathing hard, and orders the guards to take the rest — all of them, the whole ministry, traitors, all —</p>
+  <p>Your weight is already shifting. Jin's hand closes on your arm like an iron ring. <em>"Seol. No."</em></p>
+  <p>And then the doors come off their hinges.</p>`,
+  choices:[{t:'The north wind walks in.', to:'a8c_general'}]
+},
+a8c_general:{
+  eyebrow:'The Great Hall · The Reckoning', crumb:'Between Crowns',
+  title:'Charges, Read Aloud',
+  text:`<p>A Jurchen general, and behind him more soldiers than the hall has ever held — through gates that should have been defended, which tells you how many inside the palace decided this week whose fear they would rather live under. The king's guards die fast. The ministers, kneeling for their own execution, are spared by the men they call barbarians, and the shame of that will outlive everyone in this room.</p>
+  <p>The general does not gloat. He unrolls a document and reads the charges the way a man reads weather — the broken agreements, the murdered envoys, the border villages punished for imagined treasons — and the king, surrounded, laughs, and tells his weeping ministers he <em>knew</em>, he always knew, this was the plan all along, and their tears prove it.</p>
+  <p>They are crying <em>"Jeonha, jeonha"</em> — for him, still, after everything — begging mercy for the man who was killing them an hour ago. The general listens all the way through, which is its own kind of terrible courtesy. Then he shakes his head once, and it is done, and the ministers' cry comes apart into weeping.</p>
+  <p>Then the family is brought in, and the hall goes truly silent, and the old ministers press their foreheads to the floor and beg — not for the adults, they are beyond it and know it — <em>for the baby. Mercy for the baby.</em></p>
+  <p>Beside you, Jin has your arm again before you have moved. "Seol. Look at me. The adults — there is nothing. Anyone we pulled out of that hall, every soldier on this hill hunts us and the column in the cave dies for it. <em>There is nothing.</em>" His voice is wrecked and level at once, and he is right, and being right has never sounded worse.</p>
+  <p>It is over quickly. The general stands a moment over what he has ordered. Then he says, tiredly, to the hall at large: "It is a baby. Be humane." — and lifts the child from its dead mother's arms himself, and hands it to one of his guards.</p>`,
+  choices:[{t:'On the roof, in the cold, a decision.', to:'a8c_choice'}]
+},
+a8c_choice:{
+  eyebrow:'The Rooftop · Snow Beginning', crumb:'Between Crowns', speaker:'jin',
+  title:'A Symbol, A Child',
+  text:`<p>"If you take that child," Jin says quietly, watching the guard carry it across the courtyard below, "every side will decide what you are. Joseon will call you a traitor who stole the old king's heir. The Ming will question where your loyalty was hiding all along. The Jurchens will see an opportunity wearing your face."</p>
+  <p>"And the child?"</p>
+  <p>"To them?" A pause, exactly as long as honesty. "A symbol."</p>
+  <p>"To me?" You look down at the small bundle in the soldier's arms, already crying at the cold, the last of a house that saw knives everywhere and never once saw this coming.</p>
+  <p>"A child."</p>
+  <p>Jin closes his eyes, because he knew the answer when he started the sentence. This is who you are. It is why he is here.</p>
+  <p>You pull your mask up. In the dark, you can hear him almost smile. "It's a good thing," you say, "that I won't get caught."</p>
+  <p>The plan takes four breaths to make, because the good ones always do: he goes loud on the west wall — lanterns, noise, a dancer's chaos, no one touched — and you go quiet through the corridors. Take the child. Out the east water-gate. Meet at the cave above the valley road, where the column waits.</p>`,
+  choices:[{t:'He drops off the roofline, and the west wall comes alive. Go.', to:'WAVE:a8c_daragul'}]
+},
+a8c_daragul:{
+  eyebrow:'The East Corridors · The Child in Your Arms', crumb:'Between Crowns', speaker:'daragul',
+  title:'The Woman at the Water-Gate',
+  text:`<p>You have the baby — warm, furious, impossibly light — and the east water-gate is twenty paces away when a Jurchen woman steps out of the dark between you and it, blade already drawn, and yours comes up on pure instinct, the child braced in your off arm —</p>
+  <p>— and neither of you moves.</p>
+  <p>She is your age. Broad-cheeked, wind-burned, a scar through one eyebrow. She is staring at your eyes above the mask the way you are staring at hers, and the point of her blade has begun, very slowly, to drop, and you do not understand why yours is dropping too.</p>
+  <p class="whisper">Somewhere far back, behind nine years of winters, a door you did not know you had opens by itself.</p>`,
+  choices:[{t:'Nine years ago. The night of the ford.', to:'a8c_flash'}]
+},
+a8c_flash:{
+  eyebrow:'Nine Years Ago · The Raiders’ Camp', crumb:'Between Crowns',
+  title:'Dara',
+  text:`<p>The first night, after the ford. Eleven years old, roped to a saddle-post, too empty even to cry, in a camp full of a language made of stones. One of the raiders had brought his daughter on the ride — a girl your own age in a too-big coat, who had been given, as a trinket, the small wooden horse your father carved you when you were six.</p>
+  <p>In the dark, when the fires burned down, she crept over. Looked at you a long time. Then held out a waterskin — and the wooden horse, pressed into your bound hands, folding your fingers over it like a secret.</p>
+  <p>You did not understand a word she said. She pointed at herself: <em>"Dara — "</em> something, the rest lost in wind and dialect. You tried to say it back and mangled it, and she laughed — clapped a hand over her own mouth, eyes huge, and laughed anyway — and you, roped to a post at the end of the world, laughed too, because it was that or die.</p>
+  <p>You pointed at yourself. <em>"Seol."</em> She said it wrong. You both said everything wrong, whispering nonsense across a language neither of you would ever share, agreeing about nothing that could be named. Two girls inside a terrible machine, deciding — in the only currency children have — that the other one was a person.</p>
+  <p>In the morning she was gone with the outriders, and you never saw her again. You kept the horse for three years, until Guangning, where Kang's men took it with everything else.</p>`,
+  choices:[{t:'Now. The water-gate.', to:'a8c_part'}]
+},
+a8c_part:{
+  eyebrow:'The East Water-Gate · Now', crumb:'Between Crowns', speaker:'daragul',
+  title:'In This Life',
+  text:`<p>Neither of you says it. That is the pact, made in half a second, blade-point to blade-point: name it and you make each other traitors; leave it unnamed and it is only two women at a gate in the snow. Her eyes go once to the bundle in your arm, and something crosses her face — the general's mercy, and where it was headed anyway, and what she thinks of that — and she steps out of your path and speaks fast and low.</p>
+  <p>"You cannot take it back the way you came. Every road west is watched by tomorrow." A breath. "There is a man. Noble blood. Our khan finds him… <em>reasonable</em> — wants him where the throne is, when the dust settles. Not king yet. Careful. Clever." Her mouth twists, half contempt, half respect. "He protects what is useful to him. Make the child useful." She tells you the valley, the house, the words that will open the gate, and every second of it is a thing that gets her killed if a single lantern turns this way.</p>
+  <p>Horns, far off. Jin's chaos, dying down. Time is over.</p>
+  <p>"In another life," you say — in her tongue, the little of it nine years taught you — and cannot finish it. "We would drink together."</p>
+  <p>She grips your head, firm, two-handed, forehead almost to forehead, the way old friends do who have run out of language. "In <em>this</em> life," she says.</p>
+  <p>You are ten paces gone in the dark when you cannot help it — you turn and call back, low as you dare: "I'll see what an old hag you become, Daragul!"</p>
+  <p>The answer comes out of the night, delighted, already moving the other way: "And we will see you lose your good looks, <em>Seol!</em>"</p>
+  <p class="whisper">Two girls who met inside a kidnapping, alive long enough to insult each other at a palace gate. Some ledgers the empires do not keep.</p>`,
+  choices:[{t:'The valley. The house. The careful man.', to:'a8c_succ'}]
+},
+a8c_succ:{
+  eyebrow:'A Quiet House · Before Dawn', crumb:'Between Crowns', speaker:'seja',
+  title:'The Careful Man',
+  text:`<p>He receives you at the end of a long room with two guards he pretends are servants, and studies you the way a money-changer studies a coin from a country he does not trust. He is younger than his caution. Clever moves through him like water under ice.</p>
+  <p>"A masked woman of no country," he says, "carrying the most dangerous infant in the kingdom, sent to me by a route only the northerners know. Tell me why my origins should trust yours."</p>
+  <p>"Tell me why mine should trust a man the khan finds <em>reasonable</em>," you say. "You have been liaising with the people who just emptied the throne hall."</p>
+  <p>He does not flinch; he almost smiles. "It is not my fault I was born with noble blood and a silver tongue. One survives with the tools one is issued." He looks at the bundle in your arms and, for the first time, lets the tiredness show. "Why save it? You know what it is. A living claim. A banner for every future rebellion. That child may one day destroy every agreement keeping this country alive. Why?"</p>
+  <p>"Because if a country survives by killing children," you say, "what exactly survived?"</p>
+  <p>The room is quiet for a long time. When he speaks again the money-changer is gone and something older and more tired is in his place.</p>
+  <p>"I will not be a good king," he says, at last, plainly, as if he has never said it aloud before. "I am too careful to be good. But I will not be a man who rules through fear — I have now seen where that road ends, on the steps of a throne, in the family's blood. I will keep this country <em>standing</em>. Stable. Breathing. When the khan's wrath comes looking for a neck, I will offer it mine before I hand it my people's." He gestures, and a nurse comes forward from the shadows — planned before you finished speaking, you realize; careful, always careful. "The child disappears tonight. A miller's family, three provinces south. It will grow up loved and ordinary and never know. That is the only mercy that keeps it alive. Acceptable?"</p>
+  <p>"Acceptable."</p>
+  <p>"Then we are concluded." A pause at the door, and the almost-smile again. "Woman of no country. If you ever need a careful man's memory — I have an excellent one."</p>`,
+  choices:[{t:'The cave above the valley road. The column. Jin.', to:'a8c_end'}]
+},
+a8c_end:{
+  eyebrow:'The Cave Above the Valley Road · Dawn', crumb:'Between Crowns', speaker:'jin',
+  title:'What Everyone Saw',
+  text:`<p>Jin is at the cave mouth with a lantern and three new holes in his coat and no holes in him, and he does not ask where the child is, because your empty arms and your face tell him it worked. The column stirs awake behind him — the ones going home, to whatever home has decided to be this year.</p>
+  <p>"So," he says, falling in beside you as the wagons form up. "The old king saw people as threats. He is dead of it. The khan's men see people as leverage — you watched them weigh that baby like a coin. The Ming see people as resources; I grew up in a garrison, I know the ledgers. And the one in the red ink sees people as numbers." He glances at you sideways, and there is the old lantern-light in it. "And then there's you. You just looked at the most dangerous political object in a kingdom and saw a child that needed carrying."</p>
+  <p>"That's why they'll never understand what we do next."</p>
+  <p>"No," he agrees, contentedly, in Korean, getting better at it all the time. "That is why you are dangerous."</p>
+  <p class="whisper">West now, truly. Liaoyang is burning, and Zhao is inside it — and behind you, in a quiet house, a careful man files away the memory of a woman who asked what exactly survives. One day, when it matters most, he will answer.</p>`,
+  choices:[{t:'West. Liaoyang.', to:'ch7'}]
 },
 
 /* ================= ACT 2 · (existing) LIAOYANG ================= */
@@ -928,6 +1037,7 @@ a10r_ohan:{
   <p>And below, in the same patient script, underlined once:</p>
   <p><em>"She values names over numbers. This is not sentiment. It is her entire architecture. Every prediction I have made from it has been correct. Therefore: do not fight the column. Go to the ford at Uiju and wait. She will come there last, and she will come there tired, and she will come there with everyone she loves standing behind her where she cannot use them."</em></p>
   <p>Jin reads it over your shoulder. For once he has nothing graceful to say.</p>
+  <p>And beneath the dispatches, incongruous, a second letter — travel-stained, in careful court Korean, carried by three hands at least to find you on this road. No signature. Only a seal you last saw in a quiet house before dawn, and one line: <em>"A careful man's memory. Your wolf feeds through the western routes — grain and silver, past the old salt fords. Cut there and he starves at Uiju. The purges have ended. The roads home are safer than they were. — What survived, survives."</em></p>
   <p class="whisper">He did not need to beat you on the road. He never intended to. He has simply been waiting, for a year, at the end of a sentence he wrote before you began it.</p>`,
   choices:[{t:'North. Shenyang. The yards are still full.', to:'ch9'}]
 },
@@ -1081,6 +1191,9 @@ const ASSETS = {
     yun:    { url:null, fallback:{glyph:'尹', tint:'#8a92b0'} },
     okhui:  { url:null, fallback:{glyph:'玉', tint:'#c8a8a0'} },
     wei:    { url:null, fallback:{glyph:'衛', tint:'#7a8272'} },
+    wang:   { url:null, fallback:{glyph:'王', tint:'#8a6a9a'} },
+    daragul:{ url:null, fallback:{glyph:'達', tint:'#5a9a9a'} },
+    seja:   { url:null, fallback:{glyph:'嗣', tint:'#b09a5a'} },
   },
   /* b) combat VFX flipbooks (sheet: cols×rows, fps) */
   flipbook: {
@@ -1380,7 +1493,7 @@ function reqLabel(req){
 }
 
 /* ---------------- overlay narrative renderer ---------------- */
-const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6, ch7w:11, ch8j:12, ch7:7, ch8:8, ch10r:13, ch9:9, ch10:10};
+const LEVEL_CARDS = {ch1:1, ch2:2, ch3:3, ch4:4, ch5:5, ch6:6, ch7w:11, ch8j:12, ch8c:14, ch7:7, ch8:8, ch10r:13, ch9:9, ch10:10};
 let overlayOpen=false, openedGate=null, selChoice=-1;
 
 function openOverlay(){ overlayOpen=true; $('overlay').classList.add('open'); }
@@ -1467,6 +1580,7 @@ const ART={
   ch7w:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
   ch8j:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
   ch10r:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151218_eb6661c5-99a3-4fe7-b2c1-6e89187d2059.png',
+  ch8c:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150536_b7447fed-2742-4f43-83e6-3e5e7dc0a53d.png',
   ch8:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_151024_5f1611a6-148d-45ee-b212-6aa116eb8a61.png',
   ch9:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_150536_b7447fed-2742-4f43-83e6-3e5e7dc0a53d.png',
   ch10:'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260702_041304_c0ddc6ac-230b-469b-ac33-fd6d2fe51b86.png',
@@ -2400,6 +2514,44 @@ const LEVELS = {
   wave(){ if(S&&S.flags)S.flags.m10bridge=true;
     const w=[]; [[-4,-6],[4,-7],[0,-3],[-6,-2],[6,-1]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:54,dmg:14,speed:3.1,aggro:60}))); return w; }
 },
+/* ---------- 14 · The hill palace (The Child Between Crowns) ---------- */
+14:{ name:'The Hill Palace \u00b7 Between Crowns', spawn:[0,24],
+  build(){
+    sky('#141a2a','#1c2236',14,80);
+    lights('#3a4668','#12100e',.5,'#ffd8a0',.65,-12,26,-8);
+    ground(52,58,'#dfe4ee',0);
+    box(40,.9,12,'#e6eaf2',0,.45,4,{solid:true,plat:true});
+    box(34,2.1,12,'#e2e6ef',0,1.05,-8,{solid:true,plat:true});
+    box(28,3.3,12,'#dde2ec',0,1.65,-19,{solid:true,plat:true});
+    for(let s2=0;s2<3;s2++){ box(3,.4+s2*.3,1.2,'#c8cfda',0,.2+s2*.3,10-s2*1.2,{solid:true,plat:true}); }
+    for(let s2=0;s2<3;s2++){ box(3,1.2+s2*.35,1.2,'#c8cfda',0,.6+s2*.35,-1.5-s2*1.1,{solid:true,plat:true}); }
+    for(let s2=0;s2<3;s2++){ box(3,2.3+s2*.35,1.2,'#c8cfda',0,1.15+s2*.35,-13-s2*1.1,{solid:true,plat:true}); }
+    building(0,-21,10,6,4,'#8a3a3a','#3a2430',{lantern:true,light:true});
+    building(-9,-19,4,4,3,'#7a4a44','#3a2430',{lantern:true});
+    building(9,-19,4,4,3,'#7a4a44','#3a2430',{});
+    wallRun(-17,-2,-17,10,2.6,'#9a8a7a'); wallRun(17,-2,17,10,2.6,'#9a8a7a');
+    wallRun(-20,14,-4,14,3,'#8a7a6a'); wallRun(4,14,20,14,3,'#8a7a6a');
+    for(let i=0;i<10;i++) lantern(-12+((i*7)%25), .9+(i%3), 12-i*3.4, i%2===0);
+    box(2.6,3.2,.6,'#5a5248',16,1.6,-14,{solid:true}); lantern(14.5,1.4,-14,true);
+    box(3,.4,3,'#6a5a50',-14,3.4,-6,{solid:true,plat:true});
+    box(3,.4,3,'#6a5a50',-14,4.2,-13,{solid:true,plat:true});
+    tree(-19,20,1.2); tree(19,19,1.1); tree(-20,-14,1);
+    mkGuard(-6,2,{hp:52,dmg:13,aggro:7,patrol:[[-6,2],[6,2]]});
+    mkGuard(8,-8,{hp:52,dmg:13,aggro:7,patrol:[[8,-8],[-2,-8]]});
+    mkSnow(500);
+  },
+  closeScenes:['a8c_go'],
+  gates:[
+    {entry:null, quick:'A servant crosses the courtyard hugging the colonnade, eyes down, steps counted. Everyone here has learned to be small.', title:'The Lower Court', pos:[-8,8], tag:'m8cq', avail:()=>true},
+    {entry:null, quick:'Two guards watch the ministers\u2019 wing, not the walls. In this palace the enemy is assumed to be inside.', title:'The Middle Terrace', pos:[6,-6], y:2.1, tag:'m8cq', avail:()=>true},
+    {entry:'a8c_court', title:'The Roofline of the Great Hall', pos:[0,-17], y:3.3,
+      avail(){ return world.gates.filter(g=>g.tag==='m8cq'&&g.done).length>=2; }},
+    {entry:'a8c_succ', title:'The Quiet House in the Valley', pos:[16,20],
+      avail(){ return !!(S.flags&&S.flags.m8crescue); }},
+  ],
+  wave(){ if(S&&S.flags)S.flags.m8crescue=true;
+    const w=[]; [[-4,-16],[4,-15],[0,-10],[8,-13],[-8,-12]].forEach(s=>w.push(mkGuard(s[0],s[1],{hp:52,dmg:13,speed:3.2,aggro:60}))); return w; }
+},
 };/* gate availability plumbing: give each gate a reference to its predecessor */
 function loadLevel(n){
   curLevel=n; baseWorld(); initMats();
@@ -2943,6 +3095,7 @@ const CODES={
   'WAYSTATION':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(11);},
   'SHRINE':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(12);},
   'ROAD':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(13);},
+  'CROWNS':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(14);},
   'SIEGE':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(7);},
   'LEDGER':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(8);},
   'YARDS':()=>{S.flags={trained:true,sk3:true,dance:true,mombow:true}; startAt(9);},
