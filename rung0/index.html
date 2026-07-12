@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>RUNG 0 — GLB Integration Proof · Snow over Liaodong</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#0e1016;font-family:Georgia,serif;-webkit-user-select:none;user-select:none;touch-action:none}
+#hud{position:fixed;top:10px;left:10px;color:#dfe4ee;background:rgba(14,16,22,.72);padding:10px 14px;border:1px solid #3a4150;border-radius:8px;font-size:13px;line-height:1.7;z-index:5;pointer-events:none}
+#hud b{color:#c8a44a}
+#fps{position:fixed;top:10px;right:10px;color:#c8a44a;background:rgba(14,16,22,.72);padding:8px 12px;border:1px solid #3a4150;border-radius:8px;font-size:16px;z-index:5}
+#load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#8a92a6;font-size:18px;letter-spacing:.2em;z-index:9;background:#0e1016}
+#stick{position:fixed;left:24px;bottom:24px;width:120px;height:120px;border:2px solid rgba(200,164,74,.35);border-radius:50%;z-index:6}
+#nub{position:absolute;left:38px;top:38px;width:44px;height:44px;border-radius:50%;background:rgba(200,164,74,.4)}
+.btn{position:fixed;width:64px;height:64px;border-radius:50%;border:2px solid rgba(200,164,74,.4);color:#dfe4ee;background:rgba(20,24,34,.6);z-index:6;font-size:12px;display:flex;align-items:center;justify-content:center;font-family:Georgia}
+#bAtk{right:24px;bottom:44px}#bRun{right:100px;bottom:24px}
+</style></head><body>
+<div id="load">LOADING GLB…</div>
+<div id="hud"><b>RUNG 0 — integration proof</b><br>
+STATE: <span id="st">idle</span> → CLIP: <span id="cl">Idle</span><br>
+ENEMY: <span id="est">patrol</span> → <span id="ecl">Walk</span><br>
+WASD/stick move · J/tap ATK = strike-state test · hold K/RUN = sprint<br>
+<span id="meta"></span></div>
+<div id="fps">— fps</div>
+<div id="stick"><div id="nub"></div></div>
+<button class="btn" id="bAtk">ATK</button><button class="btn" id="bRun">RUN</button>
+<script src="three.min.js"></script>
+<script src="GLTFLoader.js"></script>
+<script>
+/* ============ RUNG 0 ============
+   Proves, with zero credits: GLB load · skinned mesh · AnimationMixer ·
+   state machine → clip crossfade (the engine's exact state shapes) ·
+   wrapper-group normalization (scale + facing) · two instances · iPad FPS.
+   The real game is untouched; this page shares only its patterns.       */
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);renderer.setClearColor('#0e1016');
+document.body.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.fog=new THREE.Fog('#161a26',14,60);
+const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,200);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+/* engine-style world: snow ground, ink-value boxes, one warm lantern */
+scene.add(new THREE.HemisphereLight('#c8cede','#2c2430',.85));
+const sun=new THREE.DirectionalLight('#ffd8a8',.7);sun.position.set(-10,20,8);scene.add(sun);
+const g=new THREE.Mesh(new THREE.BoxGeometry(60,.2,60),new THREE.MeshLambertMaterial({color:'#dfe4ee'}));g.position.y=-.1;scene.add(g);
+[[6,3,-6,'#6a5f52'],[-7,2,4,'#8a7a6a'],[3,2.4,8,'#5a5248']].forEach(b=>{const m=new THREE.Mesh(new THREE.BoxGeometry(3,b[1],3),new THREE.MeshLambertMaterial({color:b[3]}));m.position.set(b[0],b[1]/2,b[2]);scene.add(m);});
+const lampL=new THREE.PointLight('#ffb066',1,14);lampL.position.set(0,2.2,-3);scene.add(lampL);
+/* snow — the engine's particle pattern */
+(function(){const N=400,pos=new Float32Array(N*3);for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*50;pos[i*3+1]=Math.random()*14;pos[i*3+2]=(Math.random()-.5)*50;}
+const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+window.snow=new THREE.Points(geo,new THREE.PointsMaterial({color:'#eef2f8',size:.09,transparent:true,opacity:.85}));scene.add(snow);})();
+/* ---------- input: keyboard + touch stick + gamepad (engine scheme) ---------- */
+const KEY={};addEventListener('keydown',e=>KEY[e.code]=true);addEventListener('keyup',e=>KEY[e.code]=false);
+const T={x:0,y:0,atk:false,run:false};
+(function(){const s=document.getElementById('stick'),n=document.getElementById('nub');let id=null,cx=0,cy=0;
+function pos(t){const r=s.getBoundingClientRect();cx=r.left+60;cy=r.top+60;let dx=t.clientX-cx,dy=t.clientY-cy;const m=Math.hypot(dx,dy);if(m>46){dx*=46/m;dy*=46/m;}n.style.left=(38+dx)+'px';n.style.top=(38+dy)+'px';T.x=dx/46;T.y=dy/46;}
+s.addEventListener('touchstart',e=>{id=e.changedTouches[0].identifier;pos(e.changedTouches[0]);e.preventDefault();},{passive:false});
+addEventListener('touchmove',e=>{for(const t of e.changedTouches)if(t.identifier===id)pos(t);},{passive:false});
+addEventListener('touchend',e=>{for(const t of e.changedTouches)if(t.identifier===id){id=null;T.x=T.y=0;n.style.left='38px';n.style.top='38px';}});
+const bA=document.getElementById('bAtk'),bR=document.getElementById('bRun');
+bA.addEventListener('touchstart',e=>{T.atk=true;e.preventDefault();},{passive:false});
+bR.addEventListener('touchstart',e=>{T.run=true;e.preventDefault();},{passive:false});
+bR.addEventListener('touchend',()=>T.run=false);})();
+/* ---------- GLB load + the normalization wrapper (the "replacement workflow") ---------- */
+const clips={},loader=new THREE.GLTFLoader();let player=null,enemy=null,mixerP=null,mixerE=null,actP={},actE={};
+function normalize(glbScene){
+  /* wrapper group: engine expects ~1.5-unit character standing on y=0 facing +Z.
+     ANY future Higgsfield GLB passes through this same function — this is the workflow. */
+  const wrap=new THREE.Group();
+  const box=new THREE.Box3().setFromObject(glbScene);
+  const h=box.max.y-box.min.y;              // native height (Soldier ≈ 1.8m)
+  const s=1.5/h;                             // engine units
+  glbScene.scale.setScalar(s);
+  glbScene.position.y=-box.min.y*s;          // feet on ground
+  glbScene.rotation.y=Math.PI;               // Soldier faces -Z; engine wants +Z
+  glbScene.traverse(o=>{if(o.isMesh){o.frustumCulled=false;}});
+  wrap.add(glbScene);
+  return wrap;
+}
+loader.load('assets/Soldier.glb',glb=>{
+  document.getElementById('meta').textContent='GLB: '+(glb.animations.map(a=>a.name).join(', '));
+  /* instance 1: the player */
+  player=normalize(glb.scene);scene.add(player);
+  mixerP=new THREE.AnimationMixer(glb.scene);
+  glb.animations.forEach(c=>actP[c.name]=mixerP.clipAction(c));
+  /* instance 2: the enemy — loaded fresh (two independent skinned instances) */
+  loader.load('assets/Soldier.glb',glb2=>{
+    enemy=normalize(glb2.scene);enemy.position.set(6,0,-6);scene.add(enemy);
+    enemy.traverse(o=>{if(o.isMesh&&o.material){o.material=o.material.clone();o.material.color=new THREE.Color('#9a6a5a');}});
+    mixerE=new THREE.AnimationMixer(glb2.scene);
+    glb2.animations.forEach(c=>actE[c.name]=mixerE.clipAction(c));
+    document.getElementById('load').style.display='none';
+  });
+});
+/* ---------- state → clip mapping (the engine's exact mechanism, new expression) ---------- */
+function play(acts,name,cur,fade){ if(cur.n===name)return cur.n;
+  const next=acts[name];if(!next)return cur.n;
+  next.reset().fadeIn(fade||.18).play();
+  if(cur.n&&acts[cur.n])acts[cur.n].fadeOut(fade||.18);
+  return name; }
+const P={pos:new THREE.Vector3(0,0,0),yaw:0,state:'idle',clip:{n:null},atkT:0};
+const E={state:'patrol',clip:{n:null},t:0,home:new THREE.Vector3(6,0,-6),dir:1};
+const STATE2CLIP_P={idle:'Idle',walk:'Walk',run:'Run',strike:'TPose'};   /* TPose stands in for an attack clip */
+const STATE2CLIP_E={patrol:'Walk',chase:'Run',windup:'TPose',strike:'TPose',idle:'Idle'};
+/* ---------- frame ---------- */
+let last=performance.now(),fpsA=[],camAng=0;
+function frame(now){
+  requestAnimationFrame(frame);
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  /* fps */
+  fpsA.push(1/dt);if(fpsA.length>30){fpsA.shift();document.getElementById('fps').textContent=Math.round(fpsA.reduce((a,b)=>a+b)/fpsA.length)+' fps';}
+  const gp=(navigator.getGamepads&&navigator.getGamepads()[0])||null;
+  let mx=(KEY.KeyD?1:0)-(KEY.KeyA?1:0)+T.x+(gp?gp.axes[0]:0);
+  let mz=(KEY.KeyS?1:0)-(KEY.KeyW?1:0)+T.y+(gp?gp.axes[1]:0);
+  const mag=Math.min(1,Math.hypot(mx,mz));
+  const sprint=KEY.KeyK||T.run||(gp&&gp.buttons[10]&&gp.buttons[10].pressed);
+  const atk=KEY.KeyJ||T.atk||(gp&&gp.buttons[2]&&gp.buttons[2].pressed);T.atk=false;if(KEY.KeyJ)KEY.KeyJ=false;
+  if(player){
+    /* player state machine — the engine's shape: states decide, clips express */
+    if(P.atkT>0){P.atkT-=dt;P.state='strike';}
+    else if(atk){P.atkT=.5;P.state='strike';}
+    else if(mag>.05){P.state=sprint?'run':'walk';
+      P.yaw=Math.atan2(mx,mz);
+      const sp=sprint?5:2.4;
+      P.pos.x+=Math.sin(P.yaw)*sp*mag*dt;P.pos.z+=Math.cos(P.yaw)*sp*mag*dt;}
+    else P.state='idle';
+    player.position.copy(P.pos);player.rotation.y=P.yaw;
+    P.clip.n=play(actP,STATE2CLIP_P[P.state],P.clip,P.state==='strike'?.08:.18);
+    mixerP.update(dt);
+    document.getElementById('st').textContent=P.state;document.getElementById('cl').textContent=P.clip.n;
+    /* camera: the engine's follow style */
+    camAng+= (gp?gp.axes[2]*1.8*dt:0);
+    const cx=P.pos.x-Math.sin(P.yaw*0+camAng)*6.5,cz=P.pos.z-Math.cos(camAng)*6.5;
+    camera.position.lerp(new THREE.Vector3(cx,3.4,cz),.08);
+    camera.lookAt(P.pos.x,1.2,P.pos.z);
+  }
+  if(enemy&&player){
+    /* enemy: the guard state machine verbatim — patrol/chase/windup/strike */
+    const dx=P.pos.x-enemy.position.x,dz=P.pos.z-enemy.position.z,d=Math.hypot(dx,dz);
+    E.t-=dt;
+    if(E.state==='patrol'){enemy.position.x+=E.dir*1.1*dt;enemy.rotation.y=E.dir>0?Math.PI/2:-Math.PI/2;
+      if(Math.abs(enemy.position.x-E.home.x)>3)E.dir*=-1;
+      if(d<7)E.state='chase';}
+    else if(E.state==='chase'){enemy.rotation.y=Math.atan2(dx,dz);
+      if(d>1.6){enemy.position.x+=dx/d*2.6*dt;enemy.position.z+=dz/d*2.6*dt;}
+      else {E.state='windup';E.t=.42;}
+      if(d>10)E.state='patrol';}
+    else if(E.state==='windup'){enemy.rotation.y=Math.atan2(dx,dz);if(E.t<=0){E.state='strike';E.t=.3;}}
+    else if(E.state==='strike'){if(E.t<=0){E.state=d<7?'chase':'patrol';}}
+    E.clip.n=play(actE,STATE2CLIP_E[E.state],E.clip,.15);
+    mixerE.update(dt);
+    document.getElementById('est').textContent=E.state;document.getElementById('ecl').textContent=E.clip.n;
+  }
+  /* snow drift */
+  const p=snow.geometry.attributes.position;for(let i=0;i<p.count;i++){let y=p.getY(i)-dt*1.1;if(y<0)y=14;p.setY(i,y);}p.needsUpdate=true;
+  renderer.render(scene,camera);
+}
+requestAnimationFrame(frame);
+</script></body></html>
