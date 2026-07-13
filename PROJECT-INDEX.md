@@ -141,3 +141,14 @@ snow-3d.html ← shell; ids referenced by engine3d ($ helpers).
 assemble.js ← concatenation order: html shell splice(three.min.js, anim, story, engine3d).
 graphaudit.js ← reads story.js+engine3d.js; its level order + required chain MUST be extended
 whenever missions are added. rung0/* ← fully standalone. PROJECT-INDEX.md ← this file; repo /src/.
+
+## 20 · PROTECTED CONTENT RULES (binding on all future work)
+LOCKED unless the user explicitly requests otherwise:
+story structure · mission order · original cutscene scripts (CUTSPECS.subs) · character arcs ·
+dialogue beats · existing emotional moments.
+Visual upgrades MAY change: models · animation · lighting · camera · environments · effects.
+Visual upgrades MUST NOT: summarise scenes · remove dialogue · replace cinematic moments with
+text · rewrite character motivations.
+PRINCIPLE: this is a graphical evolution of the existing game, not a narrative rewrite.
+Enforcement: any edit touching story.js or CUTSPECS requires explicit user instruction naming
+the scene; graphaudit.js + §8 dialogue spot-check run before every deploy that touches them.
