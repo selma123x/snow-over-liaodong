@@ -1,84 +1,143 @@
-# SNOW OVER LIAODONG — PROJECT INDEX (continuity reference)
-# Maintained by Claude. Consult this INSTEAD of re-reading files. Update after every locked change.
-# Deploy: repo selma123x/snow-over-liaodong, file index.html, live at selma123x.github.io/snow-over-liaodong
-# Build: /home/claude/game/{story.js, engine3d.js, anim.js, snow-3d.html} → node assemble.js → deploy via GitHub API
-# Validate: node graphaudit.js (must print FULLY CONSISTENT before any deploy)
+# SNOW OVER LIAODONG — MASTER PROJECT INDEX
+Maintained by Claude. Purpose: after any context reset, locate anything without scanning.
+RULE: this file references WHERE things live, never copies contents. Update on every locked change.
 
-## CAMPAIGN SPINE (narrative order → level → chapter scene ID → status)
-M1  Uiju, the raid & ford ............ L1  ch1   LOCKED   (father's lessons; ford cutscene; Batu = 7th man)
-M2  Guangning market ................. L2  ch2   LOCKED   (Kang intro; Zhao buys her; "six men, winning")
-M3  Five Winters, House of Zhao ...... L3  ch3   LOCKED   (Y1 Mingzhu+cave seed; Y2 sword; Y3 Lan throw + Jin;
-                                                          Y4 Kang treason; Y5 kiss→mingzhu death→window→vow)
-M4  Two Masks (rooftops) ............. L4  ch4   LOCKED   (recognition cutscene; ult unlock; "I had it"; riddle)
-M5  Lake & Cave ...................... L5  ch5   LOCKED   (fragments; 3 letters; Crane's Wing; Winter Bow 15→22)
-M6  The Third Water (Yalu) ........... L6  ch6   LOCKED   (Batu boss/charger; Danbi NAMED; "turning from home")
-M7  The Name They Gave You ........... L11 ch7w  LOCKED   (waystation; Namgil intro; fatal order; gogae/song;
-                                                          Ohan field-desk "how she will be taken")
-M8  Two Kings, One Girl .............. L12 ch8j  LOCKED   (shrine; Colonel Wei; Inspector Yun+seal; OK-HUI
-                                                          homecoming/back gate; cairn; old soldier knew father)
-SA  The Child Between Crowns ......... L14 ch8c  LOCKED   (falling court; baby rescue; DARAGUL flashback+reunion;
-                                                          the careful man/"seja"; theme: sees people)
-M9  The Machine, Not the Man ......... L7  ch7   LOCKED   (Liaoyang alive→burning; Zhao "what kind of man when I
-                                                          fail"; Namgil graves/surgeon; Kang spared at hub;
-                                                          rooftop dance = Zhao sees Jin; "names are promises")
-M9b The Ledger Road (pass) ........... L8  ch8   LOCKED   (intercept copy; red-ink "two schools. Confirm.";
-                                                          a8_jin night watch: leads Shenyang, Korean practice)
-M10 The Last Road to Shenyang ........ L13 ch10r LOCKED   ("village that learned to walk"; "Are we free now?";
-                                                          bridge dilemma; Namgil lance/limp/"which arithmetic";
-                                                          Ohan trap dispatch + SEJA western-routes letter)
-M10b Shenyang yards .................. L9  ch9   LOCKED   (moonlit city; cages; Kang judged "change everything
-                                                          else"; Ohan rampart nod; Zhao/Lan farewell + ledger page)
-M11 The Third Crossing (finale) ...... L10 ch10  LOCKED   (mirrored ford; Ohan "I account"; wolf boss; five-teacher
-                                                          victory; DANBI speech; grave; child archery "Again"; 끝)
+## 1 · PROJECT OVERVIEW
+Single-page offline 3D action-RPG, Three.js r128, iPad Safari + 8BitDo (Xbox mode) + touch.
+Setting: Ming–Qing transition, Liaodong 1618–1620s. Heroine Baek Seol (백설), Joseon-born.
+Live: https://selma123x.github.io/snow-over-liaodong/  ·  Repo: selma123x/snow-over-liaodong
+Deployed artifact: /index.html (assembled single file, ~807 KB). Sources mirrored in repo /src/.
+Working dir this container: /home/claude/game/
 
-## SCENE-ID PREFIX MAP
-a1_..a6_ = Act1 · a7w_=M7 · a8j_=M8 · a8c_=side arc · a7_/a9m_=M9 · a8_=pass · a10r_=M10 · a9_=yards · a10_=finale
+## 2 · ACT STRUCTURE
+Act 1 "The Taken" M1–M6 · Act 2 "The Name" M7–M9b + side arc · Act 3 "The Return" M10–M11.
+Narrative order == graphaudit LEVEL ORDER [1,2,3,4,5,6,11,12,14,7,8,13,9,10] (graphaudit.js).
 
-## FLOW REWIRE POINTS (where insertions attach)
-a6_end→ch7w · a7w_ohan→ch8j · a8j_leave→ch8c · a8c_end→ch7 · a7_zhao→a9m_namgil→a9m_hub→a9m_kang→a7_dance→a9m_ledger→ch8
-a8_ledger→a8_jin→ch10r · a10r_ohan→ch9 · a9_out→ch10 · a10_end→RESET
+## 3 · MISSION LIST (mission → chapter scene id → level → entry scene)
+M1 Uiju raid/ford            ch1   L1  · M2 Guangning market   ch2  L2 · M3 Five Winters ch3 L3
+M4 Two Masks                 ch4   L4  · M5 Lake & Cave        ch5  L5 · M6 Third Water  ch6 L6
+M7 Waystation                ch7w  L11 · M8 Shrine/Ok-hui      ch8j L12
+SA Child Between Crowns      ch8c  L14 · M9 Liaoyang           ch7  L7 · M9b Ledger pass ch8 L8
+M10 Last Road/bridge         ch10r L13 · M10b Shenyang yards   ch9  L9 · M11 Finale      ch10 L10
+All scene text: story.js (keys above). First scene per chapter: graphaudit.js `cardFirst`.
 
-## CHARACTERS (canon essentials)
-SEOL    protagonist; terse voice; reflex = toward cages; "you are my people too"
-JIN     partner not rescuer; Crane's Wing; clumsy-Korean-on-purpose; asked HER to lead Shenyang
-ZHAO    alive; dispersed west with Lan (M10b farewell); "second daughter"; "biggest word I know now"
-LAN     alive, west with Zhao; counter-ledger (counts the freed, first entry = Seol); skill ③
-MINGZHU dead Y5; secret artist; cave letters; Winter Bow ("snow may fall; the arrow flies home")
-KANG    ALIVE post-yards: judged by the freed, marched to Joseon; "change everything else" exchange done
-BATU    DEAD (M6, ice); charger mechanic; killed her father from behind mid-embrace
-OHAN    DEAD (M11, ice); Plain Blue Banner; red ink; wolf mechanic (guard/flurry/spent); "I account"
-NAMGIL  ALIVE; limp from the bridge; "expensive... which arithmetic I want to be haunted by"; portrait 岗
-DANBI   Yalu girl (M6) → homecoming speech (M11); mill village below Uiju
-OK-HUI  M8; "my daughter died in the war"/back gate; left with Seol; teaches archery badly in epilogue
-YUN     Joseon inspector; gave personal seal; sympathizer trapped by court
-WEI     Ming colonel; gave maps; "the war would win, it always does"
-DARAGUL Jurchen; raid-night friend (water+wooden horse, "Dara"/"Seol"); reunion unnamed-by-pact; ALIVE
-SEJA    "the careful man," unnamed Joseon successor; hid the baby (miller family); sends western-routes intel
+## 4 · QUEST LIST (in-level objective chains)
+Defined per level as `gates:[...]` arrays inside LEVELS (engine3d.js:~627). Quick-gates carry
+`quick:` text; entry-gates open story scenes; `avail()` encodes ordering; `tag:` groups counters.
+Waves: `to:'WAVE:<next>'` in story.js choices → level `wave()`/`spawnWave()`.
+Side quest SA: gates in LEVELS[14]; flag S.flags.m8crescue gates the succ house.
 
-## CUTSCENES (CUTSPECS, all staged puppet + skippable; asset slots open)
-ford(16s) · kiss(12s) · mingzhu(18s, 4s stillness hold) · recognition(10s) · lake(12s)
+## 5 · CUTSCENES (all staged-puppet, skippable; video slots empty)
+Registry: CUTSPECS (engine3d.js:498) — keys: ford 16s/5, kiss 12s/5, recognition 10s/4,
+mingzhu 18s/6 (4s stillness), lake 12s/4. Player: playCutscene (engine3d.js:~83–130).
+Trigger syntax from story: `to:'CINE:<key>:<next>'` (e.g. story.js → CINE:kiss:a3_dance,
+CINE:mingzhu:a3_fall); remaining keys triggered at level entries — grep 'CINE:' + 'playCutscene('.
+Asset upgrade path: playCutscene asset-priority logic (comment engine3d.js:~496) — a video URL
+injected into ASSETS.cine[key] bypasses staging automatically.
 
-## COMBAT/SKILLS (no stats — teachers)
-X fists(father)→sword(Zhao,Y2) · ①dash(Zhao) · ②bow(father)→Winter Bow(Mingzhu, 22dmg) · ③counter(Lan,Y3,flag sk3)
-④Dance ult(Jin, M4 recognition; cd 20s→28s at level≥7) · kill-heal 12→6 at level≥7
-Bosses: Batu charger(bwind/bcharge/bslide ×2dmg) · Ohan wolf(wguard 10%dmg no-stagger / flurry / wopen ×2)
+## 6 · CHARACTER LIST (canon status)
+Alive: Seol · Jin · Zhao (west, w/ Lan) · Lan · Kang (judged, marched to Joseon) · Namgil (limp)
+· Danbi · Ok-hui · Yun · Wei · Daragul · Seja ("careful man") · the baby (miller family).
+Dead: father (M1, by Batu) · Mingzhu (M3 Y5) · Batu (M6) · Ohan (M11) · old king (SA).
+Full bios: dialogue itself; per-character thumbnails in §7.
 
-## LEVELS 1-14 (build keys)
-1 Uiju village · 2 market · 3 estate · 4 rooftops · 5 lake(+cave sub-areas) · 6 frozen Yalu · 7 Liaoyang burning
-8 pass · 9 yards · 10 ford dawn · 11 waystation · 12 border shrine · 13 road/north bridge · 14 hill palace
+## 7 · CHARACTER ARCS (one-line + where the beats live in story.js)
+Seol: property→weapon→name→liberator; beats a1_*, a3_vow, a6_*, a8j_*, a10_win/end.
+Jin: partner-not-rescuer; a3_dance(Y3 intro), ch4 recognition, a8_jin, a8c_choice, a10r/a10.
+Zhao: duty→doubt→"second daughter"; a3_sword, a7_zhao, a9_zhao farewell.
+Lan: discipline→counter-ledger; a3_lan, a9_zhao (ledger page).
+Mingzhu: secret artist; a3_mingzhu, cave letters a5_*, bow etching.
+Kang: profit-machine; a2_*, a3_y4, a9m_kang(spared), a9_kang(judged).
+Ohan: accountant of conquest; a7w_ohan, red-ink a8_ledger, a10r_ohan, a10_wolf/win.
+Namgil: arithmetic of care; a7w_*, a9m_namgil, a10r_namgil.
+Daragul: unnamed pact; a8c_daragul/flash/part (+open thread).
+Seja: careful stability; a8c_succ, letter in a10r_ohan.
+Ok-hui: grief→back gate→epilogue archery; a8j_okhui, a10_end.
+Danbi: named child→speech; a6_danbi, a10_danbi.
 
-## CHAPTER CODES (level-select)
-MARKET2 ESTATE3 MASKED4 LAKE5 RIVER6 SIEGE7 LEDGER8 YARDS9 HOME10 WAYSTATION11 SHRINE12 ROAD13 CROWNS14
+## 8 · DIALOGUE / SCRIPT LOCATIONS
+ALL prose+dialogue: story.js (89 scene objects; prefix map: a1_–a6_ acts1, a7w_ M7, a8j_ M8,
+a8c_ SA, a7_/a9m_ M9, a8_ M9b, a10r_ M10, a9_ M10b, a10_ M11). Cutscene subtitle scripts:
+CUTSPECS.subs (engine3d.js). Boss hint subtitles: wolf/charger handlers in combat section.
+Chapter-card text: chN keys in story.js. NOTHING narrative lives anywhere else.
 
-## PORTRAIT SLOTS (anim.js ASSETS, all url:null → glyph fallback)
-seol father kang zhao mingzhu lan jin batu namgil yun okhui wei wang daragul seja
+## 9 · GAMEPLAY SYSTEMS (all engine3d.js)
+Movement/physics/camera: PLAYER PHYSICS & CAMERA section (post-LEVELS, ~1100+).
+Skills: SK const (engine3d.js:1235) — [dash, bow, counter(sk3), Dance ult]; teacher-gated by
+S.flags{trained,sk3,dance,mombow}; late-war tuning in startAt (ult cd 20→28 lvl≥7, kill-heal 12→6).
+Weapons: setWeapon() — Fists&Bow / Zhao Steel / Winter Bow(22).
+Enemy AI: mkGuard state machine patrol/chase/windup/strike; knockback; stagger.
+Progression: LEVEL_CARDS (engine3d.js:74) + CODES level-select (engine3d.js:1667).
+Flags/state: global S; save via localStorage key (search 'snowSave').
 
-## OPEN CALLBACK THREADS (safe insertion hooks for future content)
-- Daragul: unnamed-pact intact; natural return point = the ford or Shenyang
-- Seja's "excellent memory": one letter used (M10); more possible
-- Ok-hui's "someday in daylight" market-square promise: partially paid by Danbi scene; her own beat possible
-- Namgil post-war fate: unresolved by design ("watch a little longer")
-- Asset phase: portraits → VFX → cinematics via frozen injection API (nothing generated yet)
+## 10 · BOSS FIGHTS
+Batu (L6): charger — states bwind/bcharge/bslide, ×2 charge dmg; search 'bwind'.
+Ohan (L10): wolf — wguard (10% dmg, no stagger)/3-strike flurry/wopen (×2 window); search 'wguard'.
+Both spawn via their level's wave(); first-encounter hint subtitles inline in handlers.
 
-## GRAPHAUDIT LEVEL ORDER (must match narrative)
-[1,2,3,4,5,6,11,12,14,7,8,13,9,10]
+## 11 · LEVELS / ENVIRONMENTS (LEVELS keys, engine3d.js:627)
+1 Uiju village+ford · 2 market · 3 Zhao estate · 4 rooftops · 5 lake (+buildCaveArea sub-rooms,
+engine3d.js:~134) · 6 frozen Yalu · 7 Liaoyang (burning) · 8 mountain pass · 9 Shenyang yards ·
+10 dawn ford (finale) · 11 waystation · 12 border shrine · 13 north road/bridge · 14 hill palace.
+Builders use helpers: ground/box/building/wallRun/lantern/tree/mkSnow (top of LEVELS section).
+
+## 12 · ASSET LIST (current state: ALL procedural/placeholder)
+Injection API: ASSETS const (anim.js:28) — 15 portrait slots (seol father kang zhao mingzhu lan
+jin batu namgil yun okhui wei wang daragul seja, all url:null→glyph fallback), cine video slots,
+chapter art CHAPTER_ART (real, generated, engine3d.js — keys ch1..ch8c).
+3D: no generated assets yet. Rung 0 proof deployed: /rung0/ (index.html, GLTFLoader.js,
+three.min.js copy, assets/Soldier.glb 2.1MB) — normalize() wrapper + STATE2CLIP pattern =
+the replacement workflow reference implementation.
+
+## 13 · ART / STYLE BIBLE
+SNOW-STYLE-GUIDE.md (/mnt/user-data/outputs/, TO PUSH to repo /docs/) — "a Joseon ink painting
+that learned to move"; 5 pillars; palette hexes; silhouette law; 4 lighting recipes; style tests.
+Production plan: SNOW-CINEMATIC-PRODUCTION-PLAN.md (same location). Verified pipeline costs:
+concept 1.5cr · multi_image_to_3d(tex+rig+clip) 38cr · extra clip 8cr · char≈74cr.
+
+## 14 · MUSIC / SFX (nothing exists — requirements)
+Music: 1 bed/act (Act1 gayageum sparse · Act2 strings+drum · Act3 elegy) + finale/ford theme.
+SFX minimum: sword hit ×2, bow release, footstep-snow, dash whoosh, ult flourish, gate chime,
+enemy hit/death, UI tick. Hook points: playCutscene, hitEnemies, bowShot, SK triggers, go().
+No audio engine yet — add tiny WebAudio wrapper when assets exist.
+
+## 15 · UI SYSTEMS (shell: snow-3d.html; logic: engine3d.js + anim.js)
+HUD ids: chapname, objtxt, hp bar (hpUI), skill chips. Overlay dialogue: showScene/closeOverlay
+(anim.js) — portrait glyph, title, eyebrow, crumb, choices. Chapter cards: chapter:true scenes +
+CHAPTER_ART. Cutscene UI: letterbox+subs in playCutscene. Touch: stick+buttons (snow-3d.html);
+gamepad map in input section; codes menu: CODES + level-select UI.
+
+## 16 · ENGINE ARCHITECTURE (dependency order)
+snow-3d.html (shell/CSS/UI) → inlines three.min.js → anim.js (ASSETS, portraits, overlay,
+cutscene player) → story.js (pure data: 89 scenes) → engine3d.js (go() router, LEVELS, combat,
+physics, input, saves). go(id) routes: scene | WAVE: | CINE: | RESET | cave swaps.
+Collision = world.solids AABBs (visual-independent). Enemies = e.grp contents (swappable).
+Coupling point for 3D swap: animPlayer + guard limb code (~150 lines) → AnimationMixer.
+
+## 17 · TECHNICAL PIPELINE
+Build: edit /home/claude/game/{story,engine3d,anim}.js + snow-3d.html → node assemble.js →
+snow-over-liaodong-3d.html → deploy as index.html via GitHub Contents API (GET sha→PUT b64;
+token pasted per session, never stored). Validate BEFORE deploy: node graphaudit.js must print
+FULLY CONSISTENT. After lock: push changed sources to repo /src/ + update this index.
+Headless tests: THREE/DOM stubs + vm (see graphaudit.js pattern). Known test artifact:
+knockback shoves stub enemies out of range — place test actors on open ground.
+3D asset path (proven Rung 0): GLB → container gltf-transform (npm) → /assets/ in repo →
+GLTFLoader + normalize() + STATE2CLIP. Sandbox egress CANNOT fetch *.github.io (verify via
+api.github.com); upload.higgsfield.ai also blocked.
+
+## 18 · OUTSTANDING TASKS
+▢ Rung 1: styled Jurchen raider through Higgsfield 3D (preflight→confirm→generate; needs top-up,
+  balance ~4cr vs ~50–75 needed) → answers skeleton-consistency + style-fidelity.
+▢ Mission 1 vertical slice (env kit + Seol + raider + lighting/post) → iPad judgment → scale.
+▢ Audio pass (§14). ▢ Combat depth (enemy variety, hit-feel). ▢ Portraits (deprioritised by user
+  until asked). ▢ Push style guide + production plan into repo /docs/. ▢ Playtest notes from user.
+Open story threads: Daragul return · Seja's memory · Ok-hui daylight · Namgil fate.
+
+## 19 · FILE DEPENDENCY MAP
+story.js ← standalone data (edited most).
+engine3d.js ← depends on story.js keys (go targets), anim.js overlay fns, CUTSPECS↔CINE links.
+anim.js ← ASSETS injection; consumed by engine3d + cutscenes.
+snow-3d.html ← shell; ids referenced by engine3d ($ helpers).
+assemble.js ← concatenation order: html shell splice(three.min.js, anim, story, engine3d).
+graphaudit.js ← reads story.js+engine3d.js; its level order + required chain MUST be extended
+whenever missions are added. rung0/* ← fully standalone. PROJECT-INDEX.md ← this file; repo /src/.
