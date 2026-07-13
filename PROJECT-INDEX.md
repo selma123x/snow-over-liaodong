@@ -90,9 +90,9 @@ three.min.js copy, assets/Soldier.glb 2.1MB) — normalize() wrapper + STATE2CLI
 the replacement workflow reference implementation.
 
 ## 13 · ART / STYLE BIBLE
-SNOW-STYLE-GUIDE.md (/mnt/user-data/outputs/, TO PUSH to repo /docs/) — "a Joseon ink painting
+repo /docs/SNOW-STYLE-GUIDE.md — "a Joseon ink painting
 that learned to move"; 5 pillars; palette hexes; silhouette law; 4 lighting recipes; style tests.
-Production plan: SNOW-CINEMATIC-PRODUCTION-PLAN.md (same location). Verified pipeline costs:
+Production plan: repo /docs/SNOW-CINEMATIC-PRODUCTION-PLAN.md. Verified pipeline costs:
 concept 1.5cr · multi_image_to_3d(tex+rig+clip) 38cr · extra clip 8cr · char≈74cr.
 
 ## 14 · MUSIC / SFX (nothing exists — requirements)
@@ -130,7 +130,7 @@ api.github.com); upload.higgsfield.ai also blocked.
   balance ~4cr vs ~50–75 needed) → answers skeleton-consistency + style-fidelity.
 ▢ Mission 1 vertical slice (env kit + Seol + raider + lighting/post) → iPad judgment → scale.
 ▢ Audio pass (§14). ▢ Combat depth (enemy variety, hit-feel). ▢ Portraits (deprioritised by user
-  until asked). ▢ Push style guide + production plan into repo /docs/. ▢ Playtest notes from user.
+  until asked). ▢ Playtest notes from user.
 Open story threads: Daragul return · Seja's memory · Ok-hui daylight · Namgil fate.
 
 ## 19 · FILE DEPENDENCY MAP
