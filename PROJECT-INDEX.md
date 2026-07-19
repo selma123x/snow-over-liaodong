@@ -132,6 +132,8 @@ api.github.com); upload.higgsfield.ai also blocked.
 ▢ Audio pass (§14). ▢ Combat depth (enemy variety, hit-feel). ▢ Portraits (deprioritised by user
   until asked). ▢ Playtest notes from user.
 Open story threads: Daragul return · Seja's memory · Ok-hui daylight · Namgil fate.
+TOY THREAD (locked): ford drop → unexplained shelf horse in L3 room (prop pending) → a8c_flash
+reveal ('kept it ever since'). Act1 film treatments: /docs/ACT1-CINEMATICS.md.
 
 ## 19 · FILE DEPENDENCY MAP
 story.js ← standalone data (edited most).
