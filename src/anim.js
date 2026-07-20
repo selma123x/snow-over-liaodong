@@ -56,7 +56,12 @@ const ASSETS = {
   },
   /* d) cinematic sequences (mp4 or frame list); procedural puppet if null */
   cutscene: {
-    ford:        { url:null, frames:null, fallback:'puppet' }, // father's death
+    ford:        { url:null, nosubs:true, playlist:[
+      'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260720_012610_cbe41d89-d390-4e39-aae0-41e9956fdafa.mp4',
+      'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260719_233443_e3716d4a-289c-4e99-911f-1d52be6491e6.mp4',
+      'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260720_012924_49969b95-e038-4a5c-b036-4f356bf1a4d9.mp4',
+      'https://d8j0ntlcm91z4.cloudfront.net/user_39oF80qmiAwVq7Ydg1b8SdDAx1V/hf_20260720_054738_a44e64e7-1c2c-4000-92f3-7c6976923915.mp4'
+    ], frames:null, fallback:'puppet' }, // father's death — FILMED v2 (4 shots)
     kiss:        { url:null, frames:null, fallback:'puppet' }, // cave kiss
     recognition: { url:null, frames:null, fallback:'puppet' }, // rooftop
     lake:        { url:null, frames:null, fallback:'puppet' }, // the lake
@@ -212,11 +217,14 @@ function playCutscene(key, opts){
        mode:null,vid:null,shot:opts.shot||null,key:key};
   document.body.classList.add('cine');
   const bar=$('cutsub'); if(bar){ bar.textContent=''; bar.classList.remove('on'); }
-  if(def.url && /\.(mp4|webm)$/.test(def.url)){
-    CUT.mode='video';
+  const plist = def.playlist && def.playlist.length ? def.playlist : (def.url && /\.(mp4|webm)$/.test(def.url) ? [def.url] : null);
+  if(plist){
+    CUT.mode='video'; CUT.nosubs=!!def.nosubs; CUT.pi=0;
     const v=document.createElement('video');
-    v.src=def.url; v.autoplay=true; v.playsInline=true; v.muted=false;
-    v.className='cut-video'; v.onended=()=>endCutscene();
+    v.src=plist[0]; v.autoplay=true; v.playsInline=true; v.muted=false;
+    v.className='cut-video';
+    v.onended=()=>{ CUT.pi++; if(CUT.pi<plist.length){ v.src=plist[CUT.pi]; v.play(); } else endCutscene(); };
+    v.onerror=()=>endCutscene();   // CDN gone → fall through gracefully
     document.body.appendChild(v); CUT.vid=v;
   } else if(def.frames && def.frames.length){
     CUT.mode='frames'; CUT.frames=def.frames; CUT.fps=def.fps||12; CUT.fi=0;
@@ -240,7 +248,7 @@ function tickCutscene(dt){
   if(CUT.mode==='puppet'){ if(CUT.shot) CUT.shot(CUT.t,dt); }
   // subtitles (shared by all modes)
   const bar=$('cutsub');
-  if(bar && CUT.subs.length){
+  if(bar && CUT.subs.length && !CUT.nosubs){
     const cur=CUT.subs[0];
     if(CUT.t>=cur.t){ bar.textContent=cur.txt; bar.classList.add('on'); CUT._shown=CUT.subs.shift(); }
   }
