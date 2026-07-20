@@ -89,6 +89,14 @@ chapter art CHAPTER_ART (real, generated, engine3d.js — keys ch1..ch8c).
 three.min.js copy, assets/Soldier.glb 2.1MB) — normalize() wrapper + STATE2CLIP pattern =
 the replacement workflow reference implementation.
 
+## 12b · PAID ASSET LEDGER (never regenerate these)
+Raider GLB idle: d794c00d...glb · run: 10bedbab...glb (CDN; mirror task open)
+FORD FILM (live in ASSETS.cutscene.ford.playlist, captions off): S1 fight+embrace cbe41d89 ·
+S2 strike e3716d4a · S3 Batu line 49969b95 · S4 Seol zoom→toy a44e64e7. Seol child ref media
+02e162c5 · user ford frame e77af69e / 16:9 crop 2dfcaadf. Spent ≈218cr; bal ≈386.
+RULES: user writes/approves all Higgsfield prompts verbatim BEFORE spend · stills made FREE in
+Gemini by user, imported · FILM FROZEN until next credit refresh · remaining budget = 3D cast.
+
 ## 13 · ART / STYLE BIBLE
 repo /docs/SNOW-STYLE-GUIDE.md — "a Joseon ink painting
 that learned to move"; 5 pillars; palette hexes; silhouette law; 4 lighting recipes; style tests.
