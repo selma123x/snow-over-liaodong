@@ -91,9 +91,13 @@ the replacement workflow reference implementation.
 
 ## 12b · PAID ASSET LEDGER (never regenerate these)
 Raider GLB idle: d794c00d...glb · run: 10bedbab...glb (CDN; mirror task open)
-FORD FILM (live in ASSETS.cutscene.ford.playlist, captions off): S1 fight+embrace cbe41d89 ·
-S2 strike e3716d4a · S3 Batu line 49969b95 · S4 Seol zoom→toy a44e64e7. Seol child ref media
-02e162c5 · user ford frame e77af69e / 16:9 crop 2dfcaadf. Spent ≈218cr; bal ≈386.
+FORD FILM (live, 3 shots, captions off): S1 fight+embrace cbe41d89 · S2 strike e3716d4a ·
+S3 cart-ending Seol-crying→buried-toy a44e64e7. CUT/unused: Batu-horse 49969b95 (continuity clash).
+Seol CHILD 3D GLB: job 8d89ba4f (from crop 02e162c5, 1.35m, idle, ink-wash hanbok) — NOT YET
+integrated. user ford frame e77af69e / 16:9 crop 2dfcaadf.
+BATU: needs unique boss silhouette (canon face = cutscene + M6 boss); user to design.
+KNOWN FLAWS (reshoot month): weapon appears in father's hand; generic (non-boss) Batu; slow strike.
+Spent ≈256cr; bal ≈348.
 RULES: user writes/approves all Higgsfield prompts verbatim BEFORE spend · stills made FREE in
 Gemini by user, imported · FILM FROZEN until next credit refresh · remaining budget = 3D cast.
 
