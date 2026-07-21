@@ -55,6 +55,11 @@ Seja: careful stability; a8c_succ, letter in a10r_ohan.
 Ok-hui: grief→back gate→epilogue archery; a8j_okhui, a10_end.
 Danbi: named child→speech; a6_danbi, a10_danbi.
 
+## 7b · STORY BIBLE
+Full narrative: repo /docs/SNOW-OVER-LIAODONG-STORY-BIBLE.md (arcs, themes) +
+/docs/SNOW-OVER-LIAODONG-ACTS-DETAILED.md (beat-by-beat). Canon ages: taken at 11, Five Winters
+11→16, war ~20. Source of truth for narrative = story.js; bible is reference.
+
 ## 8 · DIALOGUE / SCRIPT LOCATIONS
 ALL prose+dialogue: story.js (89 scene objects; prefix map: a1_–a6_ acts1, a7w_ M7, a8j_ M8,
 a8c_ SA, a7_/a9m_ M9, a8_ M9b, a10r_ M10, a9_ M10b, a10_ M11). Cutscene subtitle scripts:
