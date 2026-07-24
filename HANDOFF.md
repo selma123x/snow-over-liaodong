@@ -3,7 +3,8 @@
 ## 1. READ FIRST (do this before replying to me)
 1. Fetch and read `PROJECT-INDEX.md` at the root of repo `selma123x/snow-over-liaodong`.
 2. Read `/docs/SNOW-OVER-LIAODONG-STORY-BIBLE.md` and `/docs/SNOW-OVER-LIAODONG-ACTS-DETAILED.md`.
-3. Read `/docs/SNOW-STYLE-GUIDE.md` (visual constitution).
+3. Read `/docs/SNOW-STYLE-GUIDE.md` (visual constitution) and `/docs/CUTSCENE-SCRIPTS.md`
+   (the five cutscene subtitle scripts, verbatim — protected, never rewrite them).
 4. Download `/src/` (story.js, engine3d.js, anim.js, snow-3d.html, assemble.js, graphaudit.js)
    plus `/rung0/three.min.js` into your working dir, then run `node graphaudit.js`.
    It must print "MISSION GRAPH FULLY CONSISTENT" before you touch anything.
